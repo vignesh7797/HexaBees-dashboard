@@ -42,7 +42,6 @@ export default function Home() {
                 : ''
             }
             
-            
             <h2>Messages from Database:</h2>
             <ul>
                 {messages.map((msg:any) => (
