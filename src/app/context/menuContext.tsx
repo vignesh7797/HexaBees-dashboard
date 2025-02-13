@@ -1,0 +1,55 @@
+"use client"
+
+import { createContext, ReactNode, useContext, useState } from "react";
+
+interface Menu {
+    id : number
+    name : string
+    qty : number
+    price : number
+}
+
+interface MenuContextType {
+    menus: Menu[];
+    addMenu: (newMenu: Menu) => void;
+    updateMenu: (updatedMenu: Menu) => void;
+  }
+
+  export const MenuContext = createContext<MenuContextType | undefined>({
+    menus : [],
+    addMenu : () => {throw new Error('addMenu function must be overridden by a provider')},
+    updateMenu: () => {
+        throw new Error('updateMenu function must be overridden by a provider');
+      },
+  });
+
+
+export const MenuProvider = ({children}:{children:ReactNode}) =>{
+    const [menus, setMenus] = useState<Menu[]>([
+        { id: 1, name: "Veg Momo", qty: 5, price: 70 },
+        { id: 2, name: "Paneer Momo", qty: 5, price: 80 },
+        { id: 3, name: "Chicken Momo", qty: 5, price: 90 },
+    ]); 
+
+    const addMenu = (newMenu:Menu) => {
+    setMenus([...menus, newMenu]);
+    };
+
+    const updateMenu = (updatedMenu:Menu) => {
+    setMenus(menus.map((menu) => (menu.id === updatedMenu.id ? updatedMenu : menu)));
+    };
+
+    return (
+        <MenuContext.Provider value={{ menus, addMenu, updateMenu }}>
+          {children}
+        </MenuContext.Provider>
+    );
+}
+
+export const useMenuContext = () => {
+    const context = useContext(MenuContext);
+    if (!context) {
+      throw new Error('useMenuContext must be used within a MenuProvider');
+    }
+    return context;
+  };
