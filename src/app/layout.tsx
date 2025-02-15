@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { MenuProvider } from "./context/menuContext";
+import { MdReceiptLong } from "react-icons/md";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +33,10 @@ export default function RootLayout({
         <MenuProvider>
           {children}
         </MenuProvider>
+
+        <Link href={'/billing'} type="button" className="primary-btn-icon absolute right-8 bottom-8" id="float-btn">
+          <MdReceiptLong />
+          </Link>
       </body>
     </html>
   );

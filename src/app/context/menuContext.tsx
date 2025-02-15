@@ -7,6 +7,7 @@ interface Menu {
     name : string
     qty : number
     price : number
+    img ? :string
 }
 
 interface MenuContextType {
@@ -26,9 +27,9 @@ interface MenuContextType {
 
 export const MenuProvider = ({children}:{children:ReactNode}) =>{
     const [menus, setMenus] = useState<Menu[]>([
-        { id: 1, name: "Veg Momo", qty: 5, price: 70 },
-        { id: 2, name: "Paneer Momo", qty: 5, price: 80 },
-        { id: 3, name: "Chicken Momo", qty: 5, price: 90 },
+        { id: 1, name: "Veg Momo", qty: 5, price: 70, img:'https://picsum.photos/id/237/200/200' },
+        { id: 2, name: "Paneer Momo", qty: 5, price: 80, img:'' },
+        { id: 3, name: "Chicken Momo", qty: 5, price: 90, img:'https://picsum.photos/id/239/200/200' },
     ]); 
 
     const addMenu = (newMenu:Menu) => {
