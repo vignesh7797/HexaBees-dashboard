@@ -8,18 +8,12 @@ import {
   Table,
   TextInput,
 } from 'flowbite-react';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { HiPlus, HiOutlineUpload } from 'react-icons/hi';
 import { FaRegImage } from "react-icons/fa6";
-import { MenuContext, useMenuContext } from '../context/menuContext';
+import { Menu, useMenuContext } from '../context/menuContext';
 
-interface Menu {
-  id: number;
-  name: string;
-  qty: number;
-  price: number;
-  img?: string;
-}
+
 
 export default function Home() {
   const { menus, addMenu, updateMenu } = useMenuContext();

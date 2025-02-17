@@ -50,13 +50,17 @@ body {
 }
 
 
-.print-containe{
-  
-}
+/* .print-container{
+  @apply hidden;
+} */
 
 
 @media print{
   #float-btn, .no-print{
     display: none;
+  }
+
+  .print-container{
+    @apply block;
   }
 }
