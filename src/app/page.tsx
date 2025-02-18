@@ -9,6 +9,7 @@ interface Message {
 
 export default function Home() {
   const [status, setStatus] = useState<boolean | null>(null);
+  const [menu, setMenu] = useState<any>(null);
   const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function Home() {
         return response.json();
       })
       .then((data) => {
+        console.log(data)
         setStatus(true);
         setMessages(data.rows);
       })
@@ -29,7 +31,27 @@ export default function Home() {
         console.error(error);
         setStatus(false);
       });
+
+      fetchMenuList();
   }, []);
+
+  const fetchMenuList = () =>{
+    fetch('/api/menu', {
+      method: 'GET',
+    })
+    .then((response) =>{
+      if(!response.ok){
+        throw new Error('Failed to fetch data');
+      }
+      return response.json()
+    })
+    .then((data) => {
+      console.log(data)
+    }).catch((error) => {
+      console.error(error);
+      
+    });
+  }
 
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>

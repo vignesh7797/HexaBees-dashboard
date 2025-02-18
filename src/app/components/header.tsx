@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button, Drawer, Sidebar } from "flowbite-react";
 import { MdOutlineRestaurantMenu, MdReceiptLong } from "react-icons/md";
 import { HiHome, HiPrinter } from "react-icons/hi";
+import { HiMenu } from "react-icons/hi";
 
 const Header: FC = () =>{
 
@@ -15,9 +16,10 @@ const Header: FC = () =>{
 
     return (
         <div className='no-print h-16 shadow-md w-screen bg-white flex justify-between items-center p-3 mb-8'>
-           <div className="w-full">
-            <Button size="sm" color="light" onClick={() => setIsOpen(true)}>
-                <MdOutlineRestaurantMenu className="h-5 w-5" />
+           <div className="w-full md:hidden">
+            <Button size="sm" color="light" className="border-0" onClick={() => setIsOpen(true)}>
+                {/* <MdOutlineRestaurantMenu className="h-5 w-5" /> */}
+                <HiMenu className="h-6 w-6" />
             </Button>
            </div>
 
@@ -28,18 +30,17 @@ const Header: FC = () =>{
 
             <Link href="/" className=' hidden md:flex text-2xl font-bold text-amber-600 w-full text-center'>Hexa Bees</Link>
             
-            <ul className=' hidden md:flex gap-5 px-4 w-full justify-end'>
-              <li className='hover:text-amber-600 font-medium hover:underline'>
-                <Link href="/">Home</Link>
+            <ul className=' hidden md:flex gap-6 px-4 w-full justify-end'>
+              <li className='hover:text-amber-600 font-medium hover:underline hover:bg-slate-100 hover:font-medium active:scale-95 rounded transition-all'>
+                <Link href="/" className="block px-4 py-2">Home</Link>
               </li>
-              <li className='hover:text-amber-600 font-medium hover:underline'>
-                <Link href="/menuList">Menu</Link>
+              <li className='hover:text-amber-600 font-medium hover:underline hover:bg-slate-100 hover:font-medium active:scale-95 rounded transition-all'>
+                <Link href="/menuList" className="block px-4 py-2">Menu</Link>
               </li>
-              <li className='hover:text-amber-600 font-medium hover:underline'>
-                <Link href="/billing">Billing</Link>
+              <li className='hover:text-amber-600 font-medium hover:underline hover:bg-slate-100 hover:font-medium active:scale-95 rounded transition-all'>
+                <Link href="/billing" className="block px-4 py-2">Billing</Link>
               </li>
             </ul>
-
 
             {/* SideBar */}
 
