@@ -42,18 +42,18 @@ export default function Home() {
       const editedMenu:Menu = {
         id: selectedMenu.id,
         name: name,
-        qty: qty,
+        quantity: qty,
         price: price,
-        img : img || ''
+        image : img || ''
       };
       updateMenu(editedMenu);
     } else {
       const newMenu:Menu = {
         id: menus.length + 1,
         name: name,
-        qty: qty,
+        quantity: qty,
         price: price,
-        img: img || ''
+        image: img || ''
       };
       addMenu(newMenu);
     }
@@ -65,9 +65,9 @@ export default function Home() {
     setSelectedMenu(menu);
     setIsEdit(true);
     setName(menu.name);
-    setQty(menu.qty);
+    setQty(menu.quantity);
     setPrice(menu.price);
-    setImg(menu.img || null)
+    setImg(menu.image || null)
     setOpenModal(true);
   };
 
@@ -115,8 +115,8 @@ export default function Home() {
                 <Table.Cell> {menu.id}</Table.Cell>
                 <Table.Cell> 
                   {
-                  menu.img ? (
-                  <img src={menu.img} width="40px"/>
+                  menu.image ? (
+                  <img src={menu.image} width="40px"/>
                   ) 
                   : (
                     <div className="w-10 h-10 bg-slate-200 flex justify-center items-center">
@@ -129,7 +129,7 @@ export default function Home() {
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {menu.name}
                 </Table.Cell>
-                <Table.Cell>{menu.qty}</Table.Cell>
+                <Table.Cell>{menu.quantity}</Table.Cell>
                 <Table.Cell>{menu.price}</Table.Cell>
                 <Table.Cell>
                   <a

@@ -12,7 +12,7 @@ import { FaUser } from 'react-icons/fa6';
 interface BillMenu {
   id:number,
   name:string,
-  qty:number,
+  quantity:number,
   price : number
   img ?:string,
   isAdded ? :boolean,
@@ -50,26 +50,26 @@ export default function Home() {
 
   const onAdd = (menu:BillMenu) =>{
     setFilteredList(list => 
-      list.map(item => item.id == menu.id ? {...item, isAdded : true, qty:1} : item)
+      list.map(item => item.id == menu.id ? {...item, isAdded : true, quantity:1} : item)
     )
   }
 
   const onIncrease = (menu:BillMenu) =>{
     setFilteredList(list => 
-      list.map(item => item.id === menu.id ? {...item, qty:item.qty + 1} : item)
+      list.map(item => item.id === menu.id ? {...item, quantity:item.quantity + 1} : item)
     )
   }
 
   const onDecrease = (menu:BillMenu) =>{
     setFilteredList(list => 
-      list.map(item => item.id === menu.id ? {...item, qty: item.qty-1, isAdded:item.qty == 1 ? false : true} : item)
+      list.map(item => item.id === menu.id ? {...item, quantity: item.quantity-1, isAdded:item.quantity == 1 ? false : true} : item)
     )
   }
 
   useEffect(() =>{
     var count = 0;
       filteredList.forEach(list => {
-        count = count + (list.price*list.qty);
+        count = count + (list.price*list.quantity);
       });
     setSubTotal(count);
     setTotal(count)
@@ -126,7 +126,7 @@ export default function Home() {
                               <Button size='xs' className='rounded-none rounded-l-md' onClick={()=>onDecrease(list)}>
                                 <HiMinus className="h-4 w-4"/>
                               </Button>
-                              <p className='font-normal px-2'>{list.qty}</p>
+                              <p className='font-normal px-2'>{list.quantity}</p>
                               <Button size='xs' className='rounded-none rounded-r-md' onClick={()=>onIncrease(list)}>
                                 <HiPlus className="h-4 w-4" />
                               </Button>
@@ -194,14 +194,14 @@ export default function Home() {
           </thead>
           <tbody>
             {filteredList.map((menu) => (
-              menu.qty > 0 ?
+              menu.quantity > 0 ?
               (<tr key={menu.id}>
                 <td className="h-[25px]">
                   <p className="truncate w-[120px] text-xs">{menu.name}</p>
                 </td>
                 <td className="text-center text-xs">{menu.price}</td>
-                <td className="text-center text-xs">{menu.qty}</td>
-                <td className="text-center text-xs">{menu.price * menu.qty}</td>
+                <td className="text-center text-xs">{menu.quantity}</td>
+                <td className="text-center text-xs">{menu.price * menu.quantity}</td>
               </tr>) : ('')
             ))}
           </tbody>

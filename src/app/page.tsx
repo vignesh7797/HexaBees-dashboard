@@ -13,45 +13,9 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
-    fetch('/api/status', {
-      method: 'GET',
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data)
-        setStatus(true);
-        setMessages(data.rows);
-      })
-      .catch((error) => {
-        console.error(error);
-        setStatus(false);
-      });
-
-      fetchMenuList();
+      
   }, []);
 
-  const fetchMenuList = () =>{
-    fetch('/api/menu', {
-      method: 'GET',
-    })
-    .then((response) =>{
-      if(!response.ok){
-        throw new Error('Failed to fetch data');
-      }
-      return response.json()
-    })
-    .then((data) => {
-      console.log(data)
-    }).catch((error) => {
-      console.error(error);
-      
-    });
-  }
 
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>

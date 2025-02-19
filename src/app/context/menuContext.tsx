@@ -1,13 +1,14 @@
 "use client"
 
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import axios from 'axios';
 
 export interface Menu {
     id : number
     name : string
-    qty : number
+    quantity : number
     price : number
-    img ? :string
+    image ? :string
 }
 
 interface MenuContextType {
@@ -26,11 +27,16 @@ interface MenuContextType {
 
 
 export const MenuProvider = ({children}:{children:ReactNode}) =>{
-    const [menus, setMenus] = useState<Menu[]>([
-        { id: 1, name: "Veg Momo", qty: 0, price: 70, img:'https://picsum.photos/id/237/200/200' },
-        { id: 2, name: "Paneer Momo", qty: 0, price: 80, img:'' },
-        { id: 3, name: "Chicken Momo", qty: 0, price: 90, img:'https://picsum.photos/id/239/200/200' },
-    ]); 
+    const [menus, setMenus] = useState<Menu[]>([]); 
+
+    useEffect(() => {
+      fetchMenuList();
+    }, []);
+
+    const fetchMenuList = async () =>{
+      const { data } = (await axios.get('/api/menu'));
+      setMenus(data);
+    }
 
     const addMenu = (newMenu:Menu) => {
     setMenus([...menus, newMenu]);
