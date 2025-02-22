@@ -1,6 +1,6 @@
 import { ListGroup, TextInput } from "flowbite-react";
 import { FC, useState } from "react";
-import { Menu } from "../context/menuContext";
+import { Menu } from "../common";
 
 interface AutoCompleteProps {
     list:Menu[];

@@ -1,7 +1,7 @@
 import pool from "@/lib/db";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req:NextApiRequest, res:NextApiResponse) {
+export default async function GET(req:NextApiRequest, res:NextApiResponse) {
     const {range} = req.query;
 
     if (!range || typeof range !== 'string') {

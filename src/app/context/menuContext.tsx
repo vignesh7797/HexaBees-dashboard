@@ -2,14 +2,9 @@
 
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import axios from 'axios';
+import { Menu } from "../common";
 
-export interface Menu {
-    id : number
-    name : string
-    quantity : number
-    price : number
-    image ? :string
-}
+
 
 interface MenuContextType {
     menus: Menu[];
@@ -38,12 +33,13 @@ export const MenuProvider = ({children}:{children:ReactNode}) =>{
       setMenus(data);
     }
 
-    const addMenu = (newMenu:Menu) => {
-    setMenus([...menus, newMenu]);
+    const addMenu = async (newMenu:Menu) => {
+      const { data } = await axios.post('/api/menu', {body : newMenu})
+      console.log(data)
     };
 
     const updateMenu = (updatedMenu:Menu) => {
-    setMenus(menus.map((menu) => (menu.id === updatedMenu.id ? updatedMenu : menu)));
+      setMenus(menus.map((menu) => (menu.id === updatedMenu.id ? updatedMenu : menu)));
     };
 
     return (

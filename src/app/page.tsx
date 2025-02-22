@@ -18,7 +18,7 @@ export default function Home() {
 
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+    <div>
       <h1>MySQL Database Connection Status</h1>
       {status == null ? (
         <p className="text-indigo-400 font-semibold">

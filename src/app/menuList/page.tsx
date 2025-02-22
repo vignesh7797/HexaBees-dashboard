@@ -11,7 +11,8 @@ import {
 import { useState } from 'react';
 import { HiPlus, HiOutlineUpload } from 'react-icons/hi';
 import { FaRegImage } from "react-icons/fa6";
-import { Menu, useMenuContext } from '../context/menuContext';
+import { useMenuContext } from '../context/menuContext';
+import { Menu } from '../common';
 
 
 
@@ -21,7 +22,7 @@ export default function Home() {
   const [openModal, setOpenModal] = useState(false);
 
   const [name, setName] = useState<string>('');
-  const [qty, setQty] = useState<number>(0);
+  const [category, setCategory] = useState<string>('');
   const [price, setPrice] = useState<number>(0);
   const [img, setImg] = useState<string | null>(null);
 
@@ -31,7 +32,7 @@ export default function Home() {
   const onCloseModal = () => {
     setOpenModal(false);
     setName('');
-    setQty(0);
+    setCategory('');
     setPrice(0);
     setIsEdit(false);
     setSelectedMenu(null);
@@ -42,18 +43,18 @@ export default function Home() {
       const editedMenu:Menu = {
         id: selectedMenu.id,
         name: name,
-        quantity: qty,
+        category: category,
         price: price,
         image : img || ''
       };
       updateMenu(editedMenu);
     } else {
       const newMenu:Menu = {
-        id: menus.length + 1,
+        id:0,
         name: name,
-        quantity: qty,
+        category: category,
         price: price,
-        image: img || ''
+        image: img || '',
       };
       addMenu(newMenu);
     }
@@ -65,7 +66,7 @@ export default function Home() {
     setSelectedMenu(menu);
     setIsEdit(true);
     setName(menu.name);
-    setQty(menu.quantity);
+    setCategory(menu.category);
     setPrice(menu.price);
     setImg(menu.image || null)
     setOpenModal(true);
@@ -129,7 +130,7 @@ export default function Home() {
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {menu.name}
                 </Table.Cell>
-                <Table.Cell>{menu.quantity}</Table.Cell>
+                <Table.Cell>{menu.category}</Table.Cell>
                 <Table.Cell>{menu.price}</Table.Cell>
                 <Table.Cell>
                   <a
@@ -175,15 +176,15 @@ export default function Home() {
 
                   <div>
                     <div className="mb-2 block">
-                      <Label htmlFor="quantity" value="Receipe Quantity" />
+                      <Label htmlFor="quantity" value="Category" />
                     </div>
                     <TextInput
                       id="quantity"
-                      placeholder="Quantity"
-                      type="number"
-                      value={qty}
+                      placeholder="Category"
+                      type="text"
+                      value={category}
                       onChange={(event) =>
-                        setQty(Number(event.target.value) || 0)
+                        setCategory(event.target.value)
                       }
                       required
                     />
@@ -233,7 +234,7 @@ export default function Home() {
                 <Button
                   color="blue"
                   onClick={onAddMenu}
-                  disabled={!name || !qty || !price}
+                  disabled={!name || !category || !price}
                 >
                   {isEdit ? 'Save' : 'Add'}
                 </Button>

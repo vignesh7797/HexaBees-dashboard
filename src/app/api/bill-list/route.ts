@@ -1,7 +1,8 @@
 import pool from "@/lib/db";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest } from "next";
+import { NextResponse } from "next/server";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextApiRequest) {
     const {page = 1, limit = 10} = req.query;
 
     const offset = (Number(page) -1 * Number(limit));
@@ -20,15 +21,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const [totalCount] = await pool.query('SELECT COUNT(*) as total FROM billing');
         const total = (totalCount as any)[0].total;
 
-        res.status(200).json({
+        // res.status(200).json({
+        //     data: rows,
+        //     total,
+        //     page: Number(page),
+        //     limit: Number(limit),
+        // });
+        return NextResponse.json({
             data: rows,
             total,
             page: Number(page),
             limit: Number(limit),
-        });
+        })
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+        // res.status(500).json({ message: 'Internal server error' });
+
+        return NextResponse.error();
     }
 }

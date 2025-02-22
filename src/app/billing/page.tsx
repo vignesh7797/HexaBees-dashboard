@@ -1,32 +1,37 @@
 'use client';
-import { Menu, useMenuContext } from '../context/menuContext';
+import { useMenuContext } from '../context/menuContext';
 import { HiMinus, HiPlus } from 'react-icons/hi';
-import { Button, Card, TextInput  } from 'flowbite-react';
+import { Button, Card, TextInput, Toast  } from 'flowbite-react';
 import { BiRupee } from 'react-icons/bi';
 import { ImLeaf } from 'react-icons/im';
 import { TbBrandHexo, TbHexagonLetterB } from 'react-icons/tb';
 import { useEffect, useState } from 'react';
-import { HiOutlineSearch } from 'react-icons/hi';
+import { HiOutlineSearch, HiFire } from 'react-icons/hi';
 import { FaUser } from 'react-icons/fa6';
+import { useRouter } from 'next/navigation';
 
 interface BillMenu {
   id:number,
   name:string,
-  quantity:number,
+  category: string,
+  quantity?:number,
   price : number
-  img ?:string,
+  image ?:string,
   isAdded ? :boolean,
 }
 
 
 export default function Home() {
   const { menus } = useMenuContext();
+  const router = useRouter()
 
-  const [filteredList, setFilteredList] = useState<BillMenu[]>(menus);
+  const [menuList, setMenuList] = useState<BillMenu[]>([])
   const [search, setSearch] = useState<string>('');
   const [total, setTotal] = useState<number>(0);
   const [subTotal, setSubTotal] = useState<number>(0);
   const [discount, setDiscount] = useState<number>(0);
+  const [billList, setBillList] = useState<BillMenu[]>([])
+  const [message, setMessage] = useState('')
 
   var date = new Date();
 
@@ -43,50 +48,112 @@ export default function Home() {
   });
 
   const onSearchHandle = (event:any) =>{
-    console.log(event);
-    setSearch(event.target.value)
-    setFilteredList(menus.filter((menu:Menu)=> menu.name?.toLowerCase().includes(event.target.value?.toLowerCase())))
+    
   }
 
   const onAdd = (menu:BillMenu) =>{
-    setFilteredList(list => 
-      list.map(item => item.id == menu.id ? {...item, isAdded : true, quantity:1} : item)
+    setMenuList(list =>
+      list.map(item => item.id == menu.id ? {...item, isAdded:true, quantity :1} : item)
     )
   }
 
   const onIncrease = (menu:BillMenu) =>{
-    setFilteredList(list => 
-      list.map(item => item.id === menu.id ? {...item, quantity:item.quantity + 1} : item)
+    setMenuList(list => 
+      list.map(item => item.id == menu.id ? {...item, quantity:Number(menu.quantity)+1} : item)
     )
   }
 
   const onDecrease = (menu:BillMenu) =>{
-    setFilteredList(list => 
-      list.map(item => item.id === menu.id ? {...item, quantity: item.quantity-1, isAdded:item.quantity == 1 ? false : true} : item)
+    setMenuList(list => 
+      list.map(item => item.id == menu.id ? {...item, quantity:Number(menu.quantity) - 1, isAdded:Number(menu.quantity) > 1} : item)
     )
   }
 
-  useEffect(() =>{
-    var count = 0;
-      filteredList.forEach(list => {
-        count = count + (list.price*list.quantity);
-      });
-    setSubTotal(count);
-    setTotal(count)
+  const onPrint = async() =>{
 
-  },[filteredList])
+    try {
+      let items: any[] = []
+      
+      billList.forEach(bill => {
+        items.push({
+          menu_id : bill.id,
+          quantity : bill.quantity,
+          price : bill.price
+        })
+      })
+
+      const response = await fetch('/api/order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customer_name: 'vicky',
+          items:items,
+          date: new Date()
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create order');
+      }
+      const data = await response.json();
+
+    } catch (error) {
+      console.error('Error creating order:', error);
+      setMessage('Failed to create order');
+    }
+    
+    window.print();
+  }
+
+  useEffect(() =>{
+    setMenuList(menus);
+  },[menus])
 
   useEffect(() =>{
     if(discount > 0){
-      setTotal(Math.round(subTotal - (subTotal*(discount/100))))
+      setTotal(Math.round(subTotal - (subTotal * (discount/100))))
     }else{
       setTotal(subTotal)
     }
   },[discount])
 
+  useEffect(()=>{
+    setBillList(menuList.filter(menu => menu.isAdded == true));
+  }, [menuList])
+
+  useEffect(()=>{
+    let sub = 0;
+    billList.map(bill => sub += bill.price * Number(bill.quantity));
+    setSubTotal(sub);
+
+    if(discount > 0){
+      setTotal(Math.round(subTotal - (subTotal * (discount/100))))
+    }else{
+      setTotal(sub)
+    }
+  },[billList, discount])
+
+  addEventListener("afterprint", (event) => {
+    if(message){
+      router.push('/history');
+    }
+  });
+
   return (
     <div className='flex flex-col md:flex-row print:flex-col w-screen md:p-10 print:p-0 justify-evenly gap-10'>
+
       <div className="no-print w-full">
+        {message && (
+          <Toast className='fixed top-0 right-0'>
+            <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-100 text-cyan-500 dark:bg-cyan-800 dark:text-cyan-200">
+              <HiFire className="h-5 w-5" />
+            </div>
+            <div className="ml-3 text-sm font-normal">{message}</div>
+            <Toast.Toggle onDismiss={() => setMessage('')} />
+          </Toast>
+        )}
         <Card className="max-w-2/3">
 
           <div className="mb-4 ms:w-80 mx-auto">
@@ -96,18 +163,16 @@ export default function Home() {
 
           <div className="flow-root">
             <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-              {filteredList.map((list) => {
+              {menuList.map((list) => {
                 return (
                   <li className="py-3 sm:py-4" key={list.id}>
                     <div className="flex items-center space-x-4">
                       <div className="shrink-0">
-                      {list.img ? (
+                      {list.image ? (
                         <img
-                        alt="Neil image"
-                        height="32"
-                        src={list.img || ''}
-                        width="32"
-                        className="rounded-full"
+                        alt={list.name}
+                        src={list.image || ''}
+                        className="rounded-full h-10 w-10"
                       />
                       ) : (
                         <div className='w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500'>
@@ -116,7 +181,7 @@ export default function Home() {
                       )}
                       </div>
                       <div className="min-w-0 w-60">
-                        <p className="truncate text-sm text-gray-900 dark:text-white font-semibold">{list.name}</p>
+                        <p className="truncate text-gray-900 dark:text-white font-bold text-base">{list.name}</p>
                       </div>
                       <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white flex-auto">{list.price}</div>
                       <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
@@ -134,9 +199,6 @@ export default function Home() {
                         ) : (
                             <Button size='xs'  onClick={() =>onAdd(list)}>Add</Button> 
                         )}
-                        
-
-                        
 
                       </div>
                     </div>
@@ -156,7 +218,8 @@ export default function Home() {
               <Button
               color="blue"
               className="ml-auto my-2 float-right"
-              onClick={() => window.print()}
+              onClick={() => onPrint()}
+              disabled={billList.length == 0}
             >
               Print
             </Button>
@@ -193,22 +256,22 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            {filteredList.map((menu) => (
-              menu.quantity > 0 ?
+            {billList.map((menu) => (
+              Number(menu.quantity) > 0 ?
               (<tr key={menu.id}>
                 <td className="h-[25px]">
                   <p className="truncate w-[120px] text-xs">{menu.name}</p>
                 </td>
                 <td className="text-center text-xs">{menu.price}</td>
                 <td className="text-center text-xs">{menu.quantity}</td>
-                <td className="text-center text-xs">{menu.price * menu.quantity}</td>
+                <td className="text-center text-xs">{menu.price * Number(menu.quantity)}</td>
               </tr>) : ('')
             ))}
           </tbody>
         </table>
 
         <div className="flex flex-col items-end px-4 py-2 gap-2 border-b-2 border-dashed border-slate-400">
-          <p className="text-xs flex items-center justify-end font-medium">SubTotal : <BiRupee/>{subTotal}</p>
+          <p className="text-xs flex items-center justify-end font-medium">SubTotal : <BiRupee/>{subTotal | 0}</p>
           <p className="text-xs flex items-center justify-end font-medium">Discount : {discount}%</p>
         </div>
 

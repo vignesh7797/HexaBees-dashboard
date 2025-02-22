@@ -32,9 +32,11 @@ export default function RootLayout({
       >
         <Header />
 
-        <MenuProvider>
-          {children}
-        </MenuProvider>
+        <main className="mt-20">
+          <MenuProvider>
+            {children}
+          </MenuProvider>
+        </main>
 
       </body>
     </html>
