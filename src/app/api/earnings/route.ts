@@ -1,11 +1,18 @@
 import pool from "@/lib/db";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function GET(req:NextApiRequest, res:NextApiResponse) {
-    const {range} = req.query;
+interface DateList {
+    date:Date | string,
+    total : number
+}
 
-    if (!range || typeof range !== 'string') {
-        return res.status(400).json({ message: 'Invalid time range' });
+export default async function GET(req:NextRequest) {
+    const searchParams = req.nextUrl.searchParams;
+
+    const range = searchParams.get('range') || '';
+
+    if (!range || typeof range != 'string') {
+        return NextResponse.json({message: 'Invalid time range'})
     }
 
     let interval = '';
@@ -33,18 +40,23 @@ export default async function GET(req:NextApiRequest, res:NextApiResponse) {
             break;
     
         default:
-            return res.status(400).json({ message: 'Invalid time range' });
+            return NextResponse.error();
     }
 
     try{
-        const [rows]:any = await pool.query(`SELECT DATE_FORMAT(date, ?) as date, SUM(total_amount) as total FROM \`order_hexa\` WHERE date >= NOW() - ${interval} GROUP BY date ORDER BY date ASC`, [dateFormat]);
+        const [rows] = await pool.query(`SELECT DATE_FORMAT(date, ?) as date, SUM(total_amount) as total FROM \`order_hexa\` WHERE date >= NOW() - ${interval} GROUP BY date ORDER BY date ASC`, [dateFormat]);
+        const response = rows as DateList[]
+        const labels = response.map((row: DateList) => row.date);
+        const data = response.map((row: DateList) => row.total);
 
-        const labels = rows.map((row: any) => row.date);
-        const data = rows.map((row: any) => row.total);
-
-    res.status(200).json({ labels, data });
+        return NextResponse.json({status:200, labels, data });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+        return NextResponse.json({status:500, message: 'Internal server error' });
     }
 }
+
+// Handle POST requests
+export async function POST() {
+    return NextResponse.json({ message: 'Hello from POST' });
+  }

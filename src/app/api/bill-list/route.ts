@@ -1,9 +1,13 @@
 import pool from "@/lib/db";
-import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextApiRequest) {
-    const {page = 1, limit = 10} = req.query;
+interface QueryResult {total:number}
+
+export async function GET(req: NextRequest) {
+    const searchParams = req.nextUrl.searchParams;
+
+    const page = searchParams.get('page') || 1;
+    const limit = searchParams.get('limit') || 10;
 
     const offset = (Number(page) -1 * Number(limit));
 
@@ -19,7 +23,8 @@ export async function GET(req: NextApiRequest) {
 
         // Fetch total count of order_product records
         const [totalCount] = await pool.query('SELECT COUNT(*) as total FROM billing');
-        const total = (totalCount as any)[0].total;
+        const data = totalCount as QueryResult[];
+        const total = data[0].total;
 
         // res.status(200).json({
         //     data: rows,

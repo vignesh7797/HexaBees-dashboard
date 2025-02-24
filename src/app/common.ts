@@ -4,8 +4,9 @@ export interface Menu {
     category : string
     price : number
     image ? :string
-    quantity ?:number,
+    quantity ?:number
     isAdded ? : boolean
+    menu_id ? :number
 }
 export interface Order {
     id : number

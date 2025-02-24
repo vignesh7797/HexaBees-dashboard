@@ -43,7 +43,9 @@ export async function POST(req:Request) {
                 totalAmount,
             ]);
 
-            const orderId = (orderResult as any).insertId;
+            const result = orderResult as {insertId : number} 
+
+            const orderId = result.insertId;
 
             //Insert to Billing table
             for(const item of items){

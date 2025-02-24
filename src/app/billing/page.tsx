@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import { HiOutlineSearch } from 'react-icons/hi';
 import { FaUser } from 'react-icons/fa6';
 import { useRouter } from 'next/navigation';
+import { Menu } from '../common';
+import Image from 'next/image';
 
 interface BillMenu {
   id:number,
@@ -33,21 +35,21 @@ export default function Home() {
   const [billList, setBillList] = useState<BillMenu[]>([])
   const [message, setMessage] = useState('')
 
-  var date = new Date();
+  const date = new Date();
 
-  var formattedDate = date.toLocaleDateString('en-US', {
+  const formattedDate = date.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
   });
 
-  var formattedTime = date.toLocaleTimeString('en-US', {
+  const formattedTime = date.toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
     hour12: true,
   });
 
-  const onSearchHandle = (event:any) =>{
+  const onSearchHandle = (event:React.ChangeEvent<HTMLInputElement>) =>{
     setSearch(event.target.value);
 
     setMenuList(
@@ -77,13 +79,16 @@ export default function Home() {
   const onPrint = async() =>{
 
     try {
-      let items: any[] = []
+      const items: Menu[] = []
       
       billList.forEach(bill => {
         items.push({
-          menu_id : bill.id,
-          quantity : bill.quantity,
-          price : bill.price
+          menu_id: bill.id,
+          quantity: bill.quantity,
+          price: bill.price,
+          id: 0,
+          name: bill.name,
+          category: ""
         })
       })
 
@@ -102,7 +107,6 @@ export default function Home() {
       if (!response.ok) {
         throw new Error('Failed toLowerCase() create order');
       }
-      const data = await response.json();
 
     } catch (error) {
       console.error('Error creating order:', error);
@@ -122,7 +126,7 @@ export default function Home() {
     }else{
       setTotal(subTotal)
     }
-  },[discount])
+  },[discount, subTotal])
 
   useEffect(()=>{
     setBillList(menuList.filter(menu => menu.isAdded == true));
@@ -138,9 +142,9 @@ export default function Home() {
     }else{
       setTotal(sub)
     }
-  },[billList, discount])
+  },[billList, discount, subTotal])
 
-  addEventListener("afterprint", (event) => {
+  addEventListener("afterprint", () => {
     if(message){
       router.push('/history');
     }
@@ -176,7 +180,7 @@ export default function Home() {
                     <div className="flex items-center space-x-4">
                       <div className="shrink-0">
                       {list.image ? (
-                        <img
+                        <Image
                         alt={list.name}
                         src={list.image || ''}
                         className="rounded-full h-10 w-10"
@@ -218,7 +222,7 @@ export default function Home() {
           <div className="flex justify-between items-center">
             <div className='flex items-center gap-2'>
               <p className='font-bold'>Discount</p>
-              <TextInput type='number' sizing='sm' className='w-16' min={'0'} max={'100'} value={discount} onChange={(event:any) => setDiscount(event?.target.value)} />
+              <TextInput type='number' sizing='sm' className='w-16' min={'0'} max={'100'} value={discount} onChange={(event:React.ChangeEvent<HTMLInputElement>) => setDiscount(event?.target.value)} />
               <p className='font-bold'>%</p>
             </div>
             <Button

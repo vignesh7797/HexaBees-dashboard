@@ -5,12 +5,13 @@ import axios from 'axios';
 import { Button, Modal, Table, TextInput } from "flowbite-react";
 import moment from "moment";
 import { MdOutlineCurrencyRupee, MdOutlineReceiptLong } from "react-icons/md";
-import { Bill, Menu, Order } from "../common";
+import { Bill, Menu } from "../common";
 import BillTemplate from "../components/billTemplate";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { HiMinus, HiOutlineSearch, HiPlus } from "react-icons/hi";
 import { useMenuContext } from "../context/menuContext";
 import { FaUser } from "react-icons/fa6";
+import Image from "next/image";
 
 
 
@@ -20,11 +21,10 @@ export default function Home() {
 
     const [orders, setOrders] = useState<Bill[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const [openModal, setOpenModal] = useState(false);
     const [modalData, setModalData] = useState<Bill>();
     const [openEditModal, setOpenEditModal] = useState(false);
-    const [editData, setEditData] = useState<Bill | null>();
+    const [editData, setEditData] = useState<Bill>();
     const [search, setSearch] = useState('');
     const [filteredMenu, setFIlteredMenu] = useState<Menu[]>([]);
 
@@ -40,7 +40,6 @@ export default function Home() {
 
         } catch (error) {
             console.error('Error fetching order history:', error);
-            setError('Failed to fetch order history');
         } finally {
             setLoading(false);
         }
@@ -50,11 +49,12 @@ export default function Home() {
         return moment(date).format("DD MMM YYYY hh:mm A");
     }
 
-    const onDecrease = (prod:any) =>{
+    const onDecrease = (prod:Menu) =>{
 
-        setEditData((prevData:any) => {
+        setEditData((prevData:Bill) => {
+
             // Find the index of the product to update
-            const productIndex = prevData.products.findIndex((product:any) => product.menu_id == prod.menu_id);
+            const productIndex = prevData.products.findIndex((product) => product.menu_id == prod.menu_id);
       
             if (productIndex == -1) {
               console.error('Product not found');
@@ -62,9 +62,9 @@ export default function Home() {
             }
       
             // Create a new array with the updated product
-            const updatedProducts = prevData.products.map((product:any, index:number) =>
-              index === productIndex ? { ...product, quantity: prod.quantity - 1 } : product
-            ).filter((prd:any) => prd.quantity > 0);
+            const updatedProducts = prevData.products.map((product:Menu, index:number) =>
+              index === productIndex ? { ...product, quantity: Number(prod.quantity) - 1 } : product
+            ).filter((prd:Menu) => Number(prd.quantity) > 0);
       
             // Return the new state with the updated products array
             return {
@@ -74,11 +74,11 @@ export default function Home() {
           });
     }
 
-    const onIncrease = (prod:any) =>{
+    const onIncrease = (prod:Menu) =>{
 
-        setEditData((prevData:any) => {
+        setEditData((prevData:Bill) => {
             // Find the index of the product to update
-            const productIndex = prevData.products.findIndex((product:any) => product.menu_id == prod.menu_id);
+            const productIndex = prevData.products.findIndex((product:Menu) => product.menu_id == prod.menu_id);
       
             if (productIndex == -1) {
               console.error('Product not found');
@@ -86,8 +86,8 @@ export default function Home() {
             }
       
             // Create a new array with the updated product
-            const updatedProducts = prevData.products.map((product:any, index:number) =>
-              index === productIndex ? { ...product, quantity: prod.quantity + 1 } : product
+            const updatedProducts = prevData.products.map((product:Menu, index:number) =>
+              index === productIndex ? { ...product, quantity: Number(prod.quantity) + 1 } : product
             );
       
             // Return the new state with the updated products array
@@ -99,20 +99,21 @@ export default function Home() {
 
     }
 
-    const onSearchHandle = (event:any) =>{
+    const onSearchHandle = (event:React.ChangeEvent<HTMLInputElement>) =>{
         setSearch(event.target.value);
         setFIlteredMenu(menus.filter(menu => menu.name.toLowerCase().includes(event.target.value.trim().toLowerCase())))
     }
 
     const onAdd = (menu:Menu) =>{
-        setEditData((prevData:any) => {
-            const prodIndex = prevData.products.findIndex((prod:any) => prod.menu_id == menu.id);
-            
-            let newItem:any = {
-                menu_id : menu.id,
-                name : menu.name,
-                quantity : 1,
-                price : menu.price
+        setEditData((prevData:Bill) => {
+
+            const newItem:Menu = {
+                menu_id: menu.id,
+                name: menu.name,
+                quantity: 1,
+                price: menu.price,
+                id: 0,
+                category: menu.category
             } 
 
             const updateProds = [...prevData.products, newItem]
@@ -153,10 +154,10 @@ export default function Home() {
                                 <Table.HeadCell className="text-center">Action</Table.HeadCell>
                             </Table.Head>
                             <Table.Body>
-                                {orders.map((order:any, ind) => (
+                                {orders.map((order) => (
                                     <Table.Row key={order.id}>
                                         <Table.Cell className="text-center">
-                                            <a role="button" className="text-cyan-600" onClick={() => { setOpenModal(true), setModalData(order) }}>
+                                            <a role="button" className="text-cyan-600" onClick={() => { setOpenModal(true); setModalData(order) }}>
                                                 <MdOutlineReceiptLong className="text-xl" />
                                             </a>
                                         </Table.Cell>
@@ -167,7 +168,7 @@ export default function Home() {
                                         </Table.Cell>
                                         <Table.Cell>
                                             <div className="flex items-center justify-center gap-6">
-                                                <a role="button" className="text-cyan-600 hover:underline" onClick={()=>{setOpenEditModal(true), setEditData(order)}}>
+                                                <a role="button" className="text-cyan-600 hover:underline" onClick={()=>{setOpenEditModal(true); setEditData(order)}}>
                                                     Edit
                                                 </a>
                                                 <a role="button" className="text-red-400 hover:underline">
@@ -189,7 +190,7 @@ export default function Home() {
                             )}
                         </Modal.Body>
                         <Modal.Footer className="justify-end">
-                            <Button onClick={() => {setOpenModal(false), window.print()}}>Print</Button>
+                            <Button onClick={() => {setOpenModal(false); window.print()}}>Print</Button>
                             <Button color="gray" className="mr-auto" onClick={() => setOpenModal(false)}>
                                 Close
                             </Button>
@@ -206,7 +207,7 @@ export default function Home() {
                                             <tbody>
                                                 {editData.products
                                                 .filter(prd => Number(prd.quantity) > 0)
-                                                .map((prod:any, ind) => 
+                                                .map((prod:Menu) => 
                                                 ( 
                                                     <tr key={prod.menu_id} className="h-10">  
                                                         
@@ -238,14 +239,14 @@ export default function Home() {
                                     <div className="flow-root h-60 overflow-auto">
                                         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                                             {filteredMenu && editData && filteredMenu
-                                            .filter(menu => editData?.products?.findIndex((prd:any) => prd.menu_id == menu.id) == -1)
+                                            .filter(menu => editData?.products?.findIndex((prd) => prd.menu_id == menu.id) == -1)
                                             .map((list:Menu) => {
                                             return (
                                                 <li className="py-3 sm:py-4" key={list.id}>
                                                 <div className="flex items-center space-x-4">
                                                     <div className="shrink-0">
                                                     {list.image ? (
-                                                    <img
+                                                    <Image
                                                     alt={list.name}
                                                     src={list.image || ''}
                                                     className="rounded-full h-10 w-10"
@@ -276,7 +277,7 @@ export default function Home() {
                             </div>
                         </Modal.Body>
                         <Modal.Footer className="justify-end">
-                            <Button onClick={() => {setOpenModal(false), window.print()}}>Print</Button>
+                            <Button onClick={() => {setOpenModal(false); window.print()}}>Print</Button>
                             <Button color="gray" className="mr-auto" onClick={() => setOpenModal(false)}>
                                 Close
                             </Button>

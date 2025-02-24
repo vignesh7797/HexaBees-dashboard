@@ -1,16 +1,16 @@
 'use client';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
-interface Message {
-  id: number;
-  message: string;
-}
+// interface Message {
+//   id: number;
+//   message: string;
+// }
 
 export default function Home() {
-  const [status, setStatus] = useState<boolean | null>(null);
-  const [menu, setMenu] = useState<any>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
+  // const [status, setStatus] = useState<boolean | null>(null);
+  // const [menu, setMenu] = useState<any>(null);
+  // const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
       
@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <div>
       <h1>MySQL Database Connection Status</h1>
-      {status == null ? (
+      {/* {status == null ? (
         <p className="text-indigo-400 font-semibold">
           Checking database connection...
         </p>
@@ -34,16 +34,16 @@ export default function Home() {
         </p>
       ) : (
         ''
-      )}
+      )} */}
 
-      <h2>Messages from Database:</h2>
+      {/* <h2>Messages from Database:</h2>
       <ul>
         {messages?.map((msg: any) => (
           <li className="font-semibold text-sky-700" key={msg.edited_by}>
             {msg.edited_by} - {msg.created_date}
           </li>
         ))}
-      </ul>
+      </ul> */}
 
       <Link href={'/menuList'} type="button" className="primary-btn">
             Go to Menu

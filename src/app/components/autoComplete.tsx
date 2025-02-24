@@ -28,7 +28,7 @@ const AutoComplete: FC<AutoCompleteProps> = ({list}) => {
                          <ListGroup className="w-full">
                             {filteredList.map((item:Menu) =>{
                                 return (
-                                    <ListGroup.Item>{item.name}</ListGroup.Item>
+                                    <ListGroup.Item key={item.id}>{item.name}</ListGroup.Item>
                                 )
                             })}
                             

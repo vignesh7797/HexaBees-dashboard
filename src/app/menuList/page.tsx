@@ -13,6 +13,7 @@ import { HiPlus, HiOutlineUpload } from 'react-icons/hi';
 import { FaRegImage } from "react-icons/fa6";
 import { useMenuContext } from '../context/menuContext';
 import { Menu } from '../common';
+import Image from 'next/image';
 
 
 
@@ -117,7 +118,7 @@ export default function Home() {
                 <Table.Cell> 
                   {
                   menu.image ? (
-                  <img src={menu.image} width="40px"/>
+                  <Image src={menu.image} alt={menu.name} width={40}/>
                   ) 
                   : (
                     <div className="w-10 h-10 bg-slate-200 flex justify-center items-center">

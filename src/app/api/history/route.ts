@@ -1,7 +1,8 @@
+import { Bill } from "@/app/common";
 import pool from "@/lib/db";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req:Request) {
+export async function GET() {
     try{
         // Fetch all orders
         const [orders] = await pool.query(`
@@ -16,9 +17,11 @@ export async function GET(req:Request) {
             ORDER BY date DESC
         `);
 
+        const orderResult = orders as Bill[]
+
         // Fetch products for each order
         const orderHistory = await Promise.all(
-            (orders as any).map(async (order: any) => {
+            orderResult.map(async (order: Bill) => {
                 const [products] = await pool.query(
                     `
                     SELECT 
@@ -50,6 +53,6 @@ export async function GET(req:Request) {
     }
 }
 
-export async function PUT(req:NextRequest) {
+// export async function PUT(req:NextRequest) {
     
-}
+// }
