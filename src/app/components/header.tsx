@@ -20,7 +20,7 @@ const Header: FC = () =>{
     const handleClose = () => setIsOpen(false);
 
     return (
-        <div className='no-print h-16 shadow-md fixed top-0 w-screen bg-white flex justify-between items-center p-3 z-[9999]'>
+        <div className='no-print h-16 shadow-md fixed top-0 w-screen bg-white flex justify-between items-center p-3 z-[49]'>
            <div className="w-full md:hidden">
             <Button size="sm" color="light" className="border-0" onClick={() => setIsOpen(true)}>
                 {/* <MdOutlineRestaurantMenu className="h-5 w-5" /> */}

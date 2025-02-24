@@ -1,12 +1,12 @@
 'use client';
 import { useMenuContext } from '../context/menuContext';
 import { HiMinus, HiPlus } from 'react-icons/hi';
-import { Button, Card, TextInput, Toast  } from 'flowbite-react';
+import { Button, Card, TextInput  } from 'flowbite-react';
 import { BiRupee } from 'react-icons/bi';
 import { ImLeaf } from 'react-icons/im';
 import { TbBrandHexo, TbHexagonLetterB } from 'react-icons/tb';
 import { useEffect, useState } from 'react';
-import { HiOutlineSearch, HiFire } from 'react-icons/hi';
+import { HiOutlineSearch } from 'react-icons/hi';
 import { FaUser } from 'react-icons/fa6';
 import { useRouter } from 'next/navigation';
 
@@ -48,7 +48,11 @@ export default function Home() {
   });
 
   const onSearchHandle = (event:any) =>{
-    
+    setSearch(event.target.value);
+
+    setMenuList(
+      menus.filter(menu => menu.name?.toLowerCase().includes(event.target.value?.trim().toLowerCase()))
+    )
   }
 
   const onAdd = (menu:BillMenu) =>{
@@ -65,8 +69,9 @@ export default function Home() {
 
   const onDecrease = (menu:BillMenu) =>{
     setMenuList(list => 
-      list.map(item => item.id == menu.id ? {...item, quantity:Number(menu.quantity) - 1, isAdded:Number(menu.quantity) > 1} : item)
+      list.map(item => item.id == menu.id ? {...item, quantity : Number(menu.quantity) - 1, isAdded : Number(menu.quantity) > 1} : item)
     )
+    
   }
 
   const onPrint = async() =>{
@@ -95,13 +100,13 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create order');
+        throw new Error('Failed toLowerCase() create order');
       }
       const data = await response.json();
 
     } catch (error) {
       console.error('Error creating order:', error);
-      setMessage('Failed to create order');
+      setMessage('Failed toLowerCase() create order');
     }
     
     window.print();
@@ -145,20 +150,22 @@ export default function Home() {
     <div className='flex flex-col md:flex-row print:flex-col w-screen md:p-10 print:p-0 justify-evenly gap-10'>
 
       <div className="no-print w-full">
-        {message && (
-          <Toast className='fixed top-0 right-0'>
-            <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-100 text-cyan-500 dark:bg-cyan-800 dark:text-cyan-200">
-              <HiFire className="h-5 w-5" />
-            </div>
-            <div className="ml-3 text-sm font-normal">{message}</div>
-            <Toast.Toggle onDismiss={() => setMessage('')} />
-          </Toast>
-        )}
-        <Card className="max-w-2/3">
 
-          <div className="mb-4 ms:w-80 mx-auto">
+        <Card className="md:max-w-2/3">
+
+          <div className="mb-4 w-full mx-auto relative">
             <h5 className="text-xl text-center mb-4 font-bold leading-none text-gray-900 dark:text-white">Tibet Momo</h5>
-            <TextInput id="search" type="text" className='w-full' icon={HiOutlineSearch} value={search} onChange={onSearchHandle} placeholder="Search Menu" autoFocus sizing='sm' />
+            <TextInput id="search" type="text" className='w-full md:w-80 mx-auto' icon={HiOutlineSearch} value={search} onChange={onSearchHandle} placeholder="Search Menu" autoFocus sizing='sm' />
+
+            <Button
+              color="blue"
+              className="ml-auto my-2 float-right absolute top-7 right-0"
+              size='sm'
+              onClick={() => onPrint()}
+              disabled={billList.length == 0}
+            >
+              Print
+            </Button>
           </div>
 
           <div className="flow-root">
@@ -205,7 +212,6 @@ export default function Home() {
                   </li>
                 )
               })}
-              
             </ul>
           </div>
 
@@ -215,7 +221,7 @@ export default function Home() {
               <TextInput type='number' sizing='sm' className='w-16' min={'0'} max={'100'} value={discount} onChange={(event:any) => setDiscount(event?.target.value)} />
               <p className='font-bold'>%</p>
             </div>
-              <Button
+            <Button
               color="blue"
               className="ml-auto my-2 float-right"
               onClick={() => onPrint()}

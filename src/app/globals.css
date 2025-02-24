@@ -51,10 +51,10 @@ body {
   @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-3xl p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
 }
 
+.nextjs-static-indicator-toast-wrapper{
+  display: none !important;
+}
 
-/* .print-container{
-  @apply hidden;
-} */
 
 
 @media print{
@@ -66,3 +66,8 @@ body {
     @apply block;
   }
 }
+
+/* ::-webkit-scrollbar-thumb {
+  width: 5px;
+  background: red;
+} */

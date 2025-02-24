@@ -5,6 +5,14 @@ export interface Menu {
     price : number
     image ? :string
     quantity ?:number,
+    isAdded ? : boolean
+}
+export interface Order {
+    id : number
+    menu_id : number
+    order_id : string
+    price : number
+    quantity :number,
 }
 
 export interface Bill {

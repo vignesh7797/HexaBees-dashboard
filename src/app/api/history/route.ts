@@ -1,5 +1,5 @@
 import pool from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req:Request) {
     try{
@@ -48,4 +48,8 @@ export async function GET(req:Request) {
           { status: 500 }
         )
     }
+}
+
+export async function PUT(req:NextRequest) {
+    
 }
