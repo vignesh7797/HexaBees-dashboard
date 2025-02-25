@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   devIndicators: {
     buildActivity: false, // This will disable the static optimization indicator
   },
+  images: {
+    domains: ["picsum.photos"],
+  },
 };
 
 export default nextConfig;

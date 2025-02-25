@@ -118,7 +118,7 @@ export default function Home() {
                 <Table.Cell> 
                   {
                   menu.image ? (
-                  <Image src={menu.image} alt={menu.name} width={40}/>
+                  <Image src={menu.image} alt={menu.name} width={40} height={40}/>
                   ) 
                   : (
                     <div className="w-10 h-10 bg-slate-200 flex justify-center items-center">

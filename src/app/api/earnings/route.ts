@@ -6,7 +6,7 @@ interface DateList {
     total : number
 }
 
-export default async function GET(req:NextRequest) {
+export async function GET(req:NextRequest) {
     const searchParams = req.nextUrl.searchParams;
 
     const range = searchParams.get('range') || '';

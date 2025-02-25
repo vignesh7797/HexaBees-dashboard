@@ -250,6 +250,8 @@ export default function Home() {
                                                     alt={list.name}
                                                     src={list.image || ''}
                                                     className="rounded-full h-10 w-10"
+                                                    width={40}
+                                                    height={40}
                                                     />
                                                     ) : (
                                                     <div className='w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500'>

@@ -24,9 +24,8 @@ interface BillMenu {
 
 
 export default function Home() {
-  const { menus } = useMenuContext();
   const router = useRouter()
-
+  const { menus } = useMenuContext();
   const [menuList, setMenuList] = useState<BillMenu[]>([])
   const [search, setSearch] = useState<string>('');
   const [total, setTotal] = useState<number>(0);
@@ -73,7 +72,6 @@ export default function Home() {
     setMenuList(list => 
       list.map(item => item.id == menu.id ? {...item, quantity : Number(menu.quantity) - 1, isAdded : Number(menu.quantity) > 1} : item)
     )
-    
   }
 
   const onPrint = async() =>{
@@ -116,6 +114,12 @@ export default function Home() {
     window.print();
   }
 
+  const navigateToHistory = () => {
+    if(message){
+      router.push('/history');
+    }
+  }
+
   useEffect(() =>{
     setMenuList(menus);
   },[menus])
@@ -144,11 +148,14 @@ export default function Home() {
     }
   },[billList, discount, subTotal])
 
-  addEventListener("afterprint", () => {
-    if(message){
-      router.push('/history');
+  useEffect(() =>{
+    if (typeof window !== "undefined") {
+      window.addEventListener("afterprint", () => {
+        navigateToHistory()
+      });
+      return () => window.removeEventListener("resize", () => {});
     }
-  });
+  })
 
   return (
     <div className='flex flex-col md:flex-row print:flex-col w-screen md:p-10 print:p-0 justify-evenly gap-10'>
@@ -184,6 +191,8 @@ export default function Home() {
                         alt={list.name}
                         src={list.image || ''}
                         className="rounded-full h-10 w-10"
+                        width={40}
+                        height={40}
                       />
                       ) : (
                         <div className='w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500'>
@@ -222,7 +231,7 @@ export default function Home() {
           <div className="flex justify-between items-center">
             <div className='flex items-center gap-2'>
               <p className='font-bold'>Discount</p>
-              <TextInput type='number' sizing='sm' className='w-16' min={'0'} max={'100'} value={discount} onChange={(event:React.ChangeEvent<HTMLInputElement>) => setDiscount(event?.target.value)} />
+              <TextInput type='number' sizing='sm' className='w-16' min={'0'} max={'100'} value={discount} onChange={(event:React.ChangeEvent<HTMLInputElement>) => setDiscount(Number(event?.target.value) || 0)} />
               <p className='font-bold'>%</p>
             </div>
             <Button
@@ -295,6 +304,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+
     </div>
   );
 }
