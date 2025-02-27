@@ -2,7 +2,6 @@
 import axios from 'axios';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { LineChart } from '@mui/x-charts/LineChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart'
 import { Card, Select } from 'flowbite-react';
@@ -20,8 +19,8 @@ const currencyFormatter = new Intl.NumberFormat('en-IN', {
 
 export default function Home() {
   const theme = useTheme();
-  const [topSelling, setTopSelling] = useState<any[]>([]);
-  const [earnings, setEarnings] = useState<any[]>([]);
+  const [topSelling, setTopSelling] = useState([]);
+  const [earnings, setEarnings] = useState([]);
   const [interval, setInterval] = useState<'year' | 'month' | 'day'>('year');
 
   const [windowSize, setWindowSize] = useState({
@@ -32,11 +31,9 @@ export default function Home() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
-    if(topSelling.length == 0){
+    if(topSelling && topSelling.length == 0){
       fetchTopSelling()
     }
-
-    fetchEarnings()
 
     const handleResize = () => {
       setWindowSize({
@@ -50,6 +47,10 @@ export default function Home() {
 
     return () => window.removeEventListener("resize", handleResize);
   },[]);
+
+  useEffect(() =>{
+    fetchEarnings()
+  })
 
 
 
@@ -111,7 +112,7 @@ export default function Home() {
                 innerRadius : 10,
                 highlightScope: { fade: 'global', highlight: 'item' },
                 faded: { innerRadius: 0, additionalRadius: 8, color: 'gray' },
-                valueFormatter: (value, context) =>
+                valueFormatter: (value) =>
                   `${value.value} orders  |   ${currencyFormatter(value['price'])}`,
                 arcLabel: (item) => `${item.value}`,
                 arcLabelMinAngle: 35,

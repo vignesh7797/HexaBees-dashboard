@@ -1,10 +1,6 @@
 import pool from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-interface DateList {
-    date:Date | string,
-    total : number
-}
 
 export async function GET(req:NextRequest) {
     const { searchParams } = new URL(req.url || '');
@@ -13,9 +9,7 @@ export async function GET(req:NextRequest) {
         const interval = searchParams.get('interval')
         const date = searchParams.get('date');
 
-        let dateFormat = "";
-        let dateCondition = "";
-        let queryParams: any[] = [];
+        let queryParams = [];
     
         if (!interval) {
             return NextResponse.json({ error: "Interval is required" });
@@ -71,18 +65,6 @@ export async function GET(req:NextRequest) {
                 `;
                 queryParams = [date]
              }
-            break;
-    
-          case "week":
-            dateFormat = "%d %b"; // "28 Feb"
-            if (date) {
-              // Fetch data for the selected week (e.g., start date of week: "2024-02-20")
-              dateCondition = "date BETWEEN ? AND DATE_ADD(?, INTERVAL 6 DAY)";
-              queryParams.push(date, date);
-            } else {
-              // Default: Last 7 days
-              dateCondition = "date >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
-            }
             break;
     
           case "day":
