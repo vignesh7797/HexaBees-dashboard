@@ -32,7 +32,8 @@ export default function Home() {
 
   useEffect(() => {
     if(topSelling && topSelling.length == 0){
-      fetchTopSelling()
+      fetchTopSelling();
+      fetchEarnings()
     }
 
     const handleResize = () => {
@@ -47,11 +48,6 @@ export default function Home() {
 
     return () => window.removeEventListener("resize", handleResize);
   },[]);
-
-  useEffect(() =>{
-    fetchEarnings()
-  })
-
 
 
   const fetchTopSelling = async() =>{
