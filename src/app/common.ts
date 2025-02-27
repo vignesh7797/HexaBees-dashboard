@@ -25,3 +25,9 @@ export interface Bill {
     total_amount: number,
     products: Menu[]
 }
+
+export interface TopSelling {
+    name : string,
+    total_quantity : number,
+    total_price : number
+}

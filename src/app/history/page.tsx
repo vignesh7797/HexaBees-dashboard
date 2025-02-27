@@ -252,6 +252,7 @@ export default function Home() {
                                                     className="rounded-full h-10 w-10"
                                                     width={40}
                                                     height={40}
+                                                    unoptimized
                                                     />
                                                     ) : (
                                                     <div className='w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500'>

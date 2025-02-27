@@ -7,56 +7,121 @@ interface DateList {
 }
 
 export async function GET(req:NextRequest) {
-    const searchParams = req.nextUrl.searchParams;
+    const { searchParams } = new URL(req.url || '');
 
-    const range = searchParams.get('range') || '';
+    try {
+        const interval = searchParams.get('interval')
+        const date = searchParams.get('date');
 
-    if (!range || typeof range != 'string') {
-        return NextResponse.json({message: 'Invalid time range'})
-    }
-
-    let interval = '';
-    let dateFormat = '';
-
-    switch (range) {
-        case 'year':
-            interval = 'INTERVAL 12 MONTh';
-            dateFormat = '%Y-%m';
-            break;
+        let dateFormat = "";
+        let dateCondition = "";
+        let queryParams: any[] = [];
+    
+        if (!interval) {
+            return NextResponse.json({ error: "Interval is required" });
+        }
+       
+        let query : string = '';
         
-        case 'month':
-            interval = 'INTERVAL 1 MONTH';
-            dateFormat = '%y-%m-%d';
-            break;
-        
-        case 'week':
-            interval = 'INTERVAL 1 WEEK';
-            dateFormat = '%Y-%m-%d';
-            break;
-
-        case 'day':
-            interval = 'INTERVAL 1 DAY';
-            dateFormat = '%y-%m-%d %H:00';
+        switch (interval) {
+          case "year":
+             if(!date){
+                query = `
+                    SELECT 
+                        DATE_FORMAT(date, '%Y-%m') AS month,
+                        SUM(total_amount) AS total_amount
+                        FROM order_hexa
+                        WHERE date >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+                        GROUP BY month
+                        ORDER BY month;
+                `;
+             } else{
+                query = `
+                    SELECT 
+                        DATE_FORMAT(date, '%Y-%m') AS month,
+                        SUM(total_amount) AS total_amount
+                        FROM order_hexa
+                        WHERE YEAR(date) = ?
+                        GROUP BY month
+                        ORDER BY month;
+                `;
+                queryParams = [date]
+             }
             break;
     
-        default:
-            return NextResponse.error();
-    }
+          case "month":
+             if(!date){
+                query = `
+                SELECT 
+                    DATE_FORMAT(date, '%Y-%m-%d') AS day,
+                    SUM(total_amount) AS total_amount
+                    FROM order_hexa
+                    WHERE date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+                    GROUP BY day
+                    ORDER BY day;`
+             } else{
+                query = `
+                SELECT 
+                    DATE_FORMAT(date, '%Y-%m-%d') AS day,
+                    SUM(total_amount) AS total_amount
+                    FROM order_hexa
+                    WHERE DATE_FORMAT(date, '%m-%Y') = ?
+                    GROUP BY day
+                    ORDER BY day;
+                `;
+                queryParams = [date]
+             }
+            break;
+    
+          case "week":
+            dateFormat = "%d %b"; // "28 Feb"
+            if (date) {
+              // Fetch data for the selected week (e.g., start date of week: "2024-02-20")
+              dateCondition = "date BETWEEN ? AND DATE_ADD(?, INTERVAL 6 DAY)";
+              queryParams.push(date, date);
+            } else {
+              // Default: Last 7 days
+              dateCondition = "date >= DATE_SUB(NOW(), INTERVAL 7 DAY)";
+            }
+            break;
+    
+          case "day":
+            if(!date){
+                query = `
+                    SELECT 
+                        DATE_FORMAT(date, '%Y-%m-%d %H:00:00') AS hour,
+                        SUM(total_amount) AS total_amount
+                        FROM order_hexa
+                        WHERE date >= NOW() - INTERVAL 1 DAY
+                        GROUP BY hour
+                        ORDER BY hour;
+                `
+            } else{
+                query = `
+                SELECT DATE_FORMAT(date, '%Y-%m-%d %H:00:00') AS hour, SUM(total_amount) AS total_amount
+                FROM order_hexa WHERE DATE_FORMAT(date, '%d-%m-%Y') = ?
+                GROUP BY hour ORDER BY hour;
+              `;
+              queryParams = [date];
+            }
+            break;
+    
+          default:
+            return NextResponse.json({ error: "Invalid interval" });
+        }
+    
+        const [minDateResult] = await pool.query(`SELECT MIN(date) AS min_date FROM order_hexa`);
+    
+        const [rows] = await pool.query(query, queryParams);
+        return NextResponse.json({min:minDateResult[0].min_date, data:rows});
 
-    try{
-        const [rows] = await pool.query(`SELECT DATE_FORMAT(date, ?) as date, SUM(total_amount) as total FROM \`order_hexa\` WHERE date >= NOW() - ${interval} GROUP BY date ORDER BY date ASC`, [dateFormat]);
-        const response = rows as DateList[]
-        const labels = response.map((row: DateList) => row.date);
-        const data = response.map((row: DateList) => row.total);
-
-        return NextResponse.json({status:200, labels, data });
-    } catch (error) {
+      } catch (error) {
         console.error(error);
-        return NextResponse.json({status:500, message: 'Internal server error' });
-    }
+        return NextResponse.json({ error: error });
+      }
 }
 
 // Handle POST requests
 export async function POST() {
     return NextResponse.json({ message: 'Hello from POST' });
-  }
+}
