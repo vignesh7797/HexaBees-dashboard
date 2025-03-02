@@ -12,14 +12,14 @@ import Image from 'next/image';
 import axios from 'axios';
 
 interface BillMenu {
-  id:number,
-  name:string,
-  category: string,
-  type ?: string,
-  quantity?:number,
+  id:number
+  name:string
+  category: string
+  type ?: string
+  quantity?:number
   price : number
-  image ?:string,
-  isAdded ? :boolean,
+  image ?:string
+  isAdded ?:boolean
 }
 
 
@@ -59,20 +59,42 @@ export default function Home() {
 
   const onAdd = (menu:BillMenu) =>{
     setMenuList(list =>
-      list.map(item => item.id == menu.id ? {...item, isAdded:true, quantity :1} : item)
-    )
+      list.map(item => item.id == menu.id ? {...item, isAdded : true, quantity : 1} : item)
+    );
+    const newItem = menuList.find(list => list.id == menu.id);
+    newItem.quantity = 1;
+    setBillList((prevItems) => [...prevItems, newItem]);
+    
   }
 
   const onIncrease = (menu:BillMenu) =>{
     setMenuList(list => 
-      list.map(item => item.id == menu.id ? {...item, quantity:Number(menu.quantity)+1} : item)
-    )
+      list.map(item => item.id == menu.id ? {...item, quantity:Number(menu.quantity) + 1, isAdded : true} : item)
+    );
+
+    const extItem = billList.find(list => list.id == menu.id);
+   
+    if(extItem){
+      setBillList(list => 
+        list.map(item => item.id == menu.id ? {...item, quantity : Number(item.quantity) + 1} : item)
+      )
+    }
   }
 
   const onDecrease = (menu:BillMenu) =>{
     setMenuList(list => 
       list.map(item => item.id == menu.id ? {...item, quantity : Number(menu.quantity) - 1, isAdded : Number(menu.quantity) > 1} : item)
-    )
+    );
+    
+    const extItem = billList.find(list => list.id == menu.id);
+   
+    if(extItem && extItem.quantity > 1){
+      setBillList(list => 
+        list.map(item => item.id == menu.id ? {...item, quantity : Number(item.quantity) - 1} : item)
+      )
+    }else if(extItem.quantity == 1){
+      setBillList((prevItems) => prevItems.filter((item) => Number(item.quantity) != 1));
+    }
   }
 
   const onPrint = async() =>{
@@ -142,7 +164,7 @@ export default function Home() {
   },[discount, subTotal])
 
   useEffect(()=>{
-    setBillList(menuList.filter(menu => menu.isAdded == true));
+    // setBillList(menuList.filter(menu => menu.isAdded == true));
   }, [menuList])
 
   useEffect(()=>{
@@ -196,9 +218,9 @@ export default function Home() {
 
           <div className="flow-root">
             <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-              {menuList.map((list) => {
+              {menuList.map((list, ind) => {
                 return (
-                  <li className="py-3 sm:py-4" key={list.id}>
+                  <li className="py-3 sm:py-4" key={list.id+list.name+ind}>
                     <div className="flex items-center space-x-4">
                       <div className="shrink-0">
                       {list.image ? (
