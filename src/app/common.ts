@@ -3,6 +3,7 @@ export interface Menu {
     name : string
     category : string
     price : number
+    type ?: string
     image ? :string
     quantity ?:number
     isAdded ? : boolean

@@ -3,7 +3,7 @@ import { useMenuContext } from '../context/menuContext';
 import { HiMinus, HiPlus } from 'react-icons/hi';
 import { Button, Card, TextInput  } from 'flowbite-react';
 import { BiRupee } from 'react-icons/bi';
-import { ImLeaf } from 'react-icons/im';
+import { ImLeaf, ImSpoonKnife } from 'react-icons/im';
 import { TbBrandHexo, TbHexagonLetterB } from 'react-icons/tb';
 import { useEffect, useState } from 'react';
 import { HiOutlineSearch } from 'react-icons/hi';
@@ -11,11 +11,13 @@ import { FaUser } from 'react-icons/fa6';
 import { useRouter } from 'next/navigation';
 import { Menu } from '../common';
 import Image from 'next/image';
+import axios from 'axios';
 
 interface BillMenu {
   id:number,
   name:string,
   category: string,
+  type ?: string,
   quantity?:number,
   price : number
   image ?:string,
@@ -32,7 +34,8 @@ export default function Home() {
   const [subTotal, setSubTotal] = useState<number>(0);
   const [discount, setDiscount] = useState<number>(0);
   const [billList, setBillList] = useState<BillMenu[]>([])
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState('');
+  const [lastId, setLastId] = useState<number>(0)
 
   const date = new Date();
 
@@ -96,7 +99,7 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          customer_name: 'vicky',
+          customer_name: 'Cashier',
           items:items,
           date: new Date()
         }),
@@ -104,6 +107,11 @@ export default function Home() {
 
       if (!response.ok) {
         throw new Error('Failed toLowerCase() create order');
+      }else{
+        setBillList([]);
+        setMenuList(list =>
+          list.map(item => item.isAdded == true ? {...item, isAdded:false, quantity :0} : item)
+        )
       }
 
     } catch (error) {
@@ -122,6 +130,9 @@ export default function Home() {
 
   useEffect(() =>{
     setMenuList(menus);
+    if(menus.length > 0){
+      getLastId();
+    }
   },[menus])
 
   useEffect(() =>{
@@ -156,6 +167,12 @@ export default function Home() {
       return () => window.removeEventListener("resize", () => {});
     }
   })
+
+  const getLastId = async() =>{
+    const {data} = await axios.get('/api/order-id');
+    console.log(data);
+    setLastId(data.lastId)
+  }
 
   return (
     <div className='flex flex-col md:flex-row print:flex-col w-screen md:p-10 print:p-0 justify-evenly gap-10'>
@@ -196,13 +213,19 @@ export default function Home() {
                         unoptimized
                       />
                       ) : (
-                        <div className='w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500'>
-                          <FaUser />
+                        <div className='w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600'>
+                          <ImSpoonKnife />
                         </div>
                       )}
                       </div>
                       <div className="min-w-0 w-60">
-                        <p className="truncate text-gray-900 dark:text-white font-bold text-base">{list.name}</p>
+                        <p className="truncate text-gray-900 dark:text-white font-bold text-base">{list.name} 
+                          {list.category == 'Momo' && 
+                          <span className='text-sm font-medium'>
+                            {` (${list.type})`}
+                          </span>
+                          }
+                        </p>
                       </div>
                       <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white flex-auto">{list.price}</div>
                       <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
@@ -251,23 +274,22 @@ export default function Home() {
       </div>
 
         {/* Print Template */}
-      <div className="print-container nunito-regular text-slate-600 pr-5 md:w-1/3 print:w-full">
+      <div className="print-container nunito-regular text-black pr-5 md:w-1/3 print:w-full">
         <p className="flex items-center justify-center text-lg">
-          <TbBrandHexo /> <TbHexagonLetterB />
+          <Image src={'/logo-text-black.svg'} width={150} height={100} alt='Hexa Bees'></Image>
         </p>
-        <h1 className="text-center font-bold text-xl">Hexa Bees Ent.</h1>
         <h6 className="text-center font-semibold text-xs my-1">
           +91 637 924 1773
         </h6>
-        <p className="text-center text-xs my-1">Bill Id: 234567</p>
+        <p className="text-center text-xs my-1">Bill Id: #{lastId + 1}</p>
 
-        <div className="flex justify-between items-center p-2 border-dashed border-b-[2px] border-slate-400">
+        <div className="flex justify-between items-center p-2 border-dashed border-b-[2px] border-black">
           <p className="text-xs">Date: {formattedDate}</p>
-          <p className="text-xs">Time:{formattedTime}</p>
+          <p className="text-xs">Time: {formattedTime}</p>
         </div>
 
-        <table className="w-full p-2 border-b-[1px] border-dashed border-slate-400">
-          <thead className="border-b-[1px] border-dashed border-slate-400 text-xs">
+        <table className="w-full p-2 border-b-[1px] border-dashed border-black">
+          <thead className="border-b-[1px] border-dashed border-black text-xs">
             <tr className="h-[30px]">
               <th>Item</th>
               <th>Price</th>
@@ -290,7 +312,7 @@ export default function Home() {
           </tbody>
         </table>
 
-        <div className="flex flex-col items-end px-4 py-2 gap-2 border-b-2 border-dashed border-slate-400">
+        <div className="flex flex-col items-end px-4 py-2 gap-2 border-b-2 border-dashed border-black">
           <p className="text-xs flex items-center justify-end font-medium">SubTotal : <BiRupee/>{subTotal | 0}</p>
           <p className="text-xs flex items-center justify-end font-medium">Discount : {discount}%</p>
         </div>
@@ -299,8 +321,8 @@ export default function Home() {
           Total : <BiRupee /> {total}
         </p>
 
-        <div className="border-y-[1px] border-dashed border-slate-400 py-4">
-          <div className="flex items-center justify-center gap-2 text-slate-800 opacity-75 text-ms font-bold  h-[50px]">
+        <div className="border-y-[1px] border-dashed border-black py-4">
+          <div className="flex items-center justify-center gap-2 text-black opacity-60 text-ms font-bold  h-[50px]">
             Save Paper!! Save Nature!! <ImLeaf />
           </div>
         </div>

@@ -5,10 +5,11 @@ import {
   FileInput,
   Label,
   Modal,
+  Select,
   Table,
   TextInput,
 } from 'flowbite-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HiPlus, HiOutlineUpload } from 'react-icons/hi';
 import { FaRegImage } from "react-icons/fa6";
 import { useMenuContext } from '../context/menuContext';
@@ -24,8 +25,10 @@ export default function Home() {
 
   const [name, setName] = useState<string>('');
   const [category, setCategory] = useState<string>('');
+  const [categoryList, setCategoryList] = useState<string[]>([]);
   const [price, setPrice] = useState<number>(0);
   const [img, setImg] = useState<string | null>(null);
+  const [type, setType] = useState('')
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [selectedMenu, setSelectedMenu] = useState<Menu | null>(null);
@@ -81,11 +84,17 @@ export default function Home() {
     }
   }
 
+  useEffect(() =>{
+    const cate = Array.from(new Set(menus.map((menu) => menu.category)));
+    setCategoryList(cate)
+  },[menus])
+
   return (
     <>
-      <h1>Menu List</h1>
+      <div className="overflow-x-auto bg-white rounded shadow-md w-[90vw] mx-auto p-2">
+      <h1 className='text-2xl font-bold text-center'>Menu List</h1>
 
-      <div className="overflow-x-auto shadow-md w-[90vw] mx-auto p-2">
+        <div className="flex"></div>
         <Button
           color="light"
           className="ml-auto my-2"
@@ -177,18 +186,27 @@ export default function Home() {
 
                   <div>
                     <div className="mb-2 block">
-                      <Label htmlFor="quantity" value="Category" />
+                      <Label htmlFor="category" value="Category" />
                     </div>
-                    <TextInput
-                      id="quantity"
-                      placeholder="Category"
-                      type="text"
-                      value={category}
-                      onChange={(event) =>
-                        setCategory(event.target.value)
-                      }
-                      required
-                    />
+                    <Select id='category' value={category} onChange={(event) => setCategory(event.target.value)}>
+                      <option selected>Choose Category</option>
+                      {categoryList.map((cate, ind) => {
+                        return (
+                          <option value={cate} key={ind}>{cate}</option>
+                        )
+                      })}
+                    </Select>
+                  </div>
+
+                  <div>
+                  <div className="mb-2 block">
+                      <Label htmlFor="type" value="type" />
+                    </div>
+                    <Select id='type' value={type} onChange={(event) => setType(event.target.value)}>
+                      <option selected>Choose Category</option>
+                      <option value={'Steam'}>Steam</option>
+                      <option value={'Fried'}>Fried</option>
+                    </Select>
                   </div>
 
                   <div>

@@ -64,7 +64,7 @@ export async function POST(req:Request) {
 
 
             return NextResponse.json(
-                { message: 'Order created successfully', orderId},
+                { message: 'Order created successfully', id : orderId},
                 { status: 201 }
             );
            

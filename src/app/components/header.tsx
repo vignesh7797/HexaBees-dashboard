@@ -8,7 +8,7 @@ import { MdReceiptLong } from "react-icons/md";
 import { HiHome, HiPrinter } from "react-icons/hi";
 import { HiMenu } from "react-icons/hi";
 import { GrHistory } from "react-icons/gr";
-
+import Image from "next/image";
 
 
 const Header: FC = () =>{
@@ -30,11 +30,12 @@ const Header: FC = () =>{
 
             <div className="flex items-center gap-4 w-full">
                 <Link href='/' className='flex text-4xl text-amber-600'>
-                <TbHexagonLetterH />
-                <TbHexagonLetterBFilled />
+                {/* <TbHexagonLetterH />
+                <TbHexagonLetterBFilled /> */}
+                <Image src={'/logo-title.svg'} width={200} height={30} alt="Hexa Bees"></Image>
                 </Link>
 
-                <Link href="/" className=' hidden md:flex text-2xl font-bold text-amber-600 text-center'>Hexa Bees</Link>
+                {/* <Link href="/" className=' hidden md:flex text-2xl font-bold text-[#ED4B17] text-center'>Hexa Bees</Link> */}
             
             </div>
 
