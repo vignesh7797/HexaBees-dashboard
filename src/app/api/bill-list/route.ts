@@ -26,12 +26,7 @@ export async function GET(req: NextRequest) {
         const data = totalCount as QueryResult[];
         const total = data[0].total;
 
-        // res.status(200).json({
-        //     data: rows,
-        //     total,
-        //     page: Number(page),
-        //     limit: Number(limit),
-        // });
+
         return NextResponse.json({
             data: rows,
             total,
@@ -41,8 +36,6 @@ export async function GET(req: NextRequest) {
 
     } catch (error) {
         console.error(error);
-        // res.status(500).json({ message: 'Internal server error' });
-
         return NextResponse.error();
     }
 }
