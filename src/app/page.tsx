@@ -22,6 +22,7 @@ export default function Home() {
   const [topSelling, setTopSelling] = useState([]);
   const [earnings, setEarnings] = useState([]);
   const [interval, setInterval] = useState<'year' | 'month' | 'day'>('year');
+  const [total, setTotal] = useState(0)
 
   const [windowSize, setWindowSize] = useState({
     width: 0,
@@ -47,7 +48,7 @@ export default function Home() {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  },[]);
+  });
 
 
   const fetchTopSelling = async() =>{
@@ -75,6 +76,10 @@ export default function Home() {
       console.log(data)
       if(data.data && data.data.length > 0){
         setEarnings(data.data);
+
+        let totl = 0;
+        data.data.forEach(d => totl += Number(d.total_amount));
+        setTotal(totl)
       }
 
     } catch(error) {
@@ -83,7 +88,7 @@ export default function Home() {
   }
 
   const chartData = earnings.map((item) => ({
-    x:  moment(item.month).format("MMM YY"),
+    x: interval == 'year' ? moment(item.month).format("MMM YY") : interval == 'month' ? moment(item.day).format('dd MMM') : moment(item.hour).format('HH:mm a'),
     y: item.total_amount,
   }));
 
@@ -98,7 +103,7 @@ export default function Home() {
     <div className='md:p-4 p-6 md:w-screen overflow-x-hidden'>
 
       <Card className='md:w-fit w-full mx-auto'>
-      <h5 className="text-2xl text-center my-4 font-bold leading-none text-gray-900 dark:text-white">Top Selling Items</h5>
+      <h5 className="text-2xl text-center my-4 font-bold leading-none text-orange-600 dark:text-white">Top Selling Items</h5>
         <PieChart
           series={[
               {
@@ -110,10 +115,10 @@ export default function Home() {
                 faded: { innerRadius: 0, additionalRadius: 8, color: 'gray' },
                 valueFormatter: (value) =>
                   `${value.value} orders  |   ${currencyFormatter(value['price'])}`,
-                arcLabel: (item) => `${item.value}`,
+                arcLabel: (item) => `${currencyFormatter(item['price'])}`,
                 arcLabelMinAngle: 35,
-                cx:150,
-                cy: isMobile ? 120 : 100
+                cx: isMobile ? 150 : 200,
+                cy: isMobile ? 120 : 150
               }
           ]}
           sx={{
@@ -131,15 +136,15 @@ export default function Home() {
               itemGap: 10,
             },
           }}
-          width={isMobile ? (windowSize.width - 80) : 600}
-          height={isMobile ? 380 : 200}
+          width={windowSize.width - 80}
+          height={isMobile ? 380 : 300}
           
         ></PieChart>
       </Card>
 
 
-      <Card className='md:w-fit w-full mx-auto'>
-        <h5 className="text-2xl text-center my-4 font-bold leading-none text-gray-900 dark:text-white">Earnings</h5>
+      <Card className='md:w-fit w-full mx-auto my-10'>
+        <h5 className="text-4xl text-center my-4 font-bold leading-none text-orange-600 dark:text-white">Earnings</h5>
        
         <Select id="countries" value={interval} required className='w-fit' onChange={selectOnChange}>
           <option value={'year'}>Year</option>
@@ -163,9 +168,9 @@ export default function Home() {
                 color: ['#02B2AF', '#1a56db'],
               }
             }]}
-            series={[{ data: chartData.map((d) => d.y), label:"Total Amount (₹)" }]}
+            series={[{ data: chartData.map((d) => d.y), label:"Total Amount (₹"+ total +")" }]}
             borderRadius = {6}
-            width={800}
+            width={windowSize.width - 80}
             height={300}
             grid={{ horizontal: true }}
             

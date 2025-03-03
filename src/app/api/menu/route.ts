@@ -29,35 +29,60 @@ export async function GET(req:NextRequest) {
 
 export async function POST(req:NextRequest) {
 
-            const { searchParams } = new URL(req.url || '');
-            const name = searchParams.get('name');
-            const code = searchParams.get('code');
-            const category = searchParams.get('category');
-            const image = searchParams.get('image');
-            const price = searchParams.get('price');
+    try{
+        const { name, code, type, category, image, price } = await req.json();
 
+        if (!name || !code || !category || !price) {
+            return NextResponse.json({ error: "All fields are required" }, { status: 400 });
+        }
 
-            await pool.query(
-                'INSERT into menu_hexa (name, code, category, image, price) VALUES (?, ?, ?, ?, ?)', 
-                [name, code, category, image, price]
-            );
-           
-            return NextResponse.json({status:200, message:'Menu Item Added Successfully'});
+        const values = [name, code, type, category, image, price]
+
+        const [rows] = await pool.query(
+            'INSERT INTO menu_hexa ( `name`, `code`, `type`, `category`, `image`, `price`) VALUES  (?, ?, ?, ?, ?, ?)', 
+            values
+        );
+
+        console.log(rows)
+        
+        return NextResponse.json({status:200, message:'Menu Item Added Successfully', data:rows});
+    } catch (error){
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+    }
 
 }
 
 export async function PUT(req:NextRequest) {
-            const body = await req.json();
-            const {id, ...updateData} = body;
-            await pool.query('UPDATE menu_hexa SET ? WHERE id = ?', [updateData, id] );
-            return NextResponse.json({status : 200, message : 'Items Updated Successfully'})
+    try {
+        const { id, name, code, type, category, image, price } = await req.json();
+            
+        if (!id || !name || !code || !category || !price) {
+            return NextResponse.json({ error: "All fields are required"}, { status: 400 });
+        }
+
+        const [result] = await pool.query('UPDATE menu_hexa SET name = ?, code = ?, type = ?, category = ?, image = ?, price = ? WHERE id = ?', [name, code, type, category, image, price, id] );
+        
+        if (result['affectedRows'] === 0) {
+            return NextResponse.json({ error: "Item not found" }, { status: 404 });
+          }
+      
+          return NextResponse.json({ message: "Item updated successfully" }, { status: 200 });
+
+    } catch (error) {
+         return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+    }
+            
 }
 
 export async function DELETE(req:NextRequest) {
-            const { searchParams } = new URL(req.url || '');
-            const menu_id = searchParams.get('menu_id');
+    try {
+        const { id } = await req.json()
 
-            await pool.query('DELETE FROM menu_hexa WHERE id = ?', [menu_id])
-            return NextResponse.json({status : 200, message : 'Items Deleted Successfully'})
+        await pool.query('DELETE FROM menu_hexa WHERE id = ?', [id])
+
+        return NextResponse.json({status : 200, message : 'Items Deleted Successfully'})
+    } catch (error) {
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+    }
 
 }  

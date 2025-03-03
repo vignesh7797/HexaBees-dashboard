@@ -51,10 +51,6 @@ export default function Home() {
 
   const onSearchHandle = (event:React.ChangeEvent<HTMLInputElement>) =>{
     setSearch(event.target.value);
-
-    setMenuList(
-      menus.filter(menu => menu.name?.toLowerCase().includes(event.target.value?.trim().toLowerCase()))
-    )
   }
 
   const onAdd = (menu:BillMenu) =>{
@@ -109,7 +105,8 @@ export default function Home() {
           price: bill.price,
           id: 0,
           name: bill.name,
-          category: ""
+          category: "",
+          code : ""
         })
       })
 
@@ -218,7 +215,7 @@ export default function Home() {
 
           <div className="flow-root">
             <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-              {menuList.map((list, ind) => {
+              {menuList.filter(menu => menu.name.toLowerCase().includes(search.toLowerCase())).map((list, ind) => {
                 return (
                   <li className="py-3 sm:py-4" key={list.id+list.name+ind}>
                     <div className="flex items-center space-x-4">

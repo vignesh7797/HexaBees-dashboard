@@ -8,7 +8,7 @@ import { MdOutlineCurrencyRupee, MdOutlineReceiptLong } from "react-icons/md";
 import { Bill, Menu } from "../common";
 import BillTemplate from "../components/billTemplate";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import { HiMinus, HiOutlineSearch, HiPlus } from "react-icons/hi";
+import { HiMinus, HiOutlineExclamationCircle, HiOutlineSearch, HiPlus } from "react-icons/hi";
 import { useMenuContext } from "../context/menuContext";
 import { FaUser } from "react-icons/fa6";
 import Image from "next/image";
@@ -27,6 +27,8 @@ export default function Home() {
     const [editData, setEditData] = useState<Bill>();
     const [search, setSearch] = useState('');
     const [filteredMenu, setFIlteredMenu] = useState<Menu[]>([]);
+    const [openConfirmModal, setOpenConfirmModal] = useState(false);
+    const [selectedMenu, setSelectedMenu] = useState<Bill | null>(null);
 
     useEffect(() => {
         fetchHistory()
@@ -110,10 +112,12 @@ export default function Home() {
             const newItem:Menu = {
                 menu_id: menu.id,
                 name: menu.name,
+                type: menu.type,
                 quantity: 1,
                 price: menu.price,
                 id: 0,
-                category: menu.category
+                category: menu.category,
+                code: menu.code
             } 
 
             const updateProds = [...prevData.products, newItem]
@@ -124,6 +128,27 @@ export default function Home() {
             }
         })
     }
+
+    const onDeleteMenu = (bill: Bill) =>{
+        setOpenConfirmModal(true);
+        setSelectedMenu(bill)
+      }
+    
+      const onConfirm = async() =>{
+        setOpenConfirmModal(false);
+        const response = await fetch('/api/history', {
+            method : 'DELETE',
+            body : JSON.stringify({id:selectedMenu.id})
+        })
+
+        const data = await response.json();
+
+        if(response.ok){
+            setOrders(list =>list.filter(item => item.id !== selectedMenu.id));
+        }else{
+            throw new Error(data.error || "Something went wrong");
+        }
+      }
 
     useEffect(() =>{
         setFIlteredMenu(menus);
@@ -168,10 +193,10 @@ export default function Home() {
                                         </Table.Cell>
                                         <Table.Cell>
                                             <div className="flex items-center justify-center gap-6">
-                                                <a role="button" className="text-cyan-600 hover:underline" onClick={()=>{setOpenEditModal(true); setEditData(order)}}>
+                                                {/* <a role="button" className="text-cyan-600 hover:underline" onClick={()=>{setOpenEditModal(true); setEditData(order)}}>
                                                     Edit
-                                                </a>
-                                                <a role="button" className="text-red-400 hover:underline">
+                                                </a> */}
+                                                <a role="button" className="text-red-400 hover:underline" onClick={() =>{onDeleteMenu(order)}}>
                                                     Delete
                                                 </a>
                                             </div>
@@ -286,8 +311,30 @@ export default function Home() {
                             </Button>
                         </Modal.Footer>
                     </Modal>
+
+                     {/* Confirm Model */}
+                    <Modal show={openConfirmModal} size="md" onClose={() => setOpenConfirmModal(false)} popup>
+                        <Modal.Header />
+                        <Modal.Body>
+                            <div className="text-center">
+                            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                Are you sure you want to delete this Menu?
+                            </h3>
+                            <div className="flex justify-center gap-4">
+                                <Button color="failure" onClick={onConfirm}>
+                                {"Yes, I'm sure"}
+                                </Button>
+                                <Button color="gray" onClick={() => setOpenConfirmModal(false)}>
+                                No, cancel
+                                </Button>
+                            </div>
+                            </div>
+                        </Modal.Body>
+                    </Modal>
                 </div>
             )}
+            <div className="hidden print:block"><BillTemplate order={modalData}/></div>
         </>
     )
 }

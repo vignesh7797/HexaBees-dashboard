@@ -35,9 +35,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100`}
       >
+        
         <Header />
 
-        <main className="mt-20">
+        <main className="mt-20 print:mt-4">
           <MenuProvider>
             {children}
           </MenuProvider>

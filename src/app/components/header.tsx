@@ -10,12 +10,9 @@ import { HiMenu } from "react-icons/hi";
 import { GrHistory } from "react-icons/gr";
 import Image from "next/image";
 
-
 const Header: FC = () =>{
 
     const [isOpen, setIsOpen] = useState(false);
-
-    
 
     const handleClose = () => setIsOpen(false);
 
@@ -23,25 +20,21 @@ const Header: FC = () =>{
         <div className='no-print h-16 shadow-md fixed top-0 w-screen bg-white flex justify-between items-center p-3 z-[49]'>
            <div className="w-full md:hidden">
             <Button size="sm" color="light" className="border-0" onClick={() => setIsOpen(true)}>
-                {/* <MdOutlineRestaurantMenu className="h-5 w-5" /> */}
                 <HiMenu className="h-6 w-6" />
             </Button>
            </div>
 
             <div className="flex items-center gap-4 w-full">
                 <Link href='/' className='flex text-4xl text-amber-600'>
-                {/* <TbHexagonLetterH />
-                <TbHexagonLetterBFilled /> */}
+
                 <Image src={'/logo-title.svg'} width={200} height={30} alt="Hexa Bees"></Image>
                 </Link>
 
-                {/* <Link href="/" className=' hidden md:flex text-2xl font-bold text-[#ED4B17] text-center'>Hexa Bees</Link> */}
-            
             </div>
 
             <ul className=' hidden md:flex gap-6 px-4 w-full justify-end'>
               <li className='hover:text-amber-600 font-medium hover:underline hover:bg-slate-100 hover:font-medium active:scale-95 rounded transition-all'>
-                <Link href="/" className="block px-4 py-2">Home</Link>
+                <Link href="/" className={"block px-4 py-2 "}>Home</Link>
               </li>
               <li className='hover:text-amber-600 font-medium hover:underline hover:bg-slate-100 hover:font-medium active:scale-95 rounded transition-all'>
                 <Link href="/menuList" className="block px-4 py-2">Menu</Link>

@@ -1,6 +1,7 @@
 export interface Menu {
     id : number
     name : string
+    code : string
     category : string
     price : number
     type ?: string

@@ -1,6 +1,6 @@
 import { Bill } from "@/app/common";
 import pool from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
     try{
@@ -53,6 +53,21 @@ export async function GET() {
     }
 }
 
-// export async function PUT(req:NextRequest) {
-    
-// }
+export async function DELETE(req:NextRequest) {
+    try {
+        const {id} = await req.json();
+        
+        await pool.query(`DELETE FROM billing_hexa WHERE order_id = ?`, [id]);
+
+        const [result] = await pool.query(`DELETE FROM order_hexa WHERE id = ?`, [id]);
+
+        if (result['affectedRows'] === 0) {
+            await pool.rollback();
+            return NextResponse.json({ error: "Order not found" }, { status: 404 });
+        }
+
+        return NextResponse.json({status : 200, message : 'Items Deleted Successfully'})
+    } catch (error) {
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+    }
+}
