@@ -48,7 +48,7 @@ export default function Home() {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  });
+  },[]);
 
 
   const fetchTopSelling = async() =>{
@@ -136,7 +136,7 @@ export default function Home() {
               itemGap: 10,
             },
           }}
-          width={windowSize.width - 80}
+          width={windowSize.width ? windowSize.width - 80 : 300}
           height={isMobile ? 380 : 300}
           
         ></PieChart>
@@ -170,7 +170,7 @@ export default function Home() {
             }]}
             series={[{ data: chartData.map((d) => d.y), label:"Total Amount (₹"+ total +")" }]}
             borderRadius = {6}
-            width={windowSize.width - 80}
+            width={windowSize.width ? windowSize.width - 80 : 300}
             height={300}
             grid={{ horizontal: true }}
             
