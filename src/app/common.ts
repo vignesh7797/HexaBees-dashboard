@@ -21,7 +21,7 @@ export interface Order {
 export interface Bill {
     id: number,
     customer_name: string,
-    date: Date,
+    date: Date | string,
     discount: number,
     sub_total: number,
     total_amount: number,

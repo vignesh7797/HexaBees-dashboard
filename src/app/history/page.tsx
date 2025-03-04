@@ -47,8 +47,8 @@ export default function Home() {
         }
     }
 
-    const formatDate = (date: Date) => {
-        return moment(date).format("DD MMM YYYY hh:mm A");
+    const formatDate = (date: Date | string) => {
+        return moment(new Date(date)).format("DD MMM YYYY hh:mm A");
     }
 
     const onDecrease = (prod:Menu) =>{

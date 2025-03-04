@@ -129,6 +129,7 @@ export default function Home() {
         setMenuList(list =>
           list.map(item => item.isAdded == true ? {...item, isAdded:false, quantity :0} : item)
         )
+        setLastId(lastId+1);
       }
 
     } catch (error) {
@@ -146,9 +147,9 @@ export default function Home() {
   }
 
   useEffect(() =>{
-    setMenuList(menus);
     if(menus.length > 0){
       getLastId();
+      setMenuList(menus);
     }
   },[menus])
 

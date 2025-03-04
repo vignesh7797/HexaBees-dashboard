@@ -8,8 +8,8 @@ export async function GET() {
         const [orders] = await pool.query(`
             SELECT 
             id,
-            customer_name,
             date,
+            customer_name,
             sub_total,
             discount,
             total_amount
@@ -47,8 +47,8 @@ export async function GET() {
     } catch (error) {
         console.error('Error fetching order history:', error);
         return NextResponse.json(
-          { message: 'Internal server error' },
-          { status: 500 }
+          { message: 'Internal server error', error : error},
+          { status: 500 },
         )
     }
 }
