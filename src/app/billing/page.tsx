@@ -129,7 +129,7 @@ export default function Home() {
         setMenuList(list =>
           list.map(item => item.isAdded == true ? {...item, isAdded:false, quantity :0} : item)
         )
-        setLastId(lastId+1);
+        getLastId();
       }
 
     } catch (error) {
