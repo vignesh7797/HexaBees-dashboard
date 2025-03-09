@@ -118,6 +118,7 @@ export default function Home() {
         body: JSON.stringify({
           customer_name: 'Cashier',
           items:items,
+          discount : discount,
           date: new Date()
         }),
       });
@@ -201,17 +202,26 @@ export default function Home() {
 
           <div className="mb-4 w-full mx-auto relative">
             <h5 className="text-xl text-center mb-4 font-bold leading-none text-gray-900 dark:text-white">Tibet Momo</h5>
-            <TextInput id="search" type="text" className='w-full md:w-80 mx-auto' icon={HiOutlineSearch} value={search} onChange={onSearchHandle} placeholder="Search Menu" autoFocus sizing='sm' />
 
-            <Button
-              color="blue"
-              className="ml-auto my-2 float-right absolute top-7 right-0"
-              size='sm'
-              onClick={() => onPrint()}
-              disabled={billList.length == 0}
-            >
-              Print
-            </Button>
+            <div className="flex justify-between items-center">
+              <div className='flex items-center gap-2'>
+                <p className='font-bold text-sm'>Discount</p>
+                <TextInput type='number' sizing='sm' className='w-12' min={'0'} max={'100'} value={discount} onChange={(event:React.ChangeEvent<HTMLInputElement>) => setDiscount(Number(event?.target.value) || 0)} />
+                <p className='font-bold text-sm'>%</p>
+              </div>
+              
+              <TextInput id="search" type="text" className='w-full md:w-80' icon={HiOutlineSearch} value={search} onChange={onSearchHandle} placeholder="Search Menu" autoFocus sizing='sm' />
+
+              <Button
+                color="blue"
+                className=""
+                size='sm'
+                onClick={() => onPrint()}
+                disabled={billList.length == 0}
+              >
+                Print
+              </Button>
+            </div>
           </div>
 
           <div className="flow-root">

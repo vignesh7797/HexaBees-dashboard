@@ -7,7 +7,7 @@ export async function POST(req:Request) {
 
         const requestBody = await req.json();
 
-        const { customer_name, items, date } = requestBody;
+        const { customer_name, items, discount, date } = requestBody;
 
         if ( !items || !Array.isArray(items) || items.length === 0) {
             return NextResponse.json(
@@ -18,6 +18,7 @@ export async function POST(req:Request) {
 
         // // Calculate total amount
         let totalAmount = 0;
+        let sub_total = 0;
 
         for (const item of items) {
             if (!item.menu_id || !item.quantity || !item.price) {
@@ -27,7 +28,9 @@ export async function POST(req:Request) {
                     { status: 400 }
                 );
             }
-            totalAmount += item.quantity * item.price;
+
+            sub_total += item.quantity * item.price;
+            totalAmount = Math.round(sub_total - (sub_total * (discount / 100)))
         }
 
         // Start a database transaction
@@ -36,10 +39,12 @@ export async function POST(req:Request) {
 
         try{
             //Insert to order Table
-             const [orderResult] = await pool.query(`INSERT into order_hexa (date, customer_name, total_amount) VALUES (?,?,?)`, 
+             const [orderResult] = await pool.query(`INSERT into order_hexa (date, customer_name, sub_total, discount, total_amount) VALUES (?,?,?,?,?)`, 
             [
                 date,
                 customer_name, 
+                sub_total,
+                discount,
                 totalAmount,
             ]);
 

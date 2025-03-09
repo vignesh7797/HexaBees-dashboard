@@ -88,7 +88,7 @@ export default function Home() {
   }
 
   const chartData = earnings.map((item) => ({
-    x: interval == 'year' ? moment(item.month).format("MMM YY") : interval == 'month' ? moment(item.day).format('dd MMM') : moment(item.hour).format('HH:mm a'),
+    x: interval == 'year' ? moment(item.month).format("MMM YY") : interval == 'month' ? moment(item.day).format('DD MMM') : moment(item.hour).format('HH:mm a'),
     y: item.total_amount,
   }));
 
