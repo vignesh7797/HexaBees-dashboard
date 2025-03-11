@@ -39,7 +39,7 @@ export default function Home() {
 
     useEffect(() => {
         fetchHistory()
-    }, [])
+    })
 
     const fetchHistory = async (page = currentPage, pageLimit = limit) => {
         setLoading(true);

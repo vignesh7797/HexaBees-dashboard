@@ -26,7 +26,7 @@ export async function GET(req : Request) {
 
         // Get total count of orders
         const [totalResult] = await pool.query(`SELECT COUNT(*) as total FROM order_hexa`);
-        const totalItems = (totalResult as any)[0].total;
+        const totalItems = totalResult[0].total;
         const totalPages = Math.ceil(totalItems / limit);
 
         // Fetch all orders
