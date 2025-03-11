@@ -2,8 +2,33 @@ import { Bill } from "@/app/common";
 import pool from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req : Request) {
     try{
+        const { searchParams } = new URL(req.url);
+        const page = parseInt(searchParams.get('page') || '1', 10);
+        const limit = parseInt(searchParams.get('limit') || '10', 10);
+        const offset = (page - 1) * limit;
+
+        // Validation for page and limit
+        if (isNaN(page) || page < 1) {
+            return NextResponse.json(
+            { message: 'Invalid page number. Page number must be greater than 0.' },
+            { status: 400 }
+            );
+        }
+    
+        if (isNaN(limit) || limit < 1) {
+            return NextResponse.json(
+            { message: 'Invalid limit. Limit must be greater than 0.' },
+            { status: 400 }
+            );
+        }
+
+        // Get total count of orders
+        const [totalResult] = await pool.query(`SELECT COUNT(*) as total FROM order_hexa`);
+        const totalItems = (totalResult as any)[0].total;
+        const totalPages = Math.ceil(totalItems / limit);
+
         // Fetch all orders
         const [orders] = await pool.query(`
             SELECT 
@@ -15,7 +40,8 @@ export async function GET() {
             total_amount
             FROM order_hexa
             ORDER BY date DESC
-        `);
+            LIMIT ? OFFSET ?
+        `, [limit, offset]);
 
         const orderResult = orders as Bill[]
 
@@ -43,7 +69,14 @@ export async function GET() {
             })
         );
 
-        return NextResponse.json(orderHistory);
+        return NextResponse.json({
+            data : orderHistory,
+            totalItems : totalItems,
+            totalPages : totalPages,
+            currentPage : page,
+            limit : limit,
+            message : orderHistory && orderHistory.length == 0 ? 'Data not found..! Please choose some other page.' : ''
+        });
     } catch (error) {
         console.error('Error fetching order history:', error);
         return NextResponse.json(
