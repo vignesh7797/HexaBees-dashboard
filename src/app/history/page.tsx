@@ -38,7 +38,7 @@ export default function Home() {
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-        fetchHistory()
+        if(orders && orders.length == 0)fetchHistory()
     })
 
     const fetchHistory = async (page = currentPage, pageLimit = limit) => {
