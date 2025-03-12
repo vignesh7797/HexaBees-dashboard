@@ -8,6 +8,8 @@ import { Card, Select } from 'flowbite-react';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import moment from 'moment';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 
 
 
@@ -22,7 +24,9 @@ export default function Home() {
   const [topSelling, setTopSelling] = useState([]);
   const [earnings, setEarnings] = useState([]);
   const [interval, setInterval] = useState<'year' | 'month' | 'day'>('year');
-  const [total, setTotal] = useState(0)
+  const [total, setTotal] = useState(0);
+
+  const [data, setData] = useState([])
 
   const [windowSize, setWindowSize] = useState({
     width: 0,
@@ -98,9 +102,28 @@ export default function Home() {
     fetchEarnings(event.target.value)
   }
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const querySnapshot = await getDocs(collection(db, "your_collection_name"));
+      const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setData(docs);
+    };
+
+    fetchData();
+  }, []);
+
 
   return (
     <div className='md:p-4 p-6 md:w-screen overflow-x-hidden'>
+
+    <div className='card shadow rounded bg-white'>
+      <h1>Firebase Firestore Data</h1>
+      <ul>
+        {data.map((item) => (
+          <li key={item.id}>{JSON.stringify(item)}</li>
+        ))}
+      </ul>
+    </div>
 
       <Card className='md:w-fit w-full mx-auto'>
       <h5 className="text-2xl text-center my-4 font-bold leading-none text-orange-600 dark:text-white">Top Selling Items</h5>
