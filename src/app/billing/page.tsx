@@ -39,7 +39,8 @@ export default function Home() {
     const [lastId, setLastId] = useState<number>(0);
     const [billTime, setBillTime] = useState("");
 
-    const [layout, setLayout] = useState('list')
+    const [layout, setLayout] = useState('list');
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         if (menus && menus.length) {
@@ -123,6 +124,8 @@ export default function Home() {
     }
 
     async function onGenerateBill(isPrint?: boolean) {
+        setLoading(true)
+        
         try {
 
             const billList: Menu[] = menuList.filter(menu => menu.isAdded).map(itm => { return { ...itm, id: 0, menu_id: itm.id, price: Number(itm.price) } });
@@ -152,11 +155,12 @@ export default function Home() {
                 setMenuList(list => list.map(item => item.isAdded ? { ...item, isAdded: false, quantity: 0 } : item));
                 setSubTotal(0);
                 setTotal(0);
-
             }
+            setLoading(false)
         } catch (error) {
             console.error('Error creating order:', error);
             alert('Internal Error. Print after sometimes');
+            setLoading(false)
         }
     }
 
@@ -303,12 +307,12 @@ export default function Home() {
                                 speed={1}
                             />
                         </div>
-                        <p className="text-orange-300 font-acme text-center text-lg">Wait for a minute... <br/> <span className="text-base"> or check you internet connection and reload the page again.</span></p>
+                        <p className="text-orange-400 font-acme text-center text-lg">Wait for a minute... <br/> <span className="text-base"> or check you internet connection and reload the page again.</span></p>
                     </div>
                 )}
                
 
-                <div className="bg-white shadow rounded w-[30%] h-full overflow-auto hidden md:flex flex-col">
+                <div className="bg-white shadow rounded w-[30%] h-full overflow-auto hidden md:flex flex-col relative">
                     
                     <div className="h-[8%] bg-orange-500 p-4 bg-opacity-15 text-orange-500 font-adlm flex justify-between items-center sticky top-0 z-10">
                         <p className="text-xl">Cart List</p>
@@ -378,6 +382,12 @@ export default function Home() {
                         </Table>
 
                     </div>
+
+                    {loading && (
+                        <div className="absolute bg-white/30 bg-opacity-25 w-full h-full z-10 flex justify-center items-center backdrop-blur-sm">
+                            <p className="text-orange-800 font-acme">Wait for a while...</p>
+                        </div>
+                    )}
                 </div>
 
             </section>
