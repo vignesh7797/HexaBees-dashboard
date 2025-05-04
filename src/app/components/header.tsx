@@ -1,87 +1,69 @@
 'use client';
 
 import { FC, useState } from "react";
-import { TbHexagonLetterBFilled, TbHexagonLetterH } from "react-icons/tb";
 import Link from "next/link";
 import { Button, Drawer, Sidebar } from "flowbite-react";
-import { MdReceiptLong } from "react-icons/md";
-import { HiHome, HiPrinter } from "react-icons/hi";
 import { HiMenu } from "react-icons/hi";
-import { GrHistory } from "react-icons/gr";
 import Image from "next/image";
+import { usePathname } from 'next/navigation';
+import { toTitleCase } from "../utils/textFormatter";
+import { HiOutlineStatusOnline, HiOutlineStatusOffline } from "react-icons/hi";
+import { sideMenus } from "../common";
+
+
 
 const Header: FC = () =>{
 
     const [isOpen, setIsOpen] = useState(false);
+    const [isOnline, setOnline] = useState(false);
 
     const handleClose = () => setIsOpen(false);
+    const path = usePathname();
+    const pathname = usePathname().split('/')[1];
 
     return (
-        <div className='no-print h-16 shadow-md fixed top-0 w-screen bg-white flex justify-between items-center p-3 z-[49]'>
-           <div className="w-full md:hidden">
-            <Button size="sm" color="light" className="border-0" onClick={() => setIsOpen(true)}>
+        <div className='no-print h-16 shadow w-full bg-white flex justify-between items-center p-3 z-[49]'>
+           <div className="w-fit md:hidden">
+            <Button size="sm" color="light" className="border-0 focus:ring-0 text-orange-500" onClick={() => setIsOpen(true)}>
                 <HiMenu className="h-6 w-6" />
             </Button>
            </div>
 
-            <div className="flex items-center gap-4 w-full">
-                <Link href='/' className='flex text-4xl text-amber-600'>
+           <h1 className="text-2xl text-grey font-semibold px-4 font-acme tracking-wider">{pathname ? toTitleCase(pathname) : 'Dashboard'}</h1>
 
-                <Image src={'/logo-title.svg'} width={200} height={30} alt="Hexa Bees"></Image>
-                </Link>
-
-            </div>
-
-            <ul className=' hidden md:flex gap-6 px-4 w-full justify-end'>
-              <li className='hover:text-amber-600 font-medium hover:underline hover:bg-slate-100 hover:font-medium active:scale-95 rounded transition-all'>
-                <Link href="/" className={"block px-4 py-2 "}>Home</Link>
-              </li>
-              <li className='hover:text-amber-600 font-medium hover:underline hover:bg-slate-100 hover:font-medium active:scale-95 rounded transition-all'>
-                <Link href="/menuList" className="block px-4 py-2">Menu</Link>
-              </li>
-              <li className='hover:text-amber-600 font-medium hover:underline hover:bg-slate-100 hover:font-medium active:scale-95 rounded transition-all'>
-                <Link href="/billing" className="block px-4 py-2">Billing</Link>
-              </li>
-              <li className='hover:text-amber-600 font-medium hover:underline hover:bg-slate-100 hover:font-medium active:scale-95 rounded transition-all'>
-                <Link href="/history" className="block px-4 py-2">History</Link>
-              </li>
-            </ul>
+           <button className={`text-2xl ${isOnline ? 'text-green-500' : 'text-grey'}`} onClick={() =>setOnline(!isOnline)}>
+                {isOnline ? (<HiOutlineStatusOnline />) : (<HiOutlineStatusOffline />)}
+           </button>
 
             {/* SideBar */}
 
-            <Drawer open={isOpen} onClose={handleClose}>
+            <Drawer backdrop={true} open={isOpen} onClose={handleClose}>
                 <Drawer.Header title="" titleIcon={() => 
                     <>
-                    <Link href='/' className='flex text-4xl text-amber-600 w-full'>
-                        <TbHexagonLetterH />
-                        <TbHexagonLetterBFilled />
-                    </Link>
+                        <Link href='/' className='flex text-4xl text-amber-600 w-full'>
+                            <Image src={'/logo-title.svg'} width={160} height={30} alt="Hexa Bees"></Image>
+                        </Link>
                     </>
                 } />
                 <Drawer.Items>
+
                 <Sidebar
                     aria-label="Sidebar with multi-level dropdown example"
-                    className="[&>div]:bg-transparent [&>div]:p-0"
+                    className="[&>div]:bg-transparent [&>div]:p-0 w-full"
                 >
                     <div className="flex h-full flex-col justify-between py-2">
-                        <div>
-                            <Sidebar.Items>
+                        <Sidebar.Items>
                             <Sidebar.ItemGroup>
-                                <Sidebar.Item href="/" icon={HiHome}>
-                                    Home
-                                </Sidebar.Item>
-                                <Sidebar.Item href="/menuList" icon={MdReceiptLong}>
-                                    Menu List
-                                </Sidebar.Item>
-                                <Sidebar.Item href="/billing" icon={HiPrinter}>
-                                    Billing
-                                </Sidebar.Item>
-                                <Sidebar.Item href="/history" icon={GrHistory}>
-                                    History
-                                </Sidebar.Item>
+
+                                {sideMenus.map(menu =>{
+                                    return (
+                                        <Sidebar.Item key={menu.label} href={menu.link} icon={menu.icon} className={`hover:bg-orange-500 hover:bg-opacity-15 rounded font-acme font-semibold text-lg  ${path == menu.link ? 'bg-orange-500 bg-opacity-15 border-s-4 border-orange-500 text-orange-500' :'text-grey'}`}>
+                                             {menu.label}
+                                        </Sidebar.Item>
+                                    )
+                                })}
                             </Sidebar.ItemGroup>
-                            </Sidebar.Items>
-                        </div>
+                        </Sidebar.Items>
                     </div>
                 </Sidebar>
                 </Drawer.Items>

@@ -50,7 +50,8 @@ export async function GET(req:NextRequest) {
                     DATE_FORMAT(date, '%Y-%m-%d') AS day,
                     SUM(total_amount) AS total_amount
                     FROM order_hexa
-                    WHERE date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+                    WHERE date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
+                    AND date <= CURDATE() 
                     GROUP BY day
                     ORDER BY day;`
              } else{
@@ -71,22 +72,36 @@ export async function GET(req:NextRequest) {
             if(!date){
                 query = `
                     SELECT 
-                        DATE_FORMAT(date, '%Y-%m-%d %H:00:00') AS hour,
+                        DATE_FORMAT(CONVERT_TZ(date, '+00:00', '+05:30'), '%Y-%m-%d %H:00:00') AS hour,
                         SUM(total_amount) AS total_amount
-                        FROM order_hexa
-                        WHERE date >= NOW() - INTERVAL 1 DAY
-                        GROUP BY hour
-                        ORDER BY hour;
+                    FROM order_hexa
+                    WHERE 
+                        CONVERT_TZ(date, '+00:00', '+05:30') >= DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00')
+                        AND CONVERT_TZ(date, '+00:00', '+05:30') <= CONVERT_TZ(NOW(), '+00:00', '+05:30')
+                    GROUP BY hour
+                    ORDER BY hour;
                 `
             } else{
                 query = `
-                SELECT DATE_FORMAT(date, '%Y-%m-%d %H:00:00') AS hour, SUM(total_amount) AS total_amount
+                SELECT DATE_FORMAT(date, '%Y-%m-%d %H:00:00') AS hour, 
+                SUM(total_amount) AS total_amount
                 FROM order_hexa WHERE DATE_FORMAT(date, '%d-%m-%Y') = ?
                 GROUP BY hour ORDER BY hour;
               `;
               queryParams = [date];
             }
-            break;
+          break;
+
+          case "custom range" : 
+            query = `SELECT  
+                      DATE_FORMAT(date, '%Y-%m-%d') AS day,
+                      SUM(total_amount) AS total_amount
+                    FROM order_hexa
+                    WHERE date >= ? AND date < ?
+                    GROUP BY day
+                    ORDER BY day;`
+            queryParams = date.split(',');
+          break;
     
           default:
             return NextResponse.json({ error: "Invalid interval" });

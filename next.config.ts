@@ -19,10 +19,12 @@ const nextConfig: NextConfig = {
   images:{
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "picsum.photos",
-      },
+        protocol: 'https',
+        hostname : 'firebasestorage.googleapis.com',
+        pathname: "/v0/b/**"
+      }
     ],
+    
   },
   reactStrictMode: false,
 };

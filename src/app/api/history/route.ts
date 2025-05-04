@@ -33,7 +33,7 @@ export async function GET(req : Request) {
         const [orders] = await pool.query(`
             SELECT 
             id,
-            date,
+            CONVERT_TZ(date, '+00:00', '+05:30') AS date,
             customer_name,
             sub_total,
             discount,

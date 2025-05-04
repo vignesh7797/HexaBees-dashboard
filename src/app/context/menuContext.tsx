@@ -5,7 +5,6 @@ import axios from 'axios';
 import { Menu } from "../common";
 
 
-
 interface MenuContextType {
     menus: Menu[];
     addMenu: (newMenu: Menu) => void;
@@ -38,33 +37,52 @@ export const MenuProvider = ({children}:{children:ReactNode}) =>{
     }
 
     const addMenu = async (newMenu:Menu) => {
+      const formData = new FormData();
+      formData.append('id', newMenu.id.toString());
+      // formData.append('image', newMenu.image);
+      formData.append('name', newMenu.name);
+      formData.append('type', newMenu.type);
+      formData.append('code', newMenu.code);
+      formData.append('category', newMenu.category);
+      formData.append('price', newMenu.price.toString());
+      formData.append('imageFile', newMenu.imageFile);
+
       const response = await fetch('/api/menu', {
         method:'POST',
-        headers: { "Content-Type": "application/json" },
-        body:JSON.stringify(newMenu)
+        body:formData
       })
 
-      const data = await response.json();
+      const { data } = await response.json();
+      
       if (response.ok){
-        setMenus(prevObjects => [...prevObjects, newMenu]);
+        setMenus(prevObjects => [...prevObjects, data[0]]);
       } else{
         throw new Error(data.error || "Something went wrong");
       } 
-      console.log(data)
       
     };
 
     const updateMenu = async (updatedMenu:Menu) => {
+      const formData = new FormData();
+      formData.append('id', updatedMenu.id?.toString());
+      // formData.append('image', updatedMenu.image);
+      formData.append('name', updatedMenu.name);
+      formData.append('type', updatedMenu.type);
+      formData.append('code', updatedMenu.code);
+      formData.append('category', updatedMenu.category);
+      formData.append('price', updatedMenu.price?.toString());
+      formData.append('imageFile', updatedMenu.imageFile);
+
       const response = await fetch('/api/menu', {
         method: 'PUT',
         headers : {'Context-Type' : 'application/json'},
-        body : JSON.stringify(updatedMenu)
+        body : formData
       })
 
-      const data = await response.json();
+      const {data} = await response.json();
 
       if(response.ok){
-        setMenus(menus.map((menu) => (menu.id === updatedMenu.id ? updatedMenu : menu)));
+        setMenus(menus.map((menu) => (menu.id === data[0].id ? data[0] : menu)));
       }else{
         throw new Error(data.error || "Something went wrong");
       }
@@ -87,6 +105,17 @@ export const MenuProvider = ({children}:{children:ReactNode}) =>{
       }
     }
 
+    // const handleFireStorage = async ({name, code, image}) =>{
+    //   // Upload file to Firebase Storage
+    //   const storageRef = ref(storage, `menu/${name}_${code}`);
+
+    //   if(image){
+    //       await uploadBytes(storageRef, image);
+    //   }
+
+    //  return image ? await getDownloadURL(storageRef) : '';
+    // }
+
     return (
         <MenuContext.Provider value={{ menus, addMenu, updateMenu, deleteMenu}}>
           {children}
@@ -100,4 +129,4 @@ export const useMenuContext = () => {
       throw new Error('useMenuContext must be used within a MenuProvider');
     }
     return context;
-  };
+};

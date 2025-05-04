@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { MenuProvider } from "./context/menuContext";
 import Header from "./components/header";
+import SideBar from "./components/sideBarComponent";
 
 
 const geistSans = Geist({
@@ -16,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hexa Bees Enterprise",
+  title: "Billing Software | Hexa Bees Enterprise",
   description: "Discover and order from the best restaurants near you. Reserve tables, browse menus, track orders, and enjoy exclusive discounts with Hexa Bees. Elevate your dining experience today!",
   icons : {
     icon : "/favicon.svg",
@@ -35,13 +36,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100`}
       >
-        
-        <Header />
-
-        <main className="mt-20 print:mt-4">
-          <MenuProvider>
-            {children}
-          </MenuProvider>
+        <main className="print:mt-2 flex bg-[#EAEAEA] overflow-hidden h-screen print:h-fit w-screen">
+          <SideBar />
+          <div className="w-full">
+            <Header />
+              <section className="overflow-auto h-[-webkit-fill-available] print:h-fit">
+                <MenuProvider>
+                  {children}
+                </MenuProvider>
+              </section>
+          </div>
         </main>
 
       </body>
