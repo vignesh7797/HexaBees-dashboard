@@ -18,7 +18,7 @@ import CalendarPicker from "../components/Calender";
 
 
 export default function Home() {
-    const [revenueData, setRevenueData] = useState({})
+    const [revenueData, setRevenueData] = useState({x:[], y:[]})
     const [earnings, setEarnings] = useState([]);
     const [interval, setInterval] = useState<'year' | 'month' | 'day' | 'custom range'>('day');
     const [total, setTotal] = useState(0);
