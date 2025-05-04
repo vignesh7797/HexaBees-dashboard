@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import 'flatpickr/dist/plugins/monthSelect/style.css';
+import { BaseOptions } from 'vm';
 
 interface CalendarPickerProps {
   popupPosition?: 'auto' | 'above' | 'below' | 'top' | 'bottom' | 'left' | 'right';
@@ -15,6 +16,15 @@ interface CalendarPickerProps {
   monthYearPicker?: boolean;
   onlyYearPicker?: boolean;
 }
+
+const positionMap = {
+  right: 'below right',
+  left: 'below left',
+  top: 'above center',
+  bottom: 'below center',
+  auto: 'auto',
+};
+
 
 const CalendarPicker: React.FC<CalendarPickerProps> = ({
   popupPosition = 'auto',
@@ -29,6 +39,7 @@ const CalendarPicker: React.FC<CalendarPickerProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const fp = useRef<flatpickr.Instance | null>(null);
+
 
   useEffect(() => {
     if (inputRef.current) {
@@ -55,7 +66,7 @@ const CalendarPicker: React.FC<CalendarPickerProps> = ({
         minDate,
         maxDate,
         mode: range ? 'range' : 'single',
-        position: popupPosition,
+        position: positionMap[popupPosition] || 'auto',
         onChange,
         onReady: (selectedDates, dateStr, instance) => {
           // Hack to simulate year-only selection
