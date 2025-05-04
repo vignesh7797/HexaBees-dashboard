@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from 'react';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import 'flatpickr/dist/plugins/monthSelect/style.css';
-import { BaseOptions } from 'vm';
 
 interface CalendarPickerProps {
   popupPosition?: 'auto' | 'above' | 'below' | 'top' | 'bottom' | 'left' | 'right';

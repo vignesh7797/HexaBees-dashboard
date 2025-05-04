@@ -23,7 +23,7 @@ export default function Home() {
   const [earnings, setEarnings] = useState([]);
   const [interval, setInterval] = useState<'year' | 'month' | 'day'>('day');
   const [total, setTotal] = useState(0);
-  const [revenueData, setRevenueData] = useState({})
+  const [revenueData, setRevenueData] = useState({x:[], y:[]})
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [averageRevenue, setAverageRevenue] = useState(0);
@@ -133,7 +133,7 @@ export default function Home() {
         </div>
             
         <div className='h-[220px]'>
-          <LineChart data={revenueData} />
+          <LineChart data={revenueData} color="#00C951" />
         </div>
 
       </div>
