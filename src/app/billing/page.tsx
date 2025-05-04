@@ -136,7 +136,7 @@ export default function Home() {
                     customer_name: 'Cashier',
                     items: billList,
                     discount: discount,
-                    date: new Date().toLocaleString()
+                    date: new Date()
                 })
             });
 
