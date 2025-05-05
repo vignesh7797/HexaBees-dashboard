@@ -265,7 +265,11 @@ export default function Home() {
                                         {filteredMenu && filteredMenu.map((menu, ind) => (
                                             <Table.Row key={menu.code+''+ind}>
                                                 <Table.Cell>{menu.id}</Table.Cell>
-                                                <Table.Cell className="font-adlm">{menu.name}</Table.Cell>
+                                                <Table.Cell className="font-adlm">{menu.name} 
+                                                    {menu.type && (
+                                                        <span className="text-xs opacity-55">({menu.type})</span>
+                                                    )}
+                                                </Table.Cell>
                                                 <Table.Cell></Table.Cell>
                                                 <Table.Cell>
                                                     <p className="font-adlm text-base flex items-center">
