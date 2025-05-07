@@ -9,9 +9,7 @@ import { BiSolidCart } from "react-icons/bi";
 import { useMenuContext } from "../context/menuContext";
 import { Bill, BillMenu, Menu } from "../common";
 import { Table } from "flowbite-react";
-import moment from "moment";
 import axios from "axios";
-import { FaLeaf } from "react-icons/fa";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { FaChevronRight } from "react-icons/fa6";
 import Image from "next/image";
@@ -38,7 +36,6 @@ export default function Home() {
     const [discount, setDiscount] = useState(0);
 
     const [lastId, setLastId] = useState<number>(0);
-    const [billTime, setBillTime] = useState("");
 
     const [layout, setLayout] = useState('list');
     const [loading, setLoading] = useState(false);
@@ -150,7 +147,6 @@ export default function Home() {
                 alert('Internal Error. Print after sometimes')
             } else {
                 if (isPrint) {
-                    setBillTime(new Date().toLocaleString())
                     window.print();
                 }
 
