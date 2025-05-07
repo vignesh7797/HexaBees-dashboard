@@ -61,7 +61,7 @@ button{
 }
 
 select{
-  @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-300 focus:border-gray-300 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-300 dark:focus:border-gray-300;
+  @apply bg-gray-50 border-0 text-zinc-700 font-acme text-sm text-center rounded-lg hover:bg-gray-100 focus:ring-gray-300 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-300 dark:focus:border-gray-300;
 }
 
 .btn-primary{
@@ -90,6 +90,14 @@ select{
 
 .btn-icon{
   @apply bg-gray-50 text-grey hover:bg-gray-100 focus:ring-gray-300 px-2 aspect-square rounded-md;
+}
+
+.btn-icon-primary{
+  @apply bg-orange-50 text-orange-500 hover:bg-orange-100 focus:ring-orange-300 px-2 aspect-square rounded-md;
+}
+
+.btn-icon-black{
+  @apply bg-gray-50 text-black hover:bg-gray-100 focus:ring-gray-300 px-2 aspect-square rounded-md;
 }
 
 
@@ -213,3 +221,40 @@ select{
     @apply bg-grey;
   }
 /* } */
+
+
+
+.dot-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dot-loading span {
+  @apply bg-orange-500;
+
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: bounce 1.2s infinite ease-in-out;
+}
+
+.dot-loading span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot-loading span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  40% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+}

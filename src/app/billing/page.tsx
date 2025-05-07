@@ -7,7 +7,7 @@ import { FaPlus, FaMinus } from "react-icons/fa6";
 import { BiSolidCart } from "react-icons/bi";
 
 import { useMenuContext } from "../context/menuContext";
-import { BillMenu, Menu } from "../common";
+import { Bill, BillMenu, Menu } from "../common";
 import { Table } from "flowbite-react";
 import moment from "moment";
 import axios from "axios";
@@ -15,6 +15,7 @@ import { FaLeaf } from "react-icons/fa";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { FaChevronRight } from "react-icons/fa6";
 import Image from "next/image";
+import BillTemplate from "../components/billTemplate";
 
 
 
@@ -40,7 +41,9 @@ export default function Home() {
     const [billTime, setBillTime] = useState("");
 
     const [layout, setLayout] = useState('list');
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+
+    const [billOrder, setBillOrder] = useState<Bill>()
 
     useEffect(() => {
         if (menus && menus.length) {
@@ -167,6 +170,21 @@ export default function Home() {
     const openCart = () =>{
         
     }
+
+    useEffect(() =>{
+        const bill:Bill = {
+            id : lastId,
+            customer_name: 'Cashier',
+            total_amount : total,
+            sub_total : subTotal,
+            discount : discount,
+            products : menuList.filter(menu => menu.isAdded),
+            date : new Date()
+        }
+        if(bill.products.length > 0){
+            setBillOrder(bill);
+        }
+    },[total, subTotal, discount, menuList])
 
 
     return (
@@ -397,49 +415,11 @@ export default function Home() {
             </section>
 
             <div className="print-container hidden print:flex flex-col items-center gap-2 print:w-full">
-                <Image src={'/tibet-logo.png'} width={100} height={100} alt='Hexa Bees' className="w-[60%] h-16" lazyBoundary=""/>
-                <p className="text-center text-xs w-3/4">6/11, MGR Road,  GEM Hospital opposite, Kandanchanvadi.</p>
-                <p className="font-adlm text-sm text-center ">+91 637 924 1773</p>
-                <p className="w-full text-center text-sm ">Bill Id : {lastId}</p>
-                {billTime &&
-                    <p className="text-center text-sm w-full pb-3 border-b border-dotted border-grey">{moment(billTime).format('ddd  MMM DD YYYY - hh:mm:ss a')}</p>
-                }
-
-                <div className="w-full grid grid-cols-4 gap-2">
-                    <p className="text-center font-adlm col-span-2 text-sm">Name</p>
-                    <p className="text-center font-adlm text-sm">Qty</p>
-                    <p className="text-center font-adlm text-sm">Price</p>
-                </div>
-                {menuList.filter(menu => menu.isAdded).map(cart => (
-                    <div className="w-full grid grid-cols-4 gap-2 items-center justify-end" key={cart.id}>
-                        <p className="text-left col-span-2 text-sm">{cart.name}</p>
-                        <p className="text-center text-sm">{cart.quantity}</p>
-                        <p className="text-right flex items-center justify-end text-sm"> <BiRupee /> {cart.price * cart.quantity}</p>
-                    </div>
-                ))}
-
-
-                <div className="w-full my-2">
-
-                    <div className="w-full grid grid-cols-3 gap-3 border-y border-dotted border-grey py-2">
-                        <p className="col-span-2 text-grey">Sub Total</p>
-                        <p className=" flex items-center justify-end gap-1 text-right"> <BiRupee /> {subTotal}</p>
-
-                        <p className="col-span-2 text-grey">Discount</p>
-                        <p className=" flex items-center justify-end gap-1 text-right"> <span className="font-adlm">%</span> {discount}</p>
-                    </div>
-
-                    <div className="w-full grid grid-cols-3 py-1 border-b border-dotted border-grey">
-                        <p className="text-xl font-adlm col-span-2">Total</p>
-                        <p className="text-lg font-adlm flex items-center justify-end gap-1 text-right"> <BiRupee /> {total}</p>
-                    </div>
-                </div>
-
-                <h6 className="w-full py-2 flex items-center justify-center gap-4 text-lg text-center font-acme opacity-50">Save Paper!! <span><FaLeaf /></span> Save Tree!!</h6>
+                <BillTemplate order={billOrder}></BillTemplate>
             </div>
 
             {menuList.filter(menu => menu.isAdded).length && (
-                <div className="w-full absolute z-50 bottom-5 left-0 mx-auto block md:hidden">
+                <div className="w-full absolute z-50 bottom-5 left-0 mx-auto block md:hidden no-print">
                     <div className="h-16 py-2 px-4 flex items-center rounded-full bg-orange-500 w-fit gap-4 mx-auto" onClick={() => openCart}>
                         <button className="w-12 h-12 rounded-full bg-gray-200 font-acme text-xl text-grey">{menuList.filter(menu => menu.isAdded).length}</button>
                         <p className="text-white font-adlm">View Cart <br /><span className="text-sm">items added</span> </p>

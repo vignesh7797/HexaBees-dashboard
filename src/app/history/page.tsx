@@ -2,17 +2,17 @@
 
 import { useEffect, useState } from "react";
 import axios from 'axios';
-import { Alert, Button, Modal, Pagination, Select, Table, TextInput } from "flowbite-react";
+import { Alert, Button, Card, Modal, Popover, Table, TextInput } from "flowbite-react";
 import moment from "moment";
-import { MdOutlineCurrencyRupee, MdOutlineReceiptLong } from "react-icons/md";
+import { MdOutlineCurrencyRupee } from "react-icons/md";
 import { Bill, Menu } from "../common";
 import BillTemplate from "../components/billTemplate";
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { HiMinus, HiOutlineExclamationCircle, HiOutlineSearch, HiPlus } from "react-icons/hi";
 import { useMenuContext } from "../context/menuContext";
 import { FaUser } from "react-icons/fa6";
 import Image from "next/image";
-import { HiInformationCircle } from "react-icons/hi";
+import { HiInformationCircle, HiDotsVertical } from "react-icons/hi";
+import Pagination from "../components/pagination";
 
 
 
@@ -33,7 +33,7 @@ export default function Home() {
 
     //Pagination
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1)
+    const [totalItems, setTotalItems] = useState(0)
     const [limit, setLimit] = useState(10);
     const [message, setMessage] = useState('');
 
@@ -49,8 +49,8 @@ export default function Home() {
             
             if(data.data && data.data.length > 0){
                 setOrders(data.data);
-                setTotalPages(data.totalPages);
                 setCurrentPage(data.currentPage);
+                setTotalItems(data.totalItems)
             } else {
                 setMessage(data.message)
             }
@@ -172,110 +172,100 @@ export default function Home() {
         setFIlteredMenu(menus);
       },[menus])
 
-    const onPageChange = (page: number) => {
-        setCurrentPage(page);
-        fetchHistory(page);
+    const onPageChange = (event) => {
+        setCurrentPage(event.page);
+        setLimit(event.count)
+        fetchHistory(event.page, event.count);
     };
 
-    const handleSelectLimit = (event:React.ChangeEvent<HTMLSelectElement>) =>{
-        setLimit(Number(event.target.value));
-        fetchHistory(currentPage, Number(event.target.value));
-    }
 
 
     return (
         <>
-        {loading && (
-            <div className="w-[700px] mx-auto my-auto">
-                <DotLottieReact
-                    src={'https://lottie.host/ee3031d5-56a0-40e2-88a7-764d7faaced8/Jv4V3rL1ix.lottie'}
-                    loop
-                    autoplay
-                    speed={0.5}
-                />
-            </div>
-        )}
 
-        {!loading && orders && (
-            <div className="no-print">
-                <h1 className="text-2xl font-bold text-center">Order History</h1>
-                <div className="p-8">
+        {orders && (
+            <div className="no-print p-1 md:p-4">
+                <Card className="h-auto max-h-[88vh] overflow-auto">
                     <Table>
                         <Table.Head>
-                            <Table.HeadCell className="text-center"></Table.HeadCell>
-                            <Table.HeadCell className="text-center">Id</Table.HeadCell>
-                            <Table.HeadCell className="text-center">Data / Time</Table.HeadCell>
-                            <Table.HeadCell className="text-center">Amount</Table.HeadCell>
-                            <Table.HeadCell className="text-center">Action</Table.HeadCell>
+                            <Table.HeadCell className="text-center font-adlm text-orange-500 bg-orange-50 w-10">No.</Table.HeadCell>
+                            <Table.HeadCell className="text-center font-adlm text-orange-500 bg-orange-50">id</Table.HeadCell>
+                            <Table.HeadCell className="text-center font-adlm text-orange-500 bg-orange-50">Date</Table.HeadCell>
+                            <Table.HeadCell className="text-center font-adlm text-orange-500 bg-orange-50">Amount</Table.HeadCell>
+                            <Table.HeadCell className="text-center font-adlm text-orange-500 bg-orange-50">Action</Table.HeadCell>
                         </Table.Head>
+
                         <Table.Body>
-                            {orders.map((order) => (
-                                <Table.Row key={order.id}>
-                                    <Table.Cell className="text-center">
-                                        <a role="button" className="text-cyan-600" onClick={() => { setOpenModal(true); setModalData(order) }}>
-                                            <MdOutlineReceiptLong className="text-xl" />
+                            { !loading && orders.map((order, ind) => (
+                                <Table.Row key={order.id} className="hover:bg-gray-100 cursor-pointer" >
+                                    <Table.Cell className="text-center text-sm font-adlm text-zinc-600 p-2">{(currentPage - 1) * limit + ind + 1}</Table.Cell>
+                                    <Table.Cell className="text-center text-sm font-adlm text-zinc-600 p-2" onClick={() => {setOpenModal(true); setModalData(order)}}>
+                                        <a role="link" className="underline text-orange-500">
+                                            #{order.id}
                                         </a>
                                     </Table.Cell>
-                                    <Table.Cell className="text-center">#{order.id}</Table.Cell>
-                                    <Table.Cell className="text-center">{formatDate(order.date)}</Table.Cell>
-                                    <Table.Cell className="text-center">
-                                        <span className="flex items-center justify-center"> <MdOutlineCurrencyRupee /> {order.total_amount}</span>
+                                    <Table.Cell className="text-center text-sm font-adlm text-black p-2">{formatDate(order.date)}</Table.Cell>
+                                    <Table.Cell className="text-center text-sm font-adlm text-black p-2"> 
+                                        <span className="flex items-center justify-center"><MdOutlineCurrencyRupee />{order.total_amount}</span>
                                     </Table.Cell>
-                                    <Table.Cell>
-                                        <div className="flex items-center justify-center gap-6">
-                                            {/* <a role="button" className="text-cyan-600 hover:underline" onClick={()=>{setOpenEditModal(true); setEditData(order)}}>
-                                                Edit
-                                            </a> */}
-                                            <a role="button" className="text-red-400 hover:underline" onClick={() =>{onDeleteMenu(order)}}>
-                                                Delete
-                                            </a>
-                                        </div>
+                                    <Table.Cell className="p-2 flex items-center justify-center gap-2">
+                                        <Popover
+                                            aria-labelledby="profile-popover"
+                                            content={
+                                                <div className="w-28">
+                                                    <ul className="w-full">
+                                                        <li className="w-full">
+                                                            <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-orange-50 hover:text-orange-500" onClick={()=>{setOpenModal(true); setModalData(order)}}>View Bill</a>
+                                                        </li>
+
+                                                        <li className="w-full">
+                                                            <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-orange-50 hover:text-orange-500" onClick={()=>{setOpenEditModal(true); setEditData(order)}}>Edit</a>
+                                                        </li>
+
+                                                        <li className="w-full">
+                                                            <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-orange-50 hover:text-orange-500" onClick={() =>{onDeleteMenu(order)}}>Delete</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                }
+                                            >
+                                            <button className="btn-icon"><HiDotsVertical className="text-xl"/></button>
+                                        </Popover>
                                     </Table.Cell>
                                 </Table.Row>
                             ))}
+                            {loading && (
+                                <Table.Row>
+                                    <Table.Cell colSpan={6}>
+                                        <div className="h-[60vh] flex justify-center items-center">
+                                           <div className="dot-loading">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                           </div>
+                                        </div>
+                                    </Table.Cell>
+                                </Table.Row>
+                            )}
                         </Table.Body>
+                    
                     </Table>
 
-                    <div className="flex overflow-x-auto justify-between items-center p-2">
-                        <div className="flex items-center gap-3 mt-2">
-                            <p className="text-sm font-semibold">Per Page </p>
-                            <Select sizing="sm" id="limit" value={limit} onChange={handleSelectLimit}>
-                                <option>10</option>
-                                <option>20</option>
-                                <option>25</option>
-                                <option>50</option>
-                                <option>100</option>
-                            </Select>
-                        </div>
+                   <Pagination total={totalItems} count={limit} currentPage={currentPage} onPageChange={onPageChange}></Pagination>
+                </Card>
 
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} showIcons />
-
-                        <div className="flex items-center gap-3 mt-2">
-                            <p className="text-sm font-semibold">Go to </p>
-                           <form onSubmit={() => fetchHistory(currentPage)}>
-                            <TextInput type="number" min={1} max={totalPages} sizing="sm" value={currentPage} onChange={
-                                    (e:React.ChangeEvent<HTMLInputElement>) => {
-                                        setCurrentPage(Number(e.target.value));
-                                    }
-                                }></TextInput>
-                           </form>
-                        </div>
-                    </div>
-
-                </div>
 
                 <Modal show={openModal} size='md' className="no-print" onClose={() => setOpenModal(false)}>
-                    <Modal.Header>Bill Data</Modal.Header>
                     <Modal.Body>
                         {modalData && (
                             <BillTemplate order={modalData}/>
                         )}
                     </Modal.Body>
                     <Modal.Footer className="justify-end">
-                        <Button onClick={() => {setOpenModal(false); window.print()}}>Print</Button>
-                        <Button color="gray" className="mr-auto" onClick={() => setOpenModal(false)}>
+                        <button className="btn-primary" onClick={() => {setOpenModal(false); window.print()}}>Print</button>
+                        <button className="btn-light mr-auto" onClick={() => setOpenModal(false)}>
                             Close
-                        </Button>
+                        </button>
                     </Modal.Footer>
                 </Modal>
 
