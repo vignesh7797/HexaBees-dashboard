@@ -17,13 +17,14 @@ const nextConfig: NextConfig = {
     buildActivity: false, // This will disable the static optimization indicator
   },
   images:{
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname : 'firebasestorage.googleapis.com',
-        pathname: "/v0/b/**"
-      }
-    ],
+    // remotePatterns: [
+    //   {
+    //     protocol: 'https',
+    //     hostname : 'firebasestorage.googleapis.com',
+    //     pathname: "/v0/b/**"
+    //   }
+    // ],
+    domains: ['firebasestorage.googleapis.com'],
     
   },
   reactStrictMode: false,

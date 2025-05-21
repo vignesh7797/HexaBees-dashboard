@@ -185,8 +185,8 @@ export default function Home() {
 
         {orders && (
             <div className="no-print p-1 md:p-4">
-                <Card className="h-auto max-h-[88vh] overflow-auto">
-                    <Table>
+                <Card className="h-auto max-h-[92vh] md:-h-[88vh] overflow-auto">
+                    <Table className="hidden md:table">
                         <Table.Head>
                             <Table.HeadCell className="text-center font-adlm text-orange-500 bg-orange-50 w-10">No.</Table.HeadCell>
                             <Table.HeadCell className="text-center font-adlm text-orange-500 bg-orange-50">id</Table.HeadCell>
@@ -219,10 +219,6 @@ export default function Home() {
                                                         </li>
 
                                                         <li className="w-full">
-                                                            <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-orange-50 hover:text-orange-500" onClick={()=>{setOpenEditModal(true); setEditData(order)}}>Edit</a>
-                                                        </li>
-
-                                                        <li className="w-full">
                                                             <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-orange-50 hover:text-orange-500" onClick={() =>{onDeleteMenu(order)}}>Delete</a>
                                                         </li>
                                                     </ul>
@@ -251,7 +247,54 @@ export default function Home() {
                     
                     </Table>
 
+                    {loading && (
+                        <div className="h-[60vh] flex md:hidden justify-center items-center">
+                            <div className="dot-loading">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            </div>
+                        </div>
+                    )}
+
+                    {!loading && orders.map((order, ind) => (
+                        <div key={ind} className="flex md:hidden shadow rounded bg-white p-2 items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <a role="link" className="font-adlm text-xs bg-red-50 py-3 px-2 rounded">
+                                    {order.id}
+                                </a>
+                                <div>
+                                    <p className="text-sm font-adlm text-zinc-600 px-2">{moment(new Date(order.date)).format("hh:mm A")}</p>
+                                    <p className="text-xs text-zinc-600 px-2">{moment(new Date(order.date)).format("DD/MM/YYYY")}</p>
+                                </div>
+                            </div>
+                            
+                            <div className="flex items-center gap-4">
+                                <p className="text-sm font-adlm text-orange-500 px-2 flex items-center"><MdOutlineCurrencyRupee />{order.total_amount}</p>
+                                <Popover
+                                    aria-labelledby="profile-popover"
+                                    content={
+                                        <div className="w-28">
+                                            <ul className="w-full">
+                                                <li className="w-full">
+                                                    <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-orange-50 hover:text-orange-500" onClick={()=>{setOpenModal(true); setModalData(order)}}>View Bill</a>
+                                                </li>
+
+                                                <li className="w-full">
+                                                    <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-orange-50 hover:text-orange-500" onClick={() =>{onDeleteMenu(order)}}>Delete</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        }
+                                    >
+                                    <button className="btn-icon"><HiDotsVertical className="text-xl"/></button>
+                                </Popover>
+                            </div>
+                        </div>
+                    ))}
+
                    <Pagination total={totalItems} count={limit} currentPage={currentPage} onPageChange={onPageChange}></Pagination>
+
                 </Card>
 
 

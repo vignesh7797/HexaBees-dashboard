@@ -2,7 +2,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Table } from 'flowbite-react';
-// import { useMediaQuery } from '@mui/material';
 import moment from 'moment';
 import LineChart from './components/lineChart';
 import Image from 'next/image';
@@ -29,13 +28,13 @@ export default function Home() {
   const [averageRevenue, setAverageRevenue] = useState(0);
   const [todayRevenue, setTodayRevenue] = useState(0);
   const [todayOrders, setTodayOrders] = useState(0);
+  
+  // Top selling products filter states
+  const [topSellingFilter, setTopSellingFilter] = useState<'overall' | 'today' | 'month' | 'custom'>('overall');
+  const [isLoadingTopSelling, setIsLoadingTopSelling] = useState(false);
+  const [customDate, setCustomDate] = useState<string>('');
+  const [customMonth, setCustomMonth] = useState<string>('');
 
-  // const [windowSize, setWindowSize] = useState({
-  //   width: 0,
-  //   height: 0,
-  // });
-
-  // const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     if (topSelling && topSelling.length == 0) {
@@ -43,29 +42,31 @@ export default function Home() {
       fetchEarnings();
       fetchBannerData()
     }
-
-    // const handleResize = () => {
-    //   setWindowSize({
-    //     width: window.innerWidth,
-    //     height: window.innerHeight,
-    //   });
-    // };
-
-    // handleResize();
-    // window.addEventListener("resize", handleResize);
-
-    // return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [topSelling]);
 
 
-  const fetchTopSelling = async () => {
+  const fetchTopSelling = async (filter = topSellingFilter, date = customDate, month = customMonth) => {
+    setIsLoadingTopSelling(true);
     try {
-      const { data } = await axios.get('/api/top-selling');
-
+      let url = '/api/top-selling';
+      
+      // Add query parameters based on filter
+      if (filter === 'today') {
+        url += '?period=today';
+      } else if (filter === 'month') {
+        const currentMonth = month || moment().format('YYYY-MM');
+        url += `?period=month&date=${currentMonth}`;
+      } else if (filter === 'custom' && date) {
+        url += `?period=custom&date=${date}`;
+      }
+      
+      const { data } = await axios.get(url);
       setTopSelling(data);
-
     } catch (error) {
       console.error('Error fetching order Top Selling:', error);
+      setTopSelling([]);
+    } finally {
+      setIsLoadingTopSelling(false);
     }
   }
 
@@ -113,7 +114,7 @@ export default function Home() {
       x: earnings.map(item => parseFloat(item.total_amount)),
       y: earnings.map(item => interval == 'year' ? moment(item.month).format("MMM YY") : interval == 'month' ? moment(item.day).format('DD MMM') : moment(item.hour).format('HH:mm a'))
     });
-  }, [earnings])
+  }, [earnings, interval])
 
 
   return (
@@ -182,8 +183,70 @@ export default function Home() {
       </div>
 
       <div className="overflow-x-auto w-full bg-white shadow-lg rounded-lg md:p-4 mt-4 mb-16">
-
-        <h3 className='text-xl font-bold md:mb-8 font-adlm text-zinc-500 p-4 md:p-0'>Top Selling Products</h3>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className='text-xl font-bold font-adlm text-zinc-500 p-4 md:p-0'>Top Selling Products</h3>
+          
+          <div className="flex items-center gap-3 p-4 md:p-0">
+            {/* Filter options */}
+            <div className="flex items-center gap-2">
+              <select 
+                className="rounded-md border-gray-300 text-sm focus:ring-[#ff5a1f] focus:border-[#ff5a1f]"
+                value={topSellingFilter}
+                onChange={(e) => {
+                  const newFilter = e.target.value as 'overall' | 'today' | 'month' | 'custom';
+                  setTopSellingFilter(newFilter);
+                  fetchTopSelling(newFilter, customDate, customMonth);
+                }}
+              >
+                <option value="overall">Overall Sales</option>
+                <option value="today">Today&apos;s Sales</option>
+                <option value="month">Monthly Sales</option>
+                <option value="custom">Custom Date</option>
+              </select>
+              
+              {/* Show date picker for custom date filter */}
+              {topSellingFilter === 'custom' && (
+                <input 
+                  type="date" 
+                  className="rounded-md border-gray-300 text-sm focus:ring-[#ff5a1f] focus:border-[#ff5a1f]"
+                  value={customDate}
+                  onChange={(e) => {
+                    setCustomDate(e.target.value);
+                    if (e.target.value) {
+                      fetchTopSelling('custom', e.target.value);
+                    }
+                  }}
+                />
+              )}
+              
+              {/* Show month picker for monthly filter */}
+              {topSellingFilter === 'month' && (
+                <input 
+                  type="month" 
+                  className="rounded-md border-gray-300 text-sm focus:ring-[#ff5a1f] focus:border-[#ff5a1f]"
+                  value={customMonth}
+                  onChange={(e) => {
+                    setCustomMonth(e.target.value);
+                    if (e.target.value) {
+                      fetchTopSelling('month', '', e.target.value);
+                    }
+                  }}
+                />
+              )}
+              
+              {/* Refresh button */}
+              <button 
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                onClick={() => fetchTopSelling()}
+                disabled={isLoadingTopSelling}
+              >
+                <svg className={`w-5 h-5 text-[#ff5a1f] ${isLoadingTopSelling ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
 
         <Table>
           <Table.Head className="bg-white border-zinc-200 border-b-[1px]">
@@ -197,8 +260,39 @@ export default function Home() {
             <Table.HeadCell className='hidden md:block'>Total</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {topSelling && topSelling.map(sell => {
-              return (
+            {isLoadingTopSelling ? (
+              // Loading state - show skeleton rows
+              Array(5).fill(0).map((_, index) => (
+                <Table.Row key={`loading-${index}`} className="bg-white border-zinc-200">
+                  <Table.Cell className='hidden md:block'>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-8"></div>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <div className="w-10 h-10 bg-gray-200 rounded animate-pulse"></div>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-24"></div>
+                  </Table.Cell>
+                  <Table.Cell className='hidden md:block'>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-16"></div>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-12"></div>
+                  </Table.Cell>
+                  <Table.Cell className='hidden md:block'>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-20"></div>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-8"></div>
+                  </Table.Cell>
+                  <Table.Cell className='hidden md:block'>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-16"></div>
+                  </Table.Cell>
+                </Table.Row>
+              ))
+            ) : topSelling && topSelling.length > 0 ? (
+              // Data loaded successfully
+              topSelling.map(sell => (
                 <Table.Row key={sell.id} className="bg-white border-zinc-200">
                   <Table.Cell className='hidden md:block'> {sell.id}  </Table.Cell>
 
@@ -228,10 +322,15 @@ export default function Home() {
 
                   <Table.Cell className='hidden md:block'>{sell.total_price}</Table.Cell>
                 </Table.Row>
-              )
-            })}
-
-
+              ))
+            ) : (
+              // No data found
+              <Table.Row className="bg-white border-zinc-200">
+                <Table.Cell colSpan={8} className="text-center py-4 text-gray-500">
+                  No products found for the selected filter.
+                </Table.Cell>
+              </Table.Row>
+            )}
           </Table.Body>
         </Table>
 

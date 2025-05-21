@@ -1,53 +1,50 @@
 import { FC} from 'react';
-import { Chart as ChartJS, Tooltip, ArcElement, Legend } from 'chart.js';
+import { Chart as ChartJS, Tooltip, ArcElement } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import { divergingPalette } from '../common';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip);
 
 
 interface PieChartProps{
-    // data : {
-    //     x : string[] | object[] | number[],
-    //     y : string[] | object[] | number[]
-    // },
-    color : string
+    data : {
+        x : string[] | object[] | number[],
+        y : string[] | object[] | number[]
+    },
 }
 
-const PieChart : FC<PieChartProps> = () =>{
-    // const chartRef = useRef(null);
-    // const [gradient, setGradient] = useState(null);
+const PieChart : FC<PieChartProps> = ({data}) =>{
+
 
     const chartData = {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: Array.isArray(data.y) ? data.y.map(String) : [],
         datasets: [
             {
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                ],
-                borderWidth: 2,
+                label: 'Pie Dataset',
+                data: data.x,
+                backgroundColor: divergingPalette,
+                borderWidth: 6,
+                hoverOffset: 30
             },
         ],
     }
 
-    // const options = {}
+    const chartOptions = {
+        responsive: true,
+        plugins :{
+            legend : {
+                position : "bottom" as const,
+                labels: {
+                    boxWidth: 20,
+                    padding: 15
+                }
+            },
+        },
+    }
 
+    
     return (
-        <Pie data={chartData}/>
+        <Pie data={chartData} options={chartOptions}/>
     )
 }
 

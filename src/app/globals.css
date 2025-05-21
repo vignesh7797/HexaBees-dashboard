@@ -1,41 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Iceberg&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000');
 @import url('https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Acme&display=swap');
+@import 'react-datepicker/dist/react-datepicker.css';
+@import 'styles/datepicker.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/*
-.nunito-regular {
-  font-family: "Nunito", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.nunito-medium {
-  font-family: "Nunito", serif;
-  font-weight: 500;
-  font-style: normal;
-}
-
-.nunito-bold {
-  font-family: "Nunito", serif;
-  font-weight: 700;
-  font-style: normal;
-} */
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
 
 body {
   color: var(--foreground);
@@ -80,6 +57,10 @@ select{
   @apply bg-primary bg-opacity-15 text-primary px-2 h-[32px] hover:bg-orange-600 hover:bg-opacity-15 rounded focus:ring-2 focus:ring-orange-300 active:scale-90 transition-all duration-200;
 }
 
+.btn-primary-text {
+  @apply bg-transparent hover:bg-orange-500  hover:bg-opacity-15 text-primary px-3 py-1.5 rounded focus:ring-2 focus:ring-orange-300 active:scale-90 transition-all duration-200;
+}
+
 .btn-light{
   @apply bg-gray-50 text-grey hover:bg-gray-100 focus:ring-gray-300;
 }
@@ -97,7 +78,7 @@ select{
 }
 
 .btn-icon-black{
-  @apply bg-gray-50 text-black hover:bg-gray-100 focus:ring-gray-300 px-2 aspect-square rounded-md;
+  @apply bg-gray-100 text-black hover:bg-gray-100 focus:ring-gray-300 aspect-square rounded-md;
 }
 
 

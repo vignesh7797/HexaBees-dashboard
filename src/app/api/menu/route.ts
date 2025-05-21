@@ -44,7 +44,7 @@ export async function POST(req:Request) {
         const name = formData.get("name");
         const price = formData.get("price");
         const category = formData.get("category");
-        const image = formData.get("image");
+        const image = formData.get("image") || '';
         const code = formData.get("code");
         const type = formData.get("type");
         const imageFile = formData.get("imageFile");
@@ -52,15 +52,23 @@ export async function POST(req:Request) {
         if (!name || !code || !category || !price) {
             return NextResponse.json({ error: "All fields are required" }, { status: 400 });
         }
+
+        let imageUrl = image;
         
-        // Upload file to Firebase Storage
-        const storageRef = ref(storage, `menu/${name}_${code}`);
+        
 
         if (imageFile && imageFile instanceof File) {
+            // Upload file to Firebase Storage
+
+            const storageRef = ref(storage, `menu/${name}_${code}`);
             await uploadBytes(storageRef, imageFile);
+            imageUrl = await getDownloadURL(storageRef);
         }
 
-        const imageUrl = imageFile ? await getDownloadURL(storageRef) : image;
+        // fallback to null or empty string if needed
+        if (!imageUrl) {
+            imageUrl = '';
+        }
 
 
         const values = [name, code, type, category, imageUrl, price]

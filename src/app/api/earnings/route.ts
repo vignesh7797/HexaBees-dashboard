@@ -1,3 +1,4 @@
+import { formatDateForMySQL } from "@/app/utilities";
 import pool from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -83,24 +84,30 @@ export async function GET(req:NextRequest) {
                 `
             } else{
                 query = `
-                SELECT DATE_FORMAT(date, '%Y-%m-%d %H:00:00') AS hour, 
+                SELECT 
+                CONVERT_TZ(date, '+00:00', '+05:30') AS hour, 
                 SUM(total_amount) AS total_amount
-                FROM order_hexa WHERE DATE_FORMAT(date, '%d-%m-%Y') = ?
+                FROM order_hexa 
+                WHERE DATE_FORMAT(date, '%d-%m-%Y') = ?
                 GROUP BY hour ORDER BY hour;
               `;
               queryParams = [date];
             }
           break;
 
-          case "custom range" : 
+          case "range" : 
             query = `SELECT  
-                      DATE_FORMAT(date, '%Y-%m-%d') AS day,
+                      DATE_FORMAT(date, '%d-%m-%Y') AS day,
                       SUM(total_amount) AS total_amount
                     FROM order_hexa
                     WHERE date >= ? AND date < ?
                     GROUP BY day
                     ORDER BY day;`
-            queryParams = date.split(',');
+                    
+            const startDate = formatDateForMySQL(date.split(',')[0]);
+            const endDate = formatDateForMySQL(date.split(',')[1]);
+
+            queryParams = [startDate, endDate];
           break;
     
           default:

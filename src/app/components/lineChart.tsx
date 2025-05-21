@@ -4,38 +4,36 @@ import { FC, useEffect, useRef, useState } from 'react';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Filler, Tooltip);
 
-interface LineChartProps{
-    data : {
-        x : string[] | object[] | number[],
-        y : string[] | object[] | number[]
+interface LineChartProps {
+    data: {
+        x: string[] | object[] | number[],
+        y: string[] | object[] | number[]
     },
-    color : string
+    color: string
 }
 
 
-const LineChart : FC<LineChartProps> = ({data, color = '#e11d48'}) =>{
+const LineChart: FC<LineChartProps> = ({ data, color }) => {
 
     const chartRef = useRef(null);
     const [gradient, setGradient] = useState(null);
-    
-  
-
-  // 🎨 Create gradient once chart is mounted and canvas is available
-  useEffect(() => {
-    const chart = chartRef.current;
-    if (chart) {
-      const ctx = chart.canvas.getContext('2d');
-      const gradientFill = ctx.createLinearGradient(0, 0, 0, 300);
-      gradientFill.addColorStop(0, color+'66'); // Red at top
-      gradientFill.addColorStop(1, color+'00');   // Transparent at bottom
-      setGradient(gradientFill);
-    }
-  }, []);
 
 
-    
-    
-    const chartData =  {
+
+    // 🎨 Create gradient once chart is mounted and canvas is available
+    useEffect(() => {
+        const chart = chartRef.current;
+        if (chart) {
+            const ctx = chart.canvas.getContext('2d');
+            const gradientFill = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientFill.addColorStop(0, color + '66'); // Red at top
+            gradientFill.addColorStop(1, color + '00');   // Transparent at bottom
+            setGradient(gradientFill);
+        }
+    }, []);
+
+
+    const chartData = {
 
         labels: data.y?.length == 0 ? [data.y[0], data.y[0]] : data.y,
         datasets: [
@@ -52,7 +50,7 @@ const LineChart : FC<LineChartProps> = ({data, color = '#e11d48'}) =>{
         ],
     };
 
-      const options = {
+    const options = {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
@@ -80,13 +78,13 @@ const LineChart : FC<LineChartProps> = ({data, color = '#e11d48'}) =>{
         },
         plugins: {
             tooltip: {
-                enabled : true,
+                enabled: true,
                 backgroundColor: 'rgba(0,0,0,0.8)', // Dark background
                 titleColor: '#fff',
                 bodyColor: '#fff',
                 padding: 10,
                 cornerRadius: 8,
-                displayColors: false, 
+                displayColors: false,
                 callbacks: {
                     label: function (context) {
                         return `₹ ${context.raw.toLocaleString()}`; // Tooltip format ₹ xx,xxx
@@ -99,11 +97,11 @@ const LineChart : FC<LineChartProps> = ({data, color = '#e11d48'}) =>{
             },
         },
     };
-    
-    return(
-            
-            <Line ref={chartRef} data={chartData} options={options} height={'250px'} />
-        
+
+    return (
+
+        <Line ref={chartRef} data={chartData} options={options} height={'250px'} />
+
     )
 }
 

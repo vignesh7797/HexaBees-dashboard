@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./components/theme.css";
 import { MenuProvider } from "./context/menuContext";
 import Header from "./components/header";
 import SideBar from "./components/sideBarComponent";
@@ -41,9 +42,9 @@ export default function RootLayout({
           <div className="w-full">
             <Header />
               <section className="overflow-auto h-[-webkit-fill-available] print:h-fit">
-                <MenuProvider>
-                  {children}
-                </MenuProvider>
+                  <MenuProvider>
+                    {children}
+                  </MenuProvider>
               </section>
           </div>
         </main>

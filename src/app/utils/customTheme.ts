@@ -1,5 +1,12 @@
 import { createTheme } from "flowbite-react";
 
+// Define custom colors
+const customColors = {
+  primary: '#ff5a1f',
+  primaryHover: '#e64a10',
+  primaryRing: 'rgba(255, 90, 31, 0.5)'
+};
+
 export const customTheme =  createTheme({
     ListGroup : {
         "root": {
@@ -10,8 +17,8 @@ export const customTheme =  createTheme({
             "link": {
             "base": "flex w-full items-center border-b border-gray-200 px-4 py-2 dark:border-gray-600",
             "active": {
-                "off": "hover:bg-gray-100 hover:text-orange-500 focus:text-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400 dark:border-orange-400 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:text-white dark:focus:ring-gray-500",
-                "on": "bg-orange-500 text-white dark:bg-gray-800"
+                "off": `hover:bg-gray-100 hover:text-[${customColors.primary}] focus:text-[${customColors.primary}] focus:outline-none focus:ring-2 focus:ring-[${customColors.primaryRing}] dark:border-[${customColors.primary}] dark:hover:bg-gray-600 dark:hover:text-white dark:focus:text-white dark:focus:ring-gray-500`,
+                "on": `bg-[${customColors.primary}] text-white dark:bg-gray-800`
             },
             "disabled": {
                 "off": "",
@@ -74,7 +81,8 @@ export const customTheme =  createTheme({
           "xl": "h-[52px] px-6 text-base"
         },
         "color": {
-          "default": "bg-primary-700 text-white hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800",
+          "default": `bg-[${customColors.primary}] text-white hover:bg-[${customColors.primaryHover}] focus:ring-[${customColors.primaryRing}] dark:bg-[${customColors.primary}] dark:hover:bg-[${customColors.primaryHover}] dark:focus:ring-[${customColors.primaryRing}]`,
+          "orange": `bg-[${customColors.primary}] text-white hover:bg-[${customColors.primaryHover}] focus:ring-[${customColors.primaryRing}] dark:bg-[${customColors.primary}] dark:hover:bg-[${customColors.primaryHover}] dark:focus:ring-[${customColors.primaryRing}]`,
           "alternative": "border border-gray-200 bg-white text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700",
           "blue": "bg-blue-700 text-white hover:bg-blue-800 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
           "cyan": "bg-cyan-700 text-white hover:bg-cyan-800 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800",
@@ -91,7 +99,8 @@ export const customTheme =  createTheme({
           "yellow": "bg-yellow-400 text-white hover:bg-yellow-500 focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-400 dark:focus:ring-yellow-900"
         },
         "outlineColor": {
-          "default": "border border-primary-700 text-primary-700 hover:border-primary-800 hover:bg-primary-800 hover:text-white focus:ring-primary-300 dark:border-primary-600 dark:text-primary-500 dark:hover:border-primary-700 dark:hover:bg-primary-700 dark:hover:text-white dark:focus:ring-primary-800",
+          "default": `border border-[${customColors.primary}] text-[${customColors.primary}] hover:border-[${customColors.primaryHover}] hover:bg-[${customColors.primaryHover}] hover:text-white focus:ring-[${customColors.primaryRing}] dark:border-[${customColors.primary}] dark:text-[${customColors.primary}] dark:hover:border-[${customColors.primaryHover}] dark:hover:bg-[${customColors.primaryHover}] dark:hover:text-white dark:focus:ring-[${customColors.primaryRing}]`,
+          "orange": `border border-[${customColors.primary}] text-[${customColors.primary}] hover:border-[${customColors.primaryHover}] hover:bg-[${customColors.primaryHover}] hover:text-white focus:ring-[${customColors.primaryRing}] dark:border-[${customColors.primary}] dark:text-[${customColors.primary}] dark:hover:border-[${customColors.primaryHover}] dark:hover:bg-[${customColors.primaryHover}] dark:hover:text-white dark:focus:ring-[${customColors.primaryRing}]`,
           "blue": "border border-blue-700 text-blue-700 hover:border-blue-800 hover:bg-blue-800 hover:text-white focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:border-blue-700 dark:hover:bg-blue-700 dark:hover:text-white dark:focus:ring-blue-800",
           "cyan": "border border-cyan-700 text-cyan-700 hover:border-cyan-800 hover:bg-cyan-800 hover:text-white focus:ring-cyan-300 dark:border-cyan-500 dark:text-cyan-500 dark:hover:border-cyan-700 dark:hover:bg-cyan-700 dark:hover:text-white dark:focus:ring-cyan-800",
           "dark": "border border-gray-800 text-gray-800 hover:border-gray-900 hover:bg-gray-900 hover:text-white focus:ring-gray-300 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-800",
@@ -137,7 +146,7 @@ export const customTheme =  createTheme({
             "base": "mt-2 flex space-x-2",
             "button": {
               "base": "w-full rounded-lg px-5 py-2 text-center text-sm font-medium focus:ring-4 focus:ring-cyan-300",
-              "today": "bg-cyan-700 text-white hover:bg-cyan-800 dark:bg-cyan-600 dark:hover:bg-cyan-700",
+              "today": `bg-[${customColors.primary}] text-white hover:bg-[${customColors.primaryHover}] dark:bg-[${customColors.primary}] dark:hover:bg-[${customColors.primaryHover}]`,
               "clear": "border border-gray-300 bg-white text-gray-900 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
             }
           }

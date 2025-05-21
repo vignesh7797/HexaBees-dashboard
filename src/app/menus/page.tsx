@@ -165,6 +165,7 @@ export default function Home() {
       setCategoryList(cate);
       setVarientList(vary)
       setFIlteredMenu(menus);
+      onCloseModal();
     }
   },[menus])
 
@@ -520,12 +521,14 @@ export default function Home() {
         <DrawerItems className='h-full'>
           <form onSubmit={onAddMenu} className='h-full'>
             <div className='w-full flex flex-col h-full'>
-                <div className="w-full bg-white flex justify-between mb-auto ">
-                  <button type='button' className='font-bold text-xl active:scale-90 transition-all' onClick={() => setOpenModal(false)}><IoClose/></button>
-                  <button type='button' onClick={()=>onDeleteMenu(selectedMenu)} className='bg-red-700 text-white flex items-center gap-2'>
-                    <span><MdDelete /></span> 
-                    <span>Delete Item</span>
-                  </button>
+                <div className="w-full bg-white flex flex-row-reverse justify-between mb-auto">
+                  <button type='button' className='font-bold text-xl active:scale-90 transition-all' onClick={onCloseModal}><IoClose/></button>
+                  {name && price && varient && category && (
+                    <button type='button' onClick={()=>onDeleteMenu(selectedMenu)} className='bg-red-700 text-white flex items-center gap-2'>
+                      <span><MdDelete /></span> 
+                      <span>Delete Item</span>
+                    </button>
+                  )}
                 </div>
 
                 <div className="h-full overflow-auto pt-6 overflow-y-auto">
@@ -541,7 +544,7 @@ export default function Home() {
                         <div className="mb-2 block">
                             <Label htmlFor="category">Category</Label>
                         </div>
-                        <AutoComplete list={categoryList} keyName='' onSelect={async (e) => setCategory(e)} defaultValue={category}></AutoComplete>
+                        <AutoComplete items={categoryList} displayKey='' onSelect={async (e) => setCategory(typeof e == 'object' ? e.category : e.toString())} defaultValue={category}></AutoComplete>
                         
                         <button type='button' className='my-2 text-orange-400 text-xs font-adlm p-0 h-fit' onClick={()=>setShowAddNew('Category')}>Add Category</button>
                       </div>
@@ -550,7 +553,7 @@ export default function Home() {
                         <div className="mb-2 block">
                             <Label htmlFor="category">Varient</Label>
                         </div>
-                        <AutoComplete list={varientList} keyName='' onSelect={async (e) => setType(e)} defaultValue={type}></AutoComplete>
+                        <AutoComplete items={varientList} displayKey='' onSelect={async (e) => setType(typeof e == 'object' ? e.type : e.toString())} defaultValue={type}></AutoComplete>
                         
                         <button type='button' className='my-2 text-orange-400 text-xs font-adlm p-0 h-fit' onClick={()=>setShowAddNew('Varient')}>Add Varient</button>
                       </div>
@@ -589,7 +592,6 @@ export default function Home() {
                           <div className="mb-2 block">
                             <Label htmlFor="name">Price</Label>
                           </div>
-                          {/* <TextInput id="name" type="name" placeholder="e.g Noodels" value={price} inputMode="numeric" pattern="[0-9]*" onChange={(event) => setPrice(Number(event.target.value))} required /> */}
                           <input type="number" id="number-input" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-400 focus:border-gray-400 block w-full p-2.5" placeholder="0.00" value={price} min={0} pattern="[0-9]*" onChange={(event) => setPrice(Number(event.target.value))}  required />
                       </div>
 
@@ -600,7 +602,6 @@ export default function Home() {
                           {img ? (
                             <div className='w-32 h-32 border-[1px] border-orange-500 rounded relative group'>
                                 <img src={img} width='100%' className='h-full' alt='Image' />
-                                {/* <Image src={encodeURI(img)} width={200} height={200} alt={name}></Image> */}
                                 <div className="absolute opacity-0 group-hover:opacity-100 top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-40">
                                   <Label className='px-2 py-1.5 absolute cursor-pointer border-[1px] border-white rounded text-sm flex items-center gap-2 text-white'>
                                     <FaEdit/> Change
@@ -629,271 +630,6 @@ export default function Home() {
           </form>
         </DrawerItems>
       </Drawer>
-
-      {/* <Modal dismissible show={openModal} size={'md'} onClose={() => setOpenModal(false)} className='animate-slideUp'>
-        <Modal.Header>{name}</Modal.Header>
-        <Modal.Body>
-          <form onSubmit={onAddMenu}>
-
-              <div className='w-full my-2'>
-                  <div className="mb-2 block">
-                    <Label htmlFor="name" value="Receipe Name" />
-                  </div>
-                  <TextInput
-                    id="name"
-                    placeholder="Receipe"
-                    type="text"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                    required
-                  />
-              </div>
-
-              <div className='w-full my-2'>
-                <div className="mb-2 block">
-                  <Label htmlFor="category" value="Category" />
-                </div>
-                <Select id='category' value={category} onChange={(event) => setCategory(event.target.value)}>
-                  <option >Choose Category</option>
-                  {categoryList.map((cate, ind) => {
-                    return (
-                      <option value={cate} key={ind}>{cate}</option>
-                    )
-                  })}
-                </Select>
-              </div>
-
-              <div className='w-full my-2'>
-                <div className="mb-2 block">
-                    <Label htmlFor="type" value="Type" />
-                </div>
-                <Select id='type' value={type} onChange={(event) => setType(event.target.value)}>
-                  <option >Choose Type</option>
-                  <option value={'Steam'}>Steam</option>
-                  <option value={'Fried'}>Fried</option>
-                </Select>
-              </div>
-
-              <div className='w-full my-2'>
-                <div className="mb-2 block">
-                  <Label htmlFor="price" value="Enter Price" />
-                </div>
-                <TextInput
-                  id="price"
-                  placeholder="Quantity"
-                  type="number"
-                  value={price}
-                  onChange={(event) =>
-                    setPrice(Number(event.target.value) || 0)
-                  }
-                  required
-                />
-              </div>
-
-              <div className="w-full my-4">
-                  <Card className=""
-                    imgAlt="Recipe Image"
-                    imgSrc={img ? img : ''}>
-                    <div className="mb-2">
-                      <div>
-                        <Label htmlFor="default-file-upload" />
-                      </div>
-                      <Label className="cursor-pointer focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:focus:ring-yellow-900 flex w-fit mx-auto">
-                         <FileInput id="default-file-upload" className="hidden" onChange={handleFileChange} accept="image/*" />
-                         <HiOutlineUpload className="mr-2 h-5 w-5" />
-                         Upload Image
-                      </Label>
-                      
-                    </div>
-                  </Card>
-              </div>
-
-
-            <div className="flex justify-end gap-2 mt-6">
-              <Button type='submit' color='blue' onClick={onAddMenu}>Update</Button>
-              <Button color="gray" onClick={() => setOpenModal(false)}> Cancel </Button>
-            </div>
-          </form>
-        </Modal.Body>
-      </Modal> */}
-
-      {/* <div className="overflow-x-auto bg-white rounded shadow-md w-[90vw] mx-auto p-2">
-        <h1 className='text-2xl font-bold text-center'>Menu List</h1>
-
-        <div className="flex justify-between items-center p-4">
-          <div className='w-1/3 hidden md:block'></div>
-
-          <TextInput id="search" className='w-full md:w-80' type='text' value={search} onChange={onSearchHandle} placeholder='Search Menu' sizing='sm'></TextInput>
-
-          <Button size='sm' className="ml-auto my-1" onClick={() => setOpenModal(true)}>
-            <HiPlus className="mr-2 h-5 w-5" />
-            Add
-          </Button>
-        </div>
-        
-
-
-        <Table>
-          <Table.Head>
-            <Table.HeadCell>Id</Table.HeadCell>
-            <Table.HeadCell>Image</Table.HeadCell>
-            <Table.HeadCell>Name</Table.HeadCell>
-            <Table.HeadCell>Code</Table.HeadCell>
-            <Table.HeadCell>Quantity</Table.HeadCell>
-            <Table.HeadCell>Price</Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Edit</span>
-            </Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
-            {menus.filter(mn => mn.name.toLowerCase().includes(search.toLowerCase())).map((menu: Menu) => (
-              <Table.Row
-                key={menu.id}
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
-              >
-                <Table.Cell> {menu.id}</Table.Cell>
-                <Table.Cell> 
-                  {
-                  menu.image ? (
-                  <Image src={menu.image || img} alt={menu.name} width={40} height={40} unoptimized  loading="lazy"
-                  quality={75}/>
-                  ) 
-                  : (
-                    <div className="w-10 h-10 bg-slate-200 flex justify-center items-center">
-                      <FaRegImage />
-                    </div>
-                  )
-                  }
-                </Table.Cell>
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {menu.name}
-                </Table.Cell>
-                <Table.Cell>{menu.code}</Table.Cell>
-                <Table.Cell>{menu.category}</Table.Cell>
-                <Table.Cell>{menu.price}</Table.Cell>
-                <Table.Cell>
-                  <div className="flex items-center gap-6">
-                    <a role="button" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500" onClick={() => {onEditMenu(menu);}}>
-                      Edit
-                    </a>
-
-                    <a role="button" className="text-red-400 hover:underline" onClick={() => onDeleteMenu(menu)}>
-                        Delete
-                    </a>
-                  </div>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
-
-
-
-        <Modal show={openModal}  popup onClose={onCloseModal}>
-          <Modal.Header />
-          <Modal.Body>
-            <div className="space-y-6">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                {isEdit ? 'Edit' : 'Add New'} Menu Item
-              </h3>
-
-              <div className="flex md:flex-row flex-col items-center gap-5">
-                <div className="w-full">
-                  <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="name" value="Receipe Name" />
-                    </div>
-                    <TextInput
-                      id="name"
-                      placeholder="Receipe"
-                      type="text"
-                      value={name}
-                      onChange={(event) => setName(event.target.value)}
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="category" value="Category" />
-                    </div>
-                    <Select id='category' value={category} onChange={(event) => setCategory(event.target.value)}>
-                      <option >Choose Category</option>
-                      {categoryList.map((cate, ind) => {
-                        return (
-                          <option value={cate} key={ind}>{cate}</option>
-                        )
-                      })}
-                    </Select>
-                  </div>
-
-                  <div>
-                  <div className="mb-2 block">
-                      <Label htmlFor="type" value="Type" />
-                    </div>
-                    <Select id='type' value={type} onChange={(event) => setType(event.target.value)}>
-                      <option >Choose Type</option>
-                      <option value={'Steam'}>Steam</option>
-                      <option value={'Fried'}>Fried</option>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="price" value="Enter Price" />
-                    </div>
-                    <TextInput
-                      id="price"
-                      placeholder="Quantity"
-                      type="number"
-                      value={price}
-                      onChange={(event) =>
-                        setPrice(Number(event.target.value) || 0)
-                      }
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="w-full my-4">
-                  <Card className=""
-                    imgAlt="Recipe Image"
-                    imgSrc={img ? img : ''}>
-                    <div className="mb-2">
-                      <div>
-                        <Label htmlFor="default-file-upload" />
-                      </div>
-                      <Label className="focus:outline-none text-black bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:focus:ring-yellow-900 flex w-fit mx-auto">
-                         <FileInput id="default-file-upload" className="hidden" onChange={handleFileChange} accept="image/*" />
-                         <HiOutlineUpload className="mr-2 h-5 w-5" />
-                         Upload Image
-                      </Label>
-                      
-                    </div>
-                  </Card>
-                </div>
-
-              </div>
-
-              <div className="w-full flex items-center justify-end gap-4">
-                <Button outline color="light" onClick={onCloseModal}>
-                  Cancel
-                </Button>
-                <Button
-                  color="orange"
-                  onClick={onAddMenu}
-                  disabled={!name || !category || !price}
-                >
-                  {isEdit ? 'Save' : 'Add'}
-                </Button>
-              </div>
-            </div>
-          </Modal.Body>
-        </Modal>
-
-
-      </div> 
-      */}
 
       <Modal show={openConfirmModal} size="md" onClose={() => setOpenConfirmModal(false)} popup>
           <Modal.Header />

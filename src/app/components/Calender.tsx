@@ -48,16 +48,7 @@ const CalendarPicker: React.FC<CalendarPickerProps> = ({
 
       // const plugins = [];
 
-      // Month-Year Picker setup
-    //   if (monthYearPicker) {
-    //     plugins.push(
-    //       monthSelectPlugin({
-    //         dateFormat: format || 'm-Y',
-    //         altFormat: 'F Y',
-    //         theme: 'light',
-    //       })
-    //     );
-    //   }
+
 
       fp.current = flatpickr(inputRef.current, {
         dateFormat: format,

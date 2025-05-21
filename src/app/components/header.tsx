@@ -35,8 +35,8 @@ const Header: FC = () =>{
                 {isOnline ? (<HiOutlineStatusOnline />) : (<HiOutlineStatusOffline />)}
            </button>
 
-            {/* SideBar */}
 
+            {/* SideBar */}
             <Drawer backdrop={true} open={isOpen} onClose={handleClose}>
                 <Drawer.Header title="" titleIcon={() => 
                     <>

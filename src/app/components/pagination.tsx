@@ -46,7 +46,7 @@ const Pagination: FC<PaginationProps> = ({onPageChange, total, count = 10, curre
 
 
     return(
-        <section className="w-full flex flex-col md:flex-row p-2 justify-between items-center">
+        <section className="w-full flex flex-col md:flex-row p-2 justify-between items-center gap-4">
             <div className="flex items-center gap-2">
                 <p className="text-sm font-acme text-grey">Page Count</p>
                 <select value={count} onChange={onSelectCount} className="w-20">

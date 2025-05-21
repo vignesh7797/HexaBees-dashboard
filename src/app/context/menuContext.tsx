@@ -39,7 +39,6 @@ export const MenuProvider = ({children}:{children:ReactNode}) =>{
     const addMenu = async (newMenu:Menu) => {
       const formData = new FormData();
       formData.append('id', newMenu.id.toString());
-      // formData.append('image', newMenu.image);
       formData.append('name', newMenu.name);
       formData.append('type', newMenu.type);
       formData.append('code', newMenu.code);
@@ -65,7 +64,6 @@ export const MenuProvider = ({children}:{children:ReactNode}) =>{
     const updateMenu = async (updatedMenu:Menu) => {
       const formData = new FormData();
       formData.append('id', updatedMenu.id?.toString());
-      // formData.append('image', updatedMenu.image);
       formData.append('name', updatedMenu.name);
       formData.append('type', updatedMenu.type);
       formData.append('code', updatedMenu.code);
@@ -104,17 +102,6 @@ export const MenuProvider = ({children}:{children:ReactNode}) =>{
         throw new Error(data.error || "Something went wrong");
       }
     }
-
-    // const handleFireStorage = async ({name, code, image}) =>{
-    //   // Upload file to Firebase Storage
-    //   const storageRef = ref(storage, `menu/${name}_${code}`);
-
-    //   if(image){
-    //       await uploadBytes(storageRef, image);
-    //   }
-
-    //  return image ? await getDownloadURL(storageRef) : '';
-    // }
 
     return (
         <MenuContext.Provider value={{ menus, addMenu, updateMenu, deleteMenu}}>
