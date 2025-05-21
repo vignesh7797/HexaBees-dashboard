@@ -87,15 +87,19 @@
 }
 
 .react-datepicker__month-container .react-datepicker__header {
-    @apply flex flex-col h-16 !important;    
+    @apply flex flex-col h-16 w-80 !important;    
 }
 
 .react-datepicker__day-names{
-    @apply h-8 !important;
+    @apply d-flex h-8 !important;
 }
 
 .react-datepicker__day-name{
     @apply h-8 !important;
+}
+
+.react-datepicker__week{
+    @apply flex justify-between !important;
 }
 
 .react-datepicker__header.react-datepicker-year-header{
