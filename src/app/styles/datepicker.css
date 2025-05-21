@@ -91,7 +91,7 @@
 }
 
 .react-datepicker__day-names{
-    @apply d-flex h-8 !important;
+    @apply flex h-8 !important;
 }
 
 .react-datepicker__day-name{
