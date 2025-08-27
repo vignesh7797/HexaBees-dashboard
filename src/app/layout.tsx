@@ -1,54 +1,20 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import "./components/theme.css";
-import { MenuProvider } from "./context/menuContext";
-import Header from "./components/header";
-import SideBar from "./components/sideBarComponent";
+"use client"; // Keep this directive if you have client-side providers like Redux Provider
 
+import { Provider } from 'react-redux'; // Example: Import the Redux Provider
+import { store } from './v2/redux/store'; // Example: Import your Redux store
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Billing Software | Hexa Bees Enterprise",
-  description: "Discover and order from the best restaurants near you. Reserve tables, browse menus, track orders, and enjoy exclusive discounts with Hexa Bees. Elevate your dining experience today!",
-  icons : {
-    icon : "/favicon.svg",
-    shortcut : "/favicon.svg",
-    apple : "/favicon.svg",
-  }
-};
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100`}
-      >
-        <main className="print:mt-2 flex bg-[#EAEAEA] overflow-hidden h-screen print:h-fit w-screen">
-          <SideBar />
-          <div className="w-full">
-            <Header />
-              <section className="overflow-auto h-[-webkit-fill-available] print:h-fit">
-                  <MenuProvider>
-                    {children}
-                  </MenuProvider>
-              </section>
-          </div>
-        </main>
-
+    <html lang="en" className="theme-blue">
+      <body>
+        <Provider store={store}> {/* Example: Wrap with Redux Provider */}
+          {children}
+        </Provider>
       </body>
     </html>
   );

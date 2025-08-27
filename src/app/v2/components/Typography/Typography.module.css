@@ -1,0 +1,53 @@
+/* src/app/v2/components/Typography/Typography.module.css */
+
+/* Base text color (default to foreground) */
+.baseText {
+    @apply text-foreground;
+}
+
+
+/* Heading Styles (Font Size and Weight - adjust mb as needed) */
+.h1 { @apply text-4xl font-bold mb-4; }
+.h2 { @apply text-3xl font-semibold mb-3; }
+.h3 { @apply text-2xl font-semibold mb-3; }
+.h4 { @apply text-xl font-semibold mb-2; }
+.h5 { @apply text-lg font-medium mb-2; }
+.h6 { @apply text-base font-medium mb-2; }
+
+
+/* Paragraph Styles (Font Size) */
+.paragraphSm { @apply text-sm; }
+.paragraphMd { @apply text-base; } /* Default paragraph size */
+.paragraphLg { @apply text-lg; }
+
+
+/* Text Color Styles (Based on Theme Severities and Grayscale) */
+.colorForeground { @apply text-foreground; }
+.colorPrimary { @apply text-primary; }
+.colorSecondary { @apply text-secondary; }
+.colorSuccess { @apply text-success; }
+.colorInfo { @apply text-info; }
+.colorWarning { @apply text-warning; }
+.colorDanger { @apply text-danger; }
+.colorHelp { @apply text-help; }
+
+/* Grayscale colors (use specific shades if needed, or map in tailwind.config.ts) */
+.colorGray { @apply text-gray-500; } /* Example: default gray text color */
+.colorGray50 { @apply text-gray-50; }
+.colorGray100 { @apply text-gray-100; }
+.colorGray200 { @apply text-gray-200; }
+.colorGray300 { @apply text-gray-300; }
+.colorGray400 { @apply text-gray-400; }
+.colorGray500 { @apply text-gray-500; }
+.colorGray600 { @apply text-gray-600; }
+.colorGray700 { @apply text-gray-700; }
+.colorGray800 { @apply text-gray-800; }
+.colorGray900 { @apply text-gray-900; }
+
+
+/* Font Weight Styles */
+.weightLight { @apply font-light; }
+.weightNormal { @apply font-normal; }
+.weightMedium { @apply font-medium; }
+.weightSemibold { @apply font-semibold; }
+.weightBold { @apply font-bold; }

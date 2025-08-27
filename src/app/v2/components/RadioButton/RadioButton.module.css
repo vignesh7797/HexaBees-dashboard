@@ -1,0 +1,115 @@
+/* src/app/v2/components/RadioButton/RadioButton.module.css */
+
+/* Container for the radio button and label */
+.radioContainer {
+    @apply inline-flex items-center relative; /* Use flex to align radio and label */
+    cursor: pointer; /* Indicate it's clickable */
+  }
+  
+  /* Visually hidden native radio input */
+  .nativeRadio {
+    @apply absolute opacity-0 w-5 h-5 cursor-pointer; /* Position over the custom radio, hide it */
+    z-index: 1; /* Ensure it's clickable */
+  }
+  
+  /* Styles for the custom radio button element (the outer circle) */
+  .customRadio {
+    @apply w-5 h-5 border rounded-full flex items-center justify-center transition-all duration-200 ease-in-out;
+    border-color: var(--color-border); /* Default border color */
+    background-color: var(--color-background); /* Default background */
+  }
+  
+  /* Styles for the inner circle (appears when selected) */
+  .innerCircle {
+    @apply w-3 h-3 rounded-full opacity-0 transition-opacity duration-200 ease-in-out;
+    /* Inner circle color will be set by severity classes below */
+  }
+  
+  
+  /* Focus state for the custom radio (when the native input is focused) */
+  .nativeRadio:focus + .customRadio {
+    /* @apply ring-2 ring-primary-400 border-primary-400;  */
+    /* Example focus ring */
+    /* Or use box-shadow */
+    /* box-shadow: 0 0 0 2px var(--color-primary-400); */
+  }
+  
+  /* Selected state for the custom radio (when the native input is checked) */
+  .nativeRadio:checked + .customRadio {
+     /* Border color might change or stay the same when checked */
+  }
+  
+  /* Show inner circle when the native input is checked */
+  .nativeRadio:checked + .customRadio .innerCircle {
+    @apply opacity-100;
+  }
+  
+  
+  /* Severity Styles for Selected State (Inner circle color and potentially outer border color) */
+  
+  /* Primary Severity (Selected) */
+  .nativeRadio:checked + .customRadio.primary {
+    @apply border-primary; /* Example: Change outer border color when selected */
+  }
+  .nativeRadio:checked + .customRadio.primary .innerCircle {
+     @apply bg-primary; /* Primary inner circle color */
+  }
+  
+  /* Secondary Severity (Selected) */
+  .nativeRadio:checked + .customRadio.secondary { @apply border-secondary; }
+  .nativeRadio:checked + .customRadio.secondary .innerCircle { @apply bg-secondary; }
+  
+  /* Success Severity (Selected) */
+  .nativeRadio:checked + .customRadio.success { @apply border-success; }
+  .nativeRadio:checked + .customRadio.success .innerCircle { @apply bg-success; }
+  
+  /* Info Severity (Selected) */
+  .nativeRadio:checked + .customRadio.info { @apply border-info; }
+  .nativeRadio:checked + .customRadio.info .innerCircle { @apply bg-info; }
+  
+  /* Warning Severity (Selected) */
+  .nativeRadio:checked + .customRadio.warning { @apply border-warning; }
+  .nativeRadio:checked + .customRadio.warning .innerCircle { @apply bg-warning; }
+  
+  /* Danger Severity (Selected) */
+  .nativeRadio:checked + .customRadio.danger { @apply border-danger; }
+  .nativeRadio:checked + .customRadio.danger .innerCircle { @apply bg-danger; }
+  
+  /* Help Severity (Selected) */
+  .nativeRadio:checked + .customRadio.help { @apply border-help; }
+  .nativeRadio:checked + .customRadio.help .innerCircle { @apply bg-help; }
+  
+  
+  /* Disabled State */
+  .nativeRadio:disabled + .customRadio {
+    @apply opacity-50 cursor-not-allowed;
+  }
+  
+  .nativeRadio:disabled + .customRadio .innerCircle {
+    @apply opacity-50;
+  }
+  
+  .radioContainer.disabled {
+      @apply cursor-not-allowed;
+  }
+  
+  
+  /* Label Styling and Positioning (Same as Checkbox) */
+  .label {
+    @apply ml-2 text-sm text-foreground; /* Default margin for label on the right */
+    user-select: none; /* Prevent text selection on the label */
+  }
+  
+  .radioContainer.labelLeft {
+      @apply flex-row-reverse; /* Reverse order for label on the left */
+  }
+  
+  .radioContainer.labelLeft .label {
+      @apply ml-0 mr-2; /* Adjust margin for label on the left */
+  }
+  
+  /* Error message styling (Less common for individual radio buttons) */
+  .errorMessage {
+    @apply mt-1 text-sm text-danger-600; /* Red text for error message */
+  }
+  

@@ -1,0 +1,194 @@
+/* src/app/v2/theme.css */
+
+/*
+   Base Theme Variables
+   These variables represent your design tokens (colors, spacing, etc.)
+*/
+:root {
+    /* Default Light Mode Palette (e.g., Blue) */
+    --color-background: #ffffff;
+    --color-foreground: #1f2937;
+    --color-surface: #f9fafb;
+    --color-border: #e5e7eb;
+  
+    /* Primary Color (Default Blue) */
+    --color-primary: #3b82f6; /* Blue 500 */
+    --color-primary-50: #eff6ff;
+    --color-primary-100: #dbeafe;
+    --color-primary-200: #bfdbfe;
+    --color-primary-300: #93c5fd;
+    --color-primary-400: #60a5fa;
+    --color-primary-500: #3b82f6;
+    --color-primary-600: #2563eb;
+    --color-primary-700: #1d4ed8;
+    --color-primary-800: #1e40af;
+    --color-primary-900: #1e3a8a;
+  
+    /* Secondary Color (Default Gray) */
+    --color-secondary: #6b7280; /* Gray 500 */
+    --color-secondary-50: #f9fafb;
+    --color-secondary-100: #f3f4f6;
+    --color-secondary-200: #e5e7eb;
+    --color-secondary-300: #d1d5db;
+    --color-secondary-400: #9ca3af;
+    --color-secondary-500: #6b7280;
+    --color-secondary-600: #4b5563;
+    --color-secondary-700: #374151;
+    --color-secondary-800: #1f2937;
+    --color-secondary-900: #111827;
+  
+    /* Success Color (Default Green) */
+    --color-success: #10b981; /* Green 500 */
+    --color-success-50: #ecfdf5;
+    --color-success-100: #d1fae5;
+    --color-success-200: #a7f3d0;
+    --color-success-300: #6ee7b7;
+    --color-success-400: #34d399;
+    --color-success-500: #10b981;
+    --color-success-600: #059669;
+    --color-success-700: #047857;
+    --color-success-800: #065f46;
+    --color-success-900: #064e3b;
+  
+    /* Warning Color (Default Yellow/Amber) */
+    --color-warning: #f59e0b; /* Amber 500 */
+    --color-warning-50: #fffbeb;
+    --color-warning-100: #fef3c7;
+    --color-warning-200: #fde68a;
+    --color-warning-300: #fcd34d;
+    --color-warning-400: #fbbf24;
+    --color-warning-500: #f59e0b;
+    --color-warning-600: #d97706;
+    --color-warning-700: #b45309;
+    --color-warning-800: #92400e;
+    --color-warning-900: #78350f;
+  
+    /* Danger Color (Default Red) */
+    --color-danger: #ef4444; /* Red 500 */
+    --color-danger-50: #fef2f2;
+    --color-danger-100: #fee2e2;
+    --color-danger-200: #fecaca;
+    --color-danger-300: #fca5a5;
+    --color-danger-400: #f87171;
+    --color-danger-500: #ef4444;
+    --color-danger-600: #dc2626;
+    --color-danger-700: #b91c1c;
+    --color-danger-800: #991b1b;
+    --color-danger-900: #7f1d1d;
+  
+     /* Info Color (Default Sky Blue) */
+     --color-info: #0ea5e9; /* Sky 500 */
+     --color-info-50: #f0f9ff;
+     --color-info-100: #e0f2fe;
+     --color-info-200: #bae6fd;
+     --color-info-300: #7dd3fc;
+     --color-info-400: #38bdf8;
+     --color-info-500: #0ea5e9;
+     --color-info-600: #0284c7;
+     --color-info-700: #0369a1;
+     --color-info-800: #075985;
+     --color-info-900: #0c4a6e;
+  
+     /* Help Color (Default Purple) */
+     --color-help: #8b5cf6; /* Purple 500 */
+     --color-help-50: #f3e8ff;
+     --color-help-100: #e9d5ff;
+     --color-help-200: #d8b4fe;
+     --color-help-300: #c084fc;
+     --color-help-400: #a78bfa;
+     --color-help-500: #8b5cf6;
+     --color-help-600: #7c3aed;
+     --color-help-700: #6d28d9;
+     --color-help-800: #5b21b6;
+     --color-help-900: #4c1d95;
+  
+  
+    /* Define other design tokens like spacing, shadows, border-radius here as CSS variables if needed */
+    /* Example: --spacing-unit: 0.25rem; */
+  }
+  
+  /*
+     Dark Mode Styles
+     Applied when the 'dark' class is added to the html or body
+  */
+  .dark {
+    --color-background: #1f2937; /* Dark background */
+    --color-foreground: #f9fafb; /* Light text */
+    --color-surface: #374151;    /* Darker surface */
+    --color-border: #4b5563;     /* Darker border */
+  
+    /*
+       Dark Mode Color Palettes
+       Override the base color variables for dark mode.
+       You might want to define different shades for dark mode as well.
+    */
+    --color-primary: #60a5fa; /* Example Primary in Dark Mode (a lighter blue) */
+     /* Define dark mode shades for primary, secondary, etc. if needed */
+  
+    /* ... override other base colors for dark mode ... */
+  }
+  
+  /*
+     Alternative Color Palettes
+     Define classes to switch between different primary color schemes.
+     These classes will override the base color variables.
+     Apply these classes to the html or body.
+  */
+  
+  /* Orange Palette */
+  .theme-orange {
+      --color-primary: #f97316; /* Orange 500 */
+      --color-primary-50: #fff7ed;
+      --color-primary-100: #ffedd5;
+      --color-primary-200: #fed7aa;
+      --color-primary-300: #fdba74;
+      --color-primary-400: #fb923c;
+      --color-primary-500: #f97316;
+      --color-primary-600: #ea580c;
+      --color-primary-700: #c2410c;
+      --color-primary-800: #9a3412;
+      --color-primary-900: #7c2d12;
+  
+      /* Define dark mode overrides for the orange palette if needed */
+      .dark & {
+          --color-primary: #fbbf24; /* Example Primary Orange in Dark Mode */
+          /* ... define dark mode shades for orange ... */
+      }
+  }
+  
+  /* Green Palette */
+  .theme-green {
+      --color-primary: #10b981; /* Green 500 */
+      --color-primary-50: #ecfdf5;
+      --color-primary-100: #d1fae5;
+      --color-primary-200: #a7f3d0;
+      --color-primary-300: #6ee7b7;
+      --color-primary-400: #34d399;
+      --color-primary-500: #10b981;
+      --color-primary-600: #059669;
+      --color-primary-700: #047857;
+      --color-primary-800: #065f46;
+      --color-primary-900: #064e3b;
+  
+       /* Define dark mode overrides for the green palette if needed */
+       .dark & {
+          --color-primary: #34d399; /* Example Primary Green in Dark Mode */
+          /* ... define dark mode shades for green ... */
+       }
+  }
+  
+  /* Add more .theme-{color} classes for other palettes (purple, red, etc.) */
+  
+  
+  /*
+     Tailwind Directives
+     These must come AFTER your theme variable definitions.
+  */
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+  
+  /*
+     Any other custom CSS or overrides here
+  */
+  

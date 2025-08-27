@@ -1,0 +1,139 @@
+/* src/app/v2/components/Checkbox/Checkbox.module.css */
+
+/* Container for the checkbox and label */
+.checkboxContainer {
+    @apply inline-flex items-center relative; /* Use flex to align checkbox and label */
+    cursor: pointer; /* Indicate it's clickable */
+  }
+  
+  /* Visually hidden native checkbox input */
+  .nativeCheckbox {
+    @apply absolute opacity-0 w-5 h-5 cursor-pointer; /* Position over the custom checkbox, hide it */
+    z-index: 1; /* Ensure it's clickable */
+  }
+  
+  /* Styles for the custom checkbox element */
+  .customCheckbox {
+    @apply w-5 h-5 border rounded-md flex items-center justify-center transition-all duration-200 ease-in-out;
+    border-color: var(--color-border); /* Default border color */
+    background-color: var(--color-background); /* Default background */
+  }
+  
+  /* Focus state for the custom checkbox (when the native input is focused) */
+  .nativeCheckbox:focus + .customCheckbox {
+    @apply ring-2 ring-primary-400 border-primary-400; /* Example focus ring */
+    /* Or use box-shadow */
+    /* box-shadow: 0 0 0 2px var(--color-primary-400); */
+  }
+  
+  /* Checked state for the custom checkbox (when the native input is checked) */
+  .nativeCheckbox:checked + .customCheckbox {
+     /* Background color will be set by severity classes below */
+     border-color: transparent; /* No border when checked */
+  }
+  
+  /* Styles for the checkmark icon (initially hidden) */
+  .checkmark {
+    @apply w-4 h-4 text-white opacity-0 transition-opacity duration-200 ease-in-out;
+    /* Checkmark color will be set by the severity classes below */
+  }
+  
+  /* Show checkmark when the native input is checked */
+  .nativeCheckbox:checked + .customCheckbox .checkmark {
+    @apply opacity-100;
+  }
+  
+  
+  /* Severity Styles for Checked State (Background and checkmark color) */
+  
+  /* Primary Severity (Checked) */
+  .nativeCheckbox:checked + .customCheckbox.primary {
+    @apply bg-primary;
+  }
+  .nativeCheckbox:checked + .customCheckbox.primary .checkmark {
+     @apply text-white; /* White checkmark on primary */
+  }
+  
+  /* Secondary Severity (Checked) */
+  .nativeCheckbox:checked + .customCheckbox.secondary {
+    @apply bg-secondary;
+  }
+  .nativeCheckbox:checked + .customCheckbox.secondary .checkmark {
+    @apply text-white;
+  }
+  
+  /* Success Severity (Checked) */
+  .nativeCheckbox:checked + .customCheckbox.success {
+    @apply bg-success;
+  }
+  .nativeCheckbox:checked + .customCheckbox.success .checkmark {
+    @apply text-white;
+  }
+  
+  /* Info Severity (Checked) */
+  .nativeCheckbox:checked + .customCheckbox.info {
+    @apply bg-info;
+  }
+  .nativeCheckbox:checked + .customCheckbox.info .checkmark {
+     @apply text-white;
+  }
+  
+  /* Warning Severity (Checked) */
+  .nativeCheckbox:checked + .customCheckbox.warning {
+    @apply bg-warning;
+  }
+  .nativeCheckbox:checked + .customCheckbox.warning .checkmark {
+    /* Often a darker color on warning background */
+     @apply text-warning-900;
+  }
+  
+  /* Danger Severity (Checked) */
+  .nativeCheckbox:checked + .customCheckbox.danger {
+    @apply bg-danger;
+  }
+  .nativeCheckbox:checked + .customCheckbox.danger .checkmark {
+    @apply text-white;
+  }
+  
+  /* Help Severity (Checked) */
+  .nativeCheckbox:checked + .customCheckbox.help {
+    @apply bg-help;
+  }
+  .nativeCheckbox:checked + .customCheckbox.help .checkmark {
+    @apply text-white;
+  }
+  
+  
+  /* Disabled State */
+  .nativeCheckbox:disabled + .customCheckbox {
+    @apply opacity-50 cursor-not-allowed;
+  }
+  
+  .nativeCheckbox:disabled + .customCheckbox .checkmark {
+    @apply opacity-50;
+  }
+  
+  .checkboxContainer.disabled {
+      @apply cursor-not-allowed;
+  }
+  
+  
+  /* Label Styling and Positioning */
+  .label {
+    @apply ml-2 text-sm text-foreground; /* Default margin for label on the right */
+    user-select: none; /* Prevent text selection on the label */
+  }
+  
+  .checkboxContainer.labelLeft {
+      @apply flex-row-reverse; /* Reverse order for label on the left */
+  }
+  
+  .checkboxContainer.labelLeft .label {
+      @apply ml-0 mr-2; /* Adjust margin for label on the left */
+  }
+  
+  /* Error message styling */
+  .errorMessage {
+    @apply mt-1 text-sm text-danger-600; /* Red text for error message */
+  }
+  

@@ -1,0 +1,47 @@
+/* src/app/v2/components/Card/Card.module.css */
+
+/* Base styles for the card container */
+.card {
+    @apply rounded-md bg-white; /* Default border-radius and background from theme */
+  }
+  
+  /* Optional Border */
+  .hasBorder {
+    @apply border border-border; /* Border color from theme */
+  }
+  
+  /* Optional Shadow */
+  .hasShadow {
+    @apply shadow-md; /* Default shadow from Tailwind theme mapping */
+  }
+  
+  
+  /* Padding Variants */
+  .paddingSm { @apply p-4; }
+  .paddingMd { @apply p-6; } /* Default padding */
+  .paddingLg { @apply p-8; }
+  .paddingNone { @apply p-0; }
+  
+  /* Styles for optional sections within the card */
+.cardHeader {
+  /* Styles for the header section (e.g., for an image) */
+  /* No default padding here, let the content handle its own spacing */
+  overflow: hidden; /* Ensure image doesn't overflow rounded corners */
+  border-top-left-radius: inherit; /* Inherit border radius from card */
+  border-top-right-radius: inherit;
+  margin-bottom: 1rem; /* Add some space between header and title/content */
+}
+  
+  /* Styles for optional sections within the card */
+  .cardTitle {
+    @apply text-lg font-semibold py-2 text-foreground; /* Example styling for title */
+  }
+  
+  .cardContent {
+    /* Styles for the main content area - padding is applied to the card itself */
+  }
+  
+  .cardFooter {
+    @apply mt-4 pt-4 border-t border-border; /* Example styling for footer with top border */
+  }
+  

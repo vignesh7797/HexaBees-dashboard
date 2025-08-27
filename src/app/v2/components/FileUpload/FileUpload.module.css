@@ -1,0 +1,146 @@
+/* src/app/v2/components/FileUpload/FileUpload.module.css */
+
+/* Container for the entire file upload component */
+.fileUploadContainer {
+    @apply flex flex-col;
+    /* Arrange elements vertically */
+}
+
+/* Styles for the clickable/drag-and-drop area */
+.dragAndDropArea {
+    @apply flex flex-col items-center justify-center border-2 border-dashed rounded-md p-6 text-center transition-colors duration-200 ease-in-out;
+    border-color: var(--color-border);
+    /* Default border color */
+    background-color: var(--color-surface);
+    /* Default background color */
+    color: var(--color-foreground);
+    /* Default text color */
+    cursor: pointer;
+}
+
+/* Hover state for the drag-and-drop area */
+.dragAndDropArea.hover {
+    @apply border-primary-500 bg-primary-50;
+    /* Example hover styles */
+    color: var(--color-primary-800);
+}
+
+/* Active/Dragging state for the drag-and-drop area */
+.dragAndDropArea.active {
+    @apply border-primary-700 bg-primary-100;
+    /* Example active styles */
+    color: var(--color-primary-900);
+}
+
+/* Visually hidden native file input */
+.nativeFileInput {
+    @apply hidden;
+    /* Hide the default file input */
+}
+
+/* Styles for the optional file list */
+.fileList {
+    @apply mt-4 border-t border-border pt-4;
+    /* Add top border and padding */
+}
+
+/* Styles for individual file items in the list */
+.fileItem {
+    @apply flex items-center justify-between py-2 border-b border-border last:border-b-0;
+}
+
+/* Styles for the file info (icon, name, size) */
+.fileInfo {
+    @apply flex items-center;
+    /* Align icon and text */
+}
+
+/* Styles for file details (name, size) */
+.fileDetails {
+    @apply text-sm text-foreground;
+}
+
+/* Styles for the file type icon */
+.fileTypeIcon {
+    @apply text-xl mr-2; /* Adjust size and margin as needed */
+    color: var(--color-secondary-500); /* Default icon color (can be themed) */
+ }
+
+/* Styles for the file size */
+.fileSize {
+    @apply text-xs text-gray-500 ml-2;
+}
+
+
+/* Styles for the remove button */
+.removeButton {
+    @apply text-danger-500 hover:text-danger-700 transition-colors duration-200 ease-in-out cursor-pointer;
+}
+
+/* Styles for the progress bar container */
+.progressBarContainer {
+    @apply w-full bg-gray-200 rounded-full h-1.5 mt-2;
+}
+
+/* Styles for the progress bar fill */
+.progressBarFill {
+    @apply bg-primary-500 h-1.5 rounded-full transition-all duration-200 ease-in-out;
+    /* Progress bar color from theme */
+}
+
+
+/* Disabled State */
+.dragAndDropArea.disabled {
+    @apply opacity-50 cursor-not-allowed;
+}
+
+.fileUploadContainer.disabled .removeButton {
+    @apply opacity-50 cursor-not-allowed;
+}
+
+/* Styles for the image preview thumbnail */
+.imagePreview {
+    @apply w-10 h-10 object-cover rounded-md mr-2; /* Size, aspect ratio, border-radius, and margin */
+    border: 1px solid var(--color-border); /* Optional border */
+ }
+
+ /* Styles for file details (name, size) */
+.fileDetails {
+    @apply text-sm text-foreground;
+  }
+  
+  /* Styles for the file size */
+  .fileSize {
+     @apply text-xs text-gray-500 ml-2;
+  }
+  
+  /* Styles for error message within file item */
+  .fileError {
+     @apply text-xs text-danger-600 mt-1;
+  }
+  
+  
+  /* Styles for the remove button */
+  .removeButton {
+    @apply text-danger-500 hover:text-danger-700 transition-colors duration-200 ease-in-out cursor-pointer;
+  }
+  
+  /* Styles for the progress bar container */
+  .progressBarContainer {
+    @apply w-full bg-gray-200 rounded-full h-1.5 mt-2;
+  }
+  
+  /* Styles for the progress bar fill */
+  .progressBarFill {
+    @apply bg-primary-500 h-1.5 rounded-full transition-all duration-200 ease-in-out;
+  }
+  
+  
+  /* Disabled State */
+  .dragAndDropArea.disabled {
+      @apply opacity-50 cursor-not-allowed;
+  }
+  
+  .fileUploadContainer.disabled .removeButton {
+       @apply opacity-50 cursor-not-allowed;
+  }
