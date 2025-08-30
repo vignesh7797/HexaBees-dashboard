@@ -129,7 +129,7 @@
 
     /* Text color will be set by severity classes combined with this variant */
     &:hover {
-        @apply text-white !important;
+        @apply text-white  !important;
     }
 
     /* Subtle background on hover */

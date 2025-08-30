@@ -18,7 +18,8 @@ import DatePicker from '../components/DatePicker/DatePicker'; // Import DatePick
 
 
 import { FaPlus, FaTrash, FaChevronRight, FaCheck, FaSearch, FaBuilding, FaGlobe, FaStar, FaTag, FaCalendarAlt } from 'react-icons/fa'; // Added icons for dropdown examples
-import { DateRange } from 'react-day-picker'; // Import DateRange type
+import Calendar from '../components/Calendar/Calendar';
+import dayjs from 'dayjs';
 
 
 
@@ -76,13 +77,15 @@ const ComponentsDocsPage: React.FC = () => {
 
   // State for DatePicker examples
   const [selectedSingleDate, setSelectedSingleDate] = useState<Date | undefined>(undefined);
-  const [selectedRange, setSelectedRange] = useState<DateRange | undefined>(undefined);
+  const [selectedRange, setSelectedRange] = useState<undefined>(undefined);
   const [selectedMonthYear, setSelectedMonthYear] = useState<Date | undefined>(undefined);
   const [selectedYearOnly, setSelectedYearOnly] = useState<Date | undefined>(undefined);
   const [minMaxDate, setMinMaxDate] = useState<Date | undefined>(undefined);
   const [inlineDate, setInlineDate] = useState<Date | undefined>(undefined);
   const [dateWithError, setDateWithError] = useState<Date | undefined>(undefined);
 
+  //State for Calender
+  const [date, setDate] = useState<Date | string>(new Date('08/02/2025'))
 
 
 
@@ -129,9 +132,38 @@ const ComponentsDocsPage: React.FC = () => {
     </div>
   );
 
+  const onSelectDate = (e) => {
+    setDate(e);
+  }
+
   return (
     <div className="container mx-auto p-8"> {/* Basic container styling */}
       <h1 className="text-3xl font-bold mb-8 text-foreground">Component Documentation</h1>
+
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <Calendar
+          minDate={dayjs("2000-01-01")}
+          maxDate={dayjs("2026-12-31")}
+          onSelect={(date) => console.log("Selected:", date?.format("YYYY-MM-DD"))}
+          headerContent={<div className="text-lg font-bold">📅 Custom Header</div>}
+          defaultValue={dayjs("2025-07-07")}
+        />
+      </div>
+
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <DatePicker
+          minDate={dayjs("2024-01-01")}
+          maxDate={dayjs("2026-12-31")}
+          value={dayjs("2025-08-28")}
+          format="DD MMM YYYY"
+          onChange={(date) => console.log("Picked:", date?.format("YYYY-MM-DD"))}
+        />
+      </div>
+
+      {/* <section className='mb-12'>
+        <Calendar onSelect={(e) => onSelectDate(e)} value={date} />
+        {date?.toLocaleString()}
+      </section> */}
 
       {/* Button Component Showcase */}
       <section className="mb-12">

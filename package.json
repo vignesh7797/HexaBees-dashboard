@@ -19,6 +19,7 @@
     "browser-image-compression": "^2.0.2",
     "chart.js": "^4.4.8",
     "date-fns": "^4.1.0",
+    "dayjs": "^1.11.15",
     "firebase": "^11.4.0",
     "firebase-admin": "^13.2.0",
     "flatpickr": "^4.6.13",
