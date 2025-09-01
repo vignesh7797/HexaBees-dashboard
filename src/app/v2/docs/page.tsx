@@ -17,9 +17,10 @@ import FileUpload from '../components/FileUpload/FileUpload'; // Import FileUplo
 import DatePicker from '../components/DatePicker/DatePicker'; // Import DatePicker
 
 
-import { FaPlus, FaTrash, FaChevronRight, FaCheck, FaSearch, FaBuilding, FaGlobe, FaStar, FaTag, FaCalendarAlt } from 'react-icons/fa'; // Added icons for dropdown examples
+import { FaPlus, FaTrash, FaChevronRight, FaCheck, FaSearch, FaBuilding, FaGlobe, FaStar, FaTag, FaCalendarAlt, FaUser } from 'react-icons/fa'; // Added icons for dropdown examples
 import Calendar from '../components/Calendar/Calendar';
 import dayjs from 'dayjs';
+import Modal from '../components/Modal/Modal';
 
 
 
@@ -87,6 +88,13 @@ const ComponentsDocsPage: React.FC = () => {
   //State for Calender
   const [date, setDate] = useState<Date | string>(new Date('08/02/2025'))
 
+  // State for Modal examples
+  const [isBasicModalVisible, setIsBasicModalVisible] = useState(false);
+  const [isFooterModalVisible, setIsFooterModalVisible] = useState(false);
+  const [isSeverityModalVisible, setIsSeverityModalVisible] = useState(false);
+  const [isCustomIconModalVisible, setIsCustomIconModalVisible] = useState(false);
+  const [activeSeverity, setActiveSeverity] = useState<'success' | 'danger'>('success');
+
 
 
   // Example options for the dropdown
@@ -132,15 +140,28 @@ const ComponentsDocsPage: React.FC = () => {
     </div>
   );
 
-  const onSelectDate = (e) => {
-    setDate(e);
-  }
+  // Footer for the modal example
+  const modalFooter = (
+    <div className="flex justify-end gap-2">
+      <Button variant="outlined" severity="secondary" onClick={() => setIsFooterModalVisible(false)}>
+        Cancel
+      </Button>
+      <Button severity="primary" onClick={() => setIsFooterModalVisible(false)}>
+        Confirm
+      </Button>
+    </div>
+  );
+
+  const handleSeverityModalOpen = (severity: 'success' | 'danger') => {
+    setActiveSeverity(severity);
+    setIsSeverityModalVisible(true);
+  };
 
   return (
     <div className="container mx-auto p-8"> {/* Basic container styling */}
       <h1 className="text-3xl font-bold mb-8 text-foreground">Component Documentation</h1>
 
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="flex items-center justify-center mb-12 bg-gray-50">
         <Calendar
           minDate={dayjs("2000-01-01")}
           maxDate={dayjs("2026-12-31")}
@@ -150,7 +171,7 @@ const ComponentsDocsPage: React.FC = () => {
         />
       </div>
 
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="flex items-center justify-center mb-12 bg-gray-50">
         <DatePicker
           minDate={dayjs("2024-01-01")}
           maxDate={dayjs("2026-12-31")}
@@ -159,11 +180,6 @@ const ComponentsDocsPage: React.FC = () => {
           onChange={(date) => console.log("Picked:", date?.format("YYYY-MM-DD"))}
         />
       </div>
-
-      {/* <section className='mb-12'>
-        <Calendar onSelect={(e) => onSelectDate(e)} value={date} />
-        {date?.toLocaleString()}
-      </section> */}
 
       {/* Button Component Showcase */}
       <section className="mb-12">
@@ -1269,7 +1285,94 @@ const ComponentsDocsPage: React.FC = () => {
 
       </section>
 
+      {/* Modal / Dialog Component Showcase */}
+      <section className='mb-12'>
+        <h2 className="text-2xl font-semibold mb-4 text-foreground">Modal / Dialog</h2>
 
+        {/* Basic Modal */}
+        <div className="mb-6">
+          <h3 className="text-xl font-medium mb-2 text-foreground">Basic Modal</h3>
+          <Button onClick={() => setIsBasicModalVisible(true)}>Open Basic Modal</Button>
+          <Modal
+            visible={isBasicModalVisible}
+            onHide={() => setIsBasicModalVisible(false)}
+            title="Basic Modal"
+          >
+            <Paragraph>
+              This is a basic modal dialog. You can close it by clicking the 'X', pressing the Escape key,
+              or clicking on the background mask.
+            </Paragraph>
+          </Modal>
+        </div>
+
+        {/* Modal with Footer */}
+        <div className="mb-6">
+          <h3 className="text-xl font-medium mb-2 text-foreground">Modal with Footer</h3>
+          <Button onClick={() => setIsFooterModalVisible(true)}>Open with Footer</Button>
+        </div>
+
+        {/* Modals with Severity */}
+        <div className="mb-6">
+          <h3 className="text-xl font-medium mb-2 text-foreground">Modals with Severity</h3>
+          <div className="flex flex-wrap items-center gap-4">
+            <Button severity="success" onClick={() => handleSeverityModalOpen('success')}>
+              Show Success
+            </Button>
+            <Button severity="danger" onClick={() => handleSeverityModalOpen('danger')}>
+              Show Danger
+            </Button>
+          </div>
+        </div>
+
+        {/* Modal with Custom Icon */}
+        <div className="mb-6">
+          <h3 className="text-xl font-medium mb-2 text-foreground">Modal with Custom Icon</h3>
+          <Button onClick={() => setIsCustomIconModalVisible(true)}>Open with Custom Icon</Button>
+        </div>
+
+         {/* Modal Components (Rendered here but controlled by state) */}
+         <Modal
+          visible={isBasicModalVisible}
+          onHide={() => setIsBasicModalVisible(false)}
+          title="Basic Modal"
+        >
+          <Paragraph>
+            This is a basic modal dialog. You can close it by clicking the 'X', pressing the Escape key, or clicking
+            on the background mask.
+          </Paragraph>
+        </Modal>
+
+        <Modal
+          visible={isFooterModalVisible}
+          onHide={() => setIsFooterModalVisible(false)}
+          title="Confirmation"
+          footer={modalFooter}
+        >
+          <Paragraph>Do you want to confirm this action? The footer contains action buttons.</Paragraph>
+        </Modal>
+
+        <Modal
+          visible={isSeverityModalVisible}
+          onHide={() => setIsSeverityModalVisible(false)}
+          title={activeSeverity === 'success' ? 'Success!' : 'Error Occurred'}
+          severity={activeSeverity}
+        >
+          <Paragraph>
+            This modal displays a default icon and color based on the selected severity.
+          </Paragraph>
+        </Modal>
+        
+        <Modal
+          visible={isCustomIconModalVisible}
+          onHide={() => setIsCustomIconModalVisible(false)}
+          title="User Profile"
+          icon={<FaUser className="text-blue-500" />} // Example of passing a styled icon
+        >
+          <Paragraph>
+            This modal uses a custom icon passed via the `icon` prop, which overrides any default severity icon.
+          </Paragraph>
+        </Modal>
+      </section>
 
 
 
