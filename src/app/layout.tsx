@@ -1,20 +1,16 @@
-"use client"; // Keep this directive if you have client-side providers like Redux Provider
+import Providers from "./providers";
+import "./globals.css";
 
-import { Provider } from 'react-redux'; // Example: Import the Redux Provider
-import { store } from './v2/redux/store'; // Example: Import your Redux store
+export const metadata = {
+  title: 'MUI X antd v5 design',
+  description: 'Adapter for MUI X and antd v5 design',
+};
 
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="theme-blue">
+    <html lang="en">
       <body>
-        <Provider store={store}> {/* Example: Wrap with Redux Provider */}
-          {children}
-        </Provider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
