@@ -52,7 +52,8 @@
 }
 
 /* Checkbox and radio styles */
-.flowbite-checkbox:checked, .flowbite-radio:checked {
+.flowbite-checkbox:checked,
+.flowbite-radio:checked {
   background-color: var(--primary-color) !important;
   border-color: var(--primary-color) !important;
 }

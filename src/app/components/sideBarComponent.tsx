@@ -24,20 +24,20 @@ const SideBar: FC = () => {
                     <Image src={'/logo-sm.svg'} width={28} height={30} alt="Hexa Bees Icon"></Image>
                     {!toggle && (
                         <Image src={'/logo-text.svg'} width={120} height={30} alt="Hexa Bees Title"></Image>
-                    ) }
+                    )}
                 </Link>
             </div>
 
             <button className={`hidden md:block mx-4 btn-light py-2 px-2 text-grey ${toggle ? 'text-2xl' : 'text-xl'}`} onClick={() => setToggle(!toggle)}>
-                    {toggle ? (<RiSidebarUnfoldFill />) : (<RiSidebarFoldFill />)}
+                {toggle ? (<RiSidebarUnfoldFill />) : (<RiSidebarFoldFill />)}
             </button>
 
             <ul className="mt-16 hidden md:flex flex-col gap-4 mx-2 ">
 
-                {sideMenus.map((menu) =>{
+                {sideMenus.map((menu) => {
                     const Icon = menu.icon;
-                    return(
-                         <li key={menu.label}    className={`relative ps-4 hover:bg-primary hover:bg-opacity-15 rounded group ${pathname == menu.link ? "bg-primary bg-opacity-15 border-s-4 border-primary text-primary"  : "bg-white text-grey"}`}>                                
+                    return (
+                        <li key={menu.label} className={`relative ps-4 hover:bg-primary hover:bg-opacity-15 rounded group ${pathname == menu.link ? "bg-primary bg-opacity-15 border-s-4 border-primary text-primary" : "bg-white text-grey"}`}>
                             <Link href={menu.link} className="">
                                 <p className={`flex items-center gap-4 ${toggle ? 'text-2xl' : 'text-lg'} font-semibold font-acme tracking-wider h-12 transition-all duration-500`}>
                                     <span><Icon /></span>
