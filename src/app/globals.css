@@ -9,8 +9,16 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FDF8F3;
+  --foreground: #4A3728;
+  --primary: #6B7B4E;
+  --primary-dark: #5A6840;
+  --primary-light: #8A9B6E;
+  --secondary: #C17F4E;
+  --secondary-dark: #A66B3D;
+  --accent: #4A3728;
+  --cream: #FDF8F3;
+  --cream-dark: #F5EDE3;
 }
 
 
@@ -34,7 +42,7 @@ body {
 }
 
 button{
-  @apply focus:ring-2 focus:outline-0 focus:ring-orange-300 rounded active:scale-95 transition-all duration-200 px-4 h-[38px] font-acme disabled:opacity-30;
+  @apply focus:ring-2 focus:outline-0 focus:ring-primary-light rounded active:scale-95 transition-all duration-200 px-4 h-[38px] font-acme disabled:opacity-30;
 }
 
 select{
@@ -42,23 +50,23 @@ select{
 }
 
 .btn-primary{
-  @apply bg-primary text-white  hover:bg-orange-600 focus:ring-orange-300;
+  @apply bg-primary text-white  hover:bg-primary-dark focus:ring-primary-light;
 }
 
 .btn-primary-sm{
-  @apply bg-primary text-white text-sm hover:bg-orange-600 focus:ring-orange-300 px-2 h-[32px];
+  @apply bg-primary text-white text-sm hover:bg-primary-dark focus:ring-primary-light px-2 h-[32px];
 }
 
 .btn-primary-lite{
-  @apply bg-primary bg-opacity-15 text-primary px-3 py-1.5 hover:bg-orange-600 hover:bg-opacity-15 rounded focus:ring-2 focus:ring-orange-300 active:scale-90 transition-all duration-200;
+  @apply bg-primary bg-opacity-15 text-primary px-3 py-1.5 hover:bg-primary-dark hover:bg-opacity-15 rounded focus:ring-2 focus:ring-primary-light active:scale-90 transition-all duration-200;
 }
 
 .btn-primary-lite-sm{
-  @apply bg-primary bg-opacity-15 text-primary px-2 h-[32px] hover:bg-orange-600 hover:bg-opacity-15 rounded focus:ring-2 focus:ring-orange-300 active:scale-90 transition-all duration-200;
+  @apply bg-primary bg-opacity-15 text-primary px-2 h-[32px] hover:bg-primary-dark hover:bg-opacity-15 rounded focus:ring-2 focus:ring-primary-light active:scale-90 transition-all duration-200;
 }
 
 .btn-primary-text {
-  @apply bg-transparent hover:bg-orange-500  hover:bg-opacity-15 text-primary px-3 py-1.5 rounded focus:ring-2 focus:ring-orange-300 active:scale-90 transition-all duration-200;
+  @apply bg-transparent hover:bg-primary  hover:bg-opacity-15 text-primary px-3 py-1.5 rounded focus:ring-2 focus:ring-primary-light active:scale-90 transition-all duration-200;
 }
 
 .btn-light{
@@ -74,7 +82,7 @@ select{
 }
 
 .btn-icon-primary{
-  @apply bg-orange-50 text-orange-500 hover:bg-orange-100 focus:ring-orange-300 px-2 aspect-square rounded-md;
+  @apply bg-primary bg-opacity-10 text-primary hover:bg-primary hover:bg-opacity-20 focus:ring-primary-light px-2 aspect-square rounded-md;
 }
 
 .btn-icon-black{
@@ -150,7 +158,7 @@ select{
 }
 
 .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange {
-  background: #f97316 !important; /* Orange */
+  background: #6B7B4E !important; /* Olive Green - Cafe Theme */
   color: #fff !important;
   border: none;
 }
@@ -213,7 +221,7 @@ select{
 }
 
 .dot-loading span {
-  @apply bg-orange-500;
+  @apply bg-primary;
 
   width: 10px;
   height: 10px;

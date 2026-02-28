@@ -183,7 +183,7 @@ export default function CartPage() {
                                         </p>
                                         
                                         <div className="flex items-center mt-2">
-                                            <span className="flex items-center text-orange-500 font-adlm">
+                                            <span className="flex items-center text-primary font-adlm">
                                                 <BiRupee /> {item.price}
                                             </span>
                                         </div>
@@ -194,7 +194,7 @@ export default function CartPage() {
                                             onClick={() => onDecrease(item)}
                                             className="w-8 h-8 p-1 rounded-full bg-gray-100 flex items-center justify-center"
                                         >
-                                            <FaMinus className="text-orange-500 text-xs" />
+                                            <FaMinus className="text-primary text-xs" />
                                         </button>
                                         
                                         <span className="mx-3 font-adlm w-6 text-center">
@@ -203,7 +203,7 @@ export default function CartPage() {
                                         
                                         <button 
                                             onClick={() => onIncrease(item)}
-                                            className="w-8 h-8 p-1 rounded-full bg-orange-500 flex items-center justify-center"
+                                            className="w-8 h-8 p-1 rounded-full bg-primary flex items-center justify-center"
                                         >
                                             <FaPlus className="text-white text-xs" />
                                         </button>
@@ -233,7 +233,7 @@ export default function CartPage() {
                                         min={0}
                                         max={100}
                                         onChange={(e) => setDiscount(Number(e.target.value))}
-                                        className="w-16 bg-gray-50 border border-gray-200 rounded text-sm p-1 focus:ring-orange-500 focus:border-orange-500"
+                                        className="w-16 bg-gray-50 border border-gray-200 rounded text-sm p-1 focus:ring-primary focus:border-primary"
                                     />
                                     <span className="ml-1">%</span>
                                 </div>
@@ -242,7 +242,7 @@ export default function CartPage() {
                             <div className="border-t pt-3 mt-3">
                                 <div className="flex justify-between font-adlm">
                                     <span className="text-gray-800 text-lg">Total</span>
-                                    <span className="text-orange-500 text-xl flex items-center">
+                                    <span className="text-primary text-xl flex items-center">
                                         <BiRupee className="text-xl" /> {total}
                                     </span>
                                 </div>

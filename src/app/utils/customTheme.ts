@@ -1,10 +1,12 @@
 import { createTheme } from "flowbite-react";
 
-// Define custom colors
+// Define custom colors - Frnzhub Cafe Theme
 const customColors = {
-  primary: '#ff5a1f',
-  primaryHover: '#e64a10',
-  primaryRing: 'rgba(255, 90, 31, 0.5)'
+  primary: '#6B7B4E',      // Olive green from logo
+  primaryHover: '#5A6840', // Darker olive
+  primaryRing: 'rgba(107, 123, 78, 0.5)',
+  secondary: '#C17F4E',    // Warm brown from coffee beans
+  accent: '#4A3728'        // Dark chocolate from text
 };
 
 export const customTheme =  createTheme({

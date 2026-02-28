@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Table } from 'flowbite-react';
@@ -190,7 +190,7 @@ export default function Home() {
             {/* Filter options */}
             <div className="flex items-center gap-2">
               <select 
-                className="rounded-md border-gray-300 text-sm focus:ring-[#ff5a1f] focus:border-[#ff5a1f]"
+                className="rounded-md border-gray-300 text-sm focus:ring-[#6B7B4E] focus:border-[#6B7B4E]"
                 value={topSellingFilter}
                 onChange={(e) => {
                   const newFilter = e.target.value as 'overall' | 'today' | 'month' | 'custom';
@@ -208,7 +208,7 @@ export default function Home() {
               {topSellingFilter === 'custom' && (
                 <input 
                   type="date" 
-                  className="rounded-md border-gray-300 text-sm focus:ring-[#ff5a1f] focus:border-[#ff5a1f]"
+                  className="rounded-md border-gray-300 text-sm focus:ring-[#6B7B4E] focus:border-[#6B7B4E]"
                   value={customDate}
                   onChange={(e) => {
                     setCustomDate(e.target.value);
@@ -223,7 +223,7 @@ export default function Home() {
               {topSellingFilter === 'month' && (
                 <input 
                   type="month" 
-                  className="rounded-md border-gray-300 text-sm focus:ring-[#ff5a1f] focus:border-[#ff5a1f]"
+                  className="rounded-md border-gray-300 text-sm focus:ring-[#6B7B4E] focus:border-[#6B7B4E]"
                   value={customMonth}
                   onChange={(e) => {
                     setCustomMonth(e.target.value);
@@ -240,7 +240,7 @@ export default function Home() {
                 onClick={() => fetchTopSelling()}
                 disabled={isLoadingTopSelling}
               >
-                <svg className={`w-5 h-5 text-[#ff5a1f] ${isLoadingTopSelling ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg className={`w-5 h-5 text-[#6B7B4E] ${isLoadingTopSelling ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
               </button>

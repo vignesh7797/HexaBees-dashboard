@@ -1,10 +1,12 @@
 /* Custom theme styles for Flowbite components */
 
-/* Primary color: #ff5a1f */
+/* Primary color: #6B7B4E (Olive Green - Cafe Theme) */
 :root {
-  --primary-color: #ff5a1f;
-  --primary-hover: #e64a10;
-  --primary-light: rgba(255, 90, 31, 0.1);
+  --primary-color: #6B7B4E;
+  --primary-hover: #5A6840;
+  --primary-light: rgba(107, 123, 78, 0.1);
+  --secondary-color: #C17F4E;
+  --accent-color: #4A3728;
 }
 
 /* Button styles */

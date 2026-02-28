@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useEffect, useState } from "react";
 import axios from 'axios';
@@ -188,11 +188,11 @@ export default function Home() {
                 <Card className="h-auto max-h-[92vh] md:-h-[88vh] overflow-auto">
                     <Table className="hidden md:table">
                         <Table.Head>
-                            <Table.HeadCell className="text-center font-adlm text-orange-500 bg-orange-50 w-10">No.</Table.HeadCell>
-                            <Table.HeadCell className="text-center font-adlm text-orange-500 bg-orange-50">id</Table.HeadCell>
-                            <Table.HeadCell className="text-center font-adlm text-orange-500 bg-orange-50">Date</Table.HeadCell>
-                            <Table.HeadCell className="text-center font-adlm text-orange-500 bg-orange-50">Amount</Table.HeadCell>
-                            <Table.HeadCell className="text-center font-adlm text-orange-500 bg-orange-50">Action</Table.HeadCell>
+                            <Table.HeadCell className="text-center font-adlm text-primary bg-primary/5 w-10">No.</Table.HeadCell>
+                            <Table.HeadCell className="text-center font-adlm text-primary bg-primary/5">id</Table.HeadCell>
+                            <Table.HeadCell className="text-center font-adlm text-primary bg-primary/5">Date</Table.HeadCell>
+                            <Table.HeadCell className="text-center font-adlm text-primary bg-primary/5">Amount</Table.HeadCell>
+                            <Table.HeadCell className="text-center font-adlm text-primary bg-primary/5">Action</Table.HeadCell>
                         </Table.Head>
 
                         <Table.Body>
@@ -200,7 +200,7 @@ export default function Home() {
                                 <Table.Row key={order.id} className="hover:bg-gray-100 cursor-pointer" >
                                     <Table.Cell className="text-center text-sm font-adlm text-zinc-600 p-2">{(currentPage - 1) * limit + ind + 1}</Table.Cell>
                                     <Table.Cell className="text-center text-sm font-adlm text-zinc-600 p-2" onClick={() => {setOpenModal(true); setModalData(order)}}>
-                                        <a role="link" className="underline text-orange-500">
+                                        <a role="link" className="underline text-primary">
                                             #{order.id}
                                         </a>
                                     </Table.Cell>
@@ -215,11 +215,11 @@ export default function Home() {
                                                 <div className="w-28">
                                                     <ul className="w-full">
                                                         <li className="w-full">
-                                                            <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-orange-50 hover:text-orange-500" onClick={()=>{setOpenModal(true); setModalData(order)}}>View Bill</a>
+                                                            <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-primary/5 hover:text-primary" onClick={()=>{setOpenModal(true); setModalData(order)}}>View Bill</a>
                                                         </li>
 
                                                         <li className="w-full">
-                                                            <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-orange-50 hover:text-orange-500" onClick={() =>{onDeleteMenu(order)}}>Delete</a>
+                                                            <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-primary/5 hover:text-primary" onClick={() =>{onDeleteMenu(order)}}>Delete</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -270,18 +270,18 @@ export default function Home() {
                             </div>
                             
                             <div className="flex items-center gap-4">
-                                <p className="text-sm font-adlm text-orange-500 px-2 flex items-center"><MdOutlineCurrencyRupee />{order.total_amount}</p>
+                                <p className="text-sm font-adlm text-primary px-2 flex items-center"><MdOutlineCurrencyRupee />{order.total_amount}</p>
                                 <Popover
                                     aria-labelledby="profile-popover"
                                     content={
                                         <div className="w-28">
                                             <ul className="w-full">
                                                 <li className="w-full">
-                                                    <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-orange-50 hover:text-orange-500" onClick={()=>{setOpenModal(true); setModalData(order)}}>View Bill</a>
+                                                    <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-primary/5 hover:text-primary" onClick={()=>{setOpenModal(true); setModalData(order)}}>View Bill</a>
                                                 </li>
 
                                                 <li className="w-full">
-                                                    <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-orange-50 hover:text-orange-500" onClick={() =>{onDeleteMenu(order)}}>Delete</a>
+                                                    <a role="button" className="block font-adlm py-2 px-4 w-full hover:bg-primary/5 hover:text-primary" onClick={() =>{onDeleteMenu(order)}}>Delete</a>
                                                 </li>
                                             </ul>
                                         </div>

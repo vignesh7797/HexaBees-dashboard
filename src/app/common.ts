@@ -90,17 +90,17 @@ export const sortByList = [
 
 ]
 
-export const OrangeShades = [
-    'oklch(26.6% 0.079 36.259)',
-    'oklch(40.8% 0.123 38.172)',
-    'oklch(47% 0.157 37.304)',
-    'oklch(55.3% 0.195 38.402)',
-    'oklch(64.6% 0.222 41.116)',
-    'oklch(70.5% 0.213 47.604)',
-    'oklch(75% 0.183 55.934)',
-    'oklch(83.7% 0.128 66.29)',
-    'oklch(90.1% 0.076 70.697)',
-    'oklch(95.4% 0.038 75.164)'
+export const OliveShades = [
+    'oklch(30% 0.05 140)',
+    'oklch(38% 0.07 138)',
+    'oklch(45% 0.09 136)',
+    'oklch(52% 0.11 134)',
+    'oklch(58% 0.13 132)',
+    'oklch(64% 0.12 130)',
+    'oklch(70% 0.10 128)',
+    'oklch(78% 0.08 126)',
+    'oklch(86% 0.05 124)',
+    'oklch(93% 0.03 122)'
 ]
 
 export const YellowShades = [
@@ -131,16 +131,16 @@ export const GreenShades = [
 
 export const generalPalette = [
     '#4E79A7', // blue
-    '#F28E2B', // orange
+    '#6B7B4E', // olive green (primary)
     '#E15759', // red
     '#76B7B2', // teal
     '#59A14F', // green
-    '#EDC948', // yellow
+    '#C17F4E', // warm brown (secondary)
     '#B07AA1', // purple
     '#FF9DA7', // pink
-    '#9C755F', // brown
+    '#4A3728', // dark chocolate (accent)
     '#BAB0AC', // gray
-    '#FF5A1F', // orange
+    '#5A6840', // primary dark
     '#F2F0F7',
     '#DADAEB',
     '#BCBDDC',
@@ -206,15 +206,15 @@ export const monoGrayPalette = [
     '#F3F4F6'  // light
 ];
 
-export const orangeSequential = [
-    '#5F230D',  // darkest
-    '#802F11',
-    '#A13A15',
-    '#C14519',
-    '#E04F1C',
-    '#FF5A1F', // base color
-    '#FF8655',
-    '#FFAB8A',
-    '#FFD1BF',
-    '#FFEDE6', // very light
+export const cafeSequential = [
+    '#2D3320',  // darkest olive
+    '#3D4530',
+    '#4D5740',
+    '#5A6840',
+    '#6B7B4E',  // primary
+    '#8A9B6E', // primary light
+    '#A4B38A',
+    '#C0CCA8',
+    '#DCE4C8',
+    '#F5F8F0', // very light
   ];

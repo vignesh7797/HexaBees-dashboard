@@ -193,7 +193,7 @@ function AutoComplete({
           }}
           disabled={disabled}
           rightIcon={IoIosArrowDown}
-          className="w-full focus:border-[#ff5a1f] focus:ring-[#ff5a1f]"
+          className="w-full focus:border-[#6B7B4E] focus:ring-[#6B7B4E]"
           autoComplete="off"
           color="custom"
           name="autocomplete"
@@ -201,7 +201,7 @@ function AutoComplete({
             field: {
               input: {
                 colors: {
-                  custom: "border-gray-300 bg-white text-gray-900 focus:border-[#ff5a1f] focus:ring-[#ff5a1f]"
+                  custom: "border-gray-300 bg-white text-gray-900 focus:border-[#6B7B4E] focus:ring-[#6B7B4E]"
                 }
               }
             }
@@ -212,24 +212,24 @@ function AutoComplete({
           <div 
             id={listId}
             ref={dropdownRef}
-            className={`absolute w-full ${dropdownPosition === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'} bg-white border border-[#ff5a1f] border-opacity-20 rounded-lg shadow-lg z-50 overflow-hidden dark:bg-gray-700 dark:border-[#ff5a1f] dark:border-opacity-30`}
+            className={`absolute w-full ${dropdownPosition === 'top' ? 'bottom-full mb-1' : 'top-full mt-1'} bg-white border border-[#6B7B4E] border-opacity-20 rounded-lg shadow-lg z-50 overflow-hidden dark:bg-gray-700 dark:border-[#6B7B4E] dark:border-opacity-30`}
           >
-            <div className="sticky top-0 bg-white dark:bg-gray-700 p-2 border-b border-[#ff5a1f] border-opacity-20 dark:border-[#ff5a1f] dark:border-opacity-30">
+            <div className="sticky top-0 bg-white dark:bg-gray-700 p-2 border-b border-[#6B7B4E] border-opacity-20 dark:border-[#6B7B4E] dark:border-opacity-30">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <IoIosSearch className="text-[#ff5a1f] dark:text-[#ff5a1f]" />
+                  <IoIosSearch className="text-[#6B7B4E] dark:text-[#6B7B4E]" />
                 </div>
                 {inputValue && (
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={() => {
                     setInputValue('');
                     setFilteredItems(items);
                   }}>
-                    <IoIosClose className="text-gray-500 hover:text-[#ff5a1f] w-5 h-5" />
+                    <IoIosClose className="text-gray-500 hover:text-[#6B7B4E] w-5 h-5" />
                   </div>
                 )}
                 <input
                   type="text"
-                  className="block w-full p-2 pl-10 pr-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-[#ff5a1f] focus:border-[#ff5a1f] dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-[#ff5a1f] dark:focus:border-[#ff5a1f]"
+                  className="block w-full p-2 pl-10 pr-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-[#6B7B4E] focus:border-[#6B7B4E] dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-[#6B7B4E] dark:focus:border-[#6B7B4E]"
                   placeholder="Search"
                   value={inputValue}
                   onChange={handleInputChange}
@@ -243,7 +243,7 @@ function AutoComplete({
                   filteredItems.map((item, index) => (
                     <ListGroup.Item
                       key={index}
-                      className="text-left cursor-pointer transition-all duration-200 hover:bg-[#ff5a1f] hover:bg-opacity-10 hover:text-[#ff5a1f] hover:font-medium dark:hover:bg-[#ff5a1f] dark:hover:bg-opacity-20 dark:hover:text-[#ff5a1f]"
+                      className="text-left cursor-pointer transition-all duration-200 hover:bg-[#6B7B4E] hover:bg-opacity-10 hover:text-[#6B7B4E] hover:font-medium dark:hover:bg-[#6B7B4E] dark:hover:bg-opacity-20 dark:hover:text-[#6B7B4E]"
                       onClick={() => handleSelect(item)}
                     >
                       {renderItem ? renderItem(item) : getDisplayValue(item)}

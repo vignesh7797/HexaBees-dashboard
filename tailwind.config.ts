@@ -15,7 +15,14 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         grey : "#7C7F84",
-        primary : "#ff5a1f"
+        primary : "#6B7B4E",
+        "primary-dark": "#5A6840",
+        "primary-light": "#8A9B6E",
+        secondary: "#C17F4E",
+        "secondary-dark": "#A66B3D",
+        accent: "#4A3728",
+        cream: "#FDF8F3",
+        "cream-dark": "#F5EDE3"
       },
       typography: {
         DEFAULT: {

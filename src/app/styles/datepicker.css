@@ -1,4 +1,4 @@
-
+﻿
 /* styles/datepicker.css */
 
 .react-datepicker {
@@ -16,15 +16,15 @@
 
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
-  @apply bg-orange-500 text-white font-adlm !important;
+  @apply bg-primary text-white font-adlm !important;
 }
 
 .react-datepicker__day--today {
-  @apply border border-orange-500 rounded  !important;
+  @apply border border-primary rounded  !important;
 }
 
 .react-datepicker__day:hover {
-  @apply bg-orange-100 cursor-pointer !important;
+  @apply bg-primary/10 cursor-pointer !important;
 }
 
 
@@ -33,15 +33,15 @@
 }
 
 .react-datepicker__navigation{
-    @apply hover:bg-orange-500 hover:bg-opacity-15 focus:ring-orange-200 flex justify-center items-center h-9 w-9 !important;
+    @apply hover:bg-primary hover:bg-opacity-15 focus:ring-primary-light flex justify-center items-center h-9 w-9 !important;
 }
 
 .react-datepicker__navigation-icon::before{
-    @apply border-orange-500 border-opacity-45  !important; 
+    @apply border-primary border-opacity-45  !important; 
 }
 
 .react-datepicker__navigation-icon:hover::before{
-    @apply border-orange-500 border-opacity-100 !important; 
+    @apply border-primary border-opacity-100 !important; 
 }
 
 .react-datepicker__navigation-icon--next{
@@ -57,7 +57,7 @@
 }
 
 .react-datepicker__year-text{
-    @apply bg-white border-orange-500 border-0 hover:border rounded text-zinc-700 w-20 h-8 m-0 flex items-center justify-center !important;
+    @apply bg-white border-primary border-0 hover:border rounded text-zinc-700 w-20 h-8 m-0 flex items-center justify-center !important;
 }
 
 .react-datepicker__year-text--today{
@@ -65,7 +65,7 @@
 }
 
 .react-datepicker__year-text--selected{
-    @apply font-adlm text-white bg-orange-500 !important;
+    @apply font-adlm text-white bg-primary !important;
 }
 
 
@@ -83,7 +83,7 @@
 
 
 .react-datepicker__month-text--selected{
-    @apply font-adlm text-white bg-orange-500 !important;
+    @apply font-adlm text-white bg-primary !important;
 }
 
 .react-datepicker__month-container .react-datepicker__header {
@@ -115,15 +115,15 @@
 }
 
 .react-datepicker__day--in-selecting-range{
-    @apply bg-orange-500 bg-opacity-25 text-black !important;
+    @apply bg-primary bg-opacity-25 text-black !important;
 }
 
 .react-datepicker__day--in-range{
-    @apply bg-orange-500 bg-opacity-25 text-black !important;
+    @apply bg-primary bg-opacity-25 text-black !important;
 }
 
 .react-datepicker__day--range-start, .react-datepicker__day--range-end, .react-datepicker__day--selecting-range-start, .react-datepicker__day--selecting-range-end{
-    @apply font-adlm text-white bg-orange-500 !important;
+    @apply font-adlm text-white bg-primary !important;
 }
 
 .react-datepicker__year-text--disabled{
@@ -135,7 +135,7 @@
 }
 
 .react-datepicker__month-text:hover{
-    @apply bg-orange-500 bg-opacity-20 !important;
+    @apply bg-primary bg-opacity-20 !important;
 }
 
 .react-datepicker__month-text--disabled{

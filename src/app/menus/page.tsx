@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import {
   Button,
   Drawer,
@@ -255,28 +255,28 @@ export default function Home() {
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none text-grey">
                     <IoSearch />
                 </div>
-                <input name='search' type="text" id="search" value={search} onChange={onSearchHandle} className="bg-transparent border border-slate-200 text-grey text-sm rounded-s-lg focus:ring-orange-500 focus:border-amber-300 block w-full px-10 p-2.5  dark:bg-grey dark:border-grey dark:placeholder-grey dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-400" placeholder="Search Items..." autoFocus required />
+                <input name='search' type="text" id="search" value={search} onChange={onSearchHandle} className="bg-transparent border border-slate-200 text-grey text-sm rounded-s-lg focus:ring-primary focus:border-amber-300 block w-full px-10 p-2.5  dark:bg-grey dark:border-grey dark:placeholder-grey dark:text-white dark:focus:ring-primary dark:focus:border-primary" placeholder="Search Items..." autoFocus required />
                 {search && (
                   <button type='button' className="absolute inset-y-0 end-0 flex items-center pe-3 text-grey z-10" onClick={()=>setSearch('')}>
                     <IoClose />
                   </button>
                 )}
               </div>
-              <button type="button" className='bg-orange-500 bg-opacity-15 text-orange-500 rounded-none rounded-e-lg h-[42px]' onClick={doSearchFilter}>
+              <button type="button" className='bg-primary bg-opacity-15 text-primary rounded-none rounded-e-lg h-[42px]' onClick={doSearchFilter}>
                     <IoSearch />
               </button>
             </div>
 
             <div className='flex gap-4'>
               <Dropdown inline renderTrigger={() => 
-                  <Button color='light' size="sm" className='border-slate-200 focus:ring-orange-300 text-grey'>
+                  <Button color='light' size="sm" className='border-slate-200 focus:ring-primary-light text-grey'>
                     <TbArrowsSort className="mr-2 h-5 w-5" />
                     Sort by
                   </Button>
                   }
                 >
                 {sortByList && sortByList.map(sort => (
-                  <Dropdown.Item key={sort.param} onClick={() => handleSortBy(sort.param)} className={sortBy == sort.param && 'bg-orange-500 bg-opacity-15 text-orange-500 border-l-2 border-orange-500'}>
+                  <Dropdown.Item key={sort.param} onClick={() => handleSortBy(sort.param)} className={sortBy == sort.param && 'bg-primary bg-opacity-15 text-primary border-l-2 border-primary'}>
                     {sort.label}
                   </Dropdown.Item>
                 ))}
@@ -284,7 +284,7 @@ export default function Home() {
 
               <div className='md:hidden'>
                 <Dropdown inline renderTrigger={() => 
-                    <Button color='light' size="sm" className='border-slate-200 focus:ring-orange-300 text-grey'>
+                    <Button color='light' size="sm" className='border-slate-200 focus:ring-primary-light text-grey'>
                       <BiSolidCategory className="mr-2 h-5 w-5" />
                       Category
                     </Button>
@@ -293,7 +293,7 @@ export default function Home() {
 
                     <Dropdown.Item onClick={() => {
                           setSelectedCategory([])
-                      }} className={selectedCategory.length == 0 && 'bg-orange-500 bg-opacity-15 text-orange-500 border-l-2 border-orange-500'}>
+                      }} className={selectedCategory.length == 0 && 'bg-primary bg-opacity-15 text-primary border-l-2 border-primary'}>
                             All
                       </Dropdown.Item>
 
@@ -302,7 +302,7 @@ export default function Home() {
                         if(selectedCategory.includes(cate)){
                           setSelectedCategory((prevItems) => prevItems.filter((item) => item !== cate))
                         }else setSelectedCategory([...selectedCategory, cate])
-                      }} className={selectedCategory.includes(cate) && 'bg-orange-500 bg-opacity-15 text-orange-500 border-l-2 border-orange-500'}>
+                      }} className={selectedCategory.includes(cate) && 'bg-primary bg-opacity-15 text-primary border-l-2 border-primary'}>
                             {cate}
                       </Dropdown.Item>
                     ))}
@@ -312,7 +312,7 @@ export default function Home() {
             </div>
 
             <div className="hidden md:flex w-full items-center overflow-x-auto flex-nowrap gap-2 custom-scrollbar">
-              <button className={`${selectedCategory.length == 0 ? 'text-orange-500 border-0 border-l-2 border-orange-500 bg-orange-500 bg-opacity-15' : 'text-gray-400 border-[1px] border-gray-300'}  shrink-0  w-fit rounded hover:bg-orange-50 focus:ring-orange-300 focus:ring-1 h-8 px-3 my-1`}
+              <button className={`${selectedCategory.length == 0 ? 'text-primary border-0 border-l-2 border-primary bg-primary bg-opacity-15' : 'text-gray-400 border-[1px] border-gray-300'}  shrink-0  w-fit rounded hover:bg-primary/5 focus:ring-primary-light focus:ring-1 h-8 px-3 my-1`}
                   onClick={() => {
                       setSelectedCategory([])
                   }} >
@@ -322,7 +322,7 @@ export default function Home() {
               </button>
 
               {categoryList && categoryList.map(cate => (
-                  <button key={cate} className={`${selectedCategory.includes(cate) ? 'text-orange-500 border-0 border-l-2 border-orange-500 bg-orange-500 bg-opacity-15' : 'text-gray-400 border-[1px] border-gray-300'}  shrink-0  w-fit rounded hover:bg-orange-50 focus:ring-orange-300 focus:ring-1 h-8 px-3 my-1`}
+                  <button key={cate} className={`${selectedCategory.includes(cate) ? 'text-primary border-0 border-l-2 border-primary bg-primary bg-opacity-15' : 'text-gray-400 border-[1px] border-gray-300'}  shrink-0  w-fit rounded hover:bg-primary/5 focus:ring-primary-light focus:ring-1 h-8 px-3 my-1`}
                   onClick={() => {
                     if(selectedCategory.includes(cate)){
                       setSelectedCategory((prevItems) => prevItems.filter((item) => item !== cate))
@@ -342,7 +342,7 @@ export default function Home() {
             <div className="flex justify-between items-center mb-4">
               {selectedCategory.includes('Momo') && (
                 <div className="flex gap-2">
-                  <button className={`${subCategory == 'Steam' ? 'text-orange-500 border-0 border-l-2 border-orange-500 bg-orange-500 bg-opacity-1' : 'text-gray-400 border-[1px] border-gray-300'}  shrink-0  w-fit rounded hover:bg-orange-50 focus:ring-orange-300 focus:ring-1 h-8 px-3 my-1`}
+                  <button className={`${subCategory == 'Steam' ? 'text-primary border-0 border-l-2 border-primary bg-primary bg-opacity-1' : 'text-gray-400 border-[1px] border-gray-300'}  shrink-0  w-fit rounded hover:bg-primary/5 focus:ring-primary-light focus:ring-1 h-8 px-3 my-1`}
                         onClick={() => {
                             setSubCategory('Steam');
                         }} >
@@ -350,7 +350,7 @@ export default function Home() {
                             Steam 
                           </span>
                     </button>
-                    <button className={`${subCategory == 'Fried' ? 'text-orange-500 border-0 border-l-2 border-orange-500 bg-orange-500 bg-opacity-15' : 'text-gray-400 border-[1px] border-gray-300'}  shrink-0  w-fit rounded hover:bg-orange-50 focus:ring-orange-300 focus:ring-1 h-8 px-3 my-1`}
+                    <button className={`${subCategory == 'Fried' ? 'text-primary border-0 border-l-2 border-primary bg-primary bg-opacity-15' : 'text-gray-400 border-[1px] border-gray-300'}  shrink-0  w-fit rounded hover:bg-primary/5 focus:ring-primary-light focus:ring-1 h-8 px-3 my-1`}
                         onClick={() => {
                           setSubCategory('Fried');
                         }} >
@@ -363,18 +363,18 @@ export default function Home() {
 
               <div className='ml-auto flex gap-8'>
 
-                <button className='flex items-center gap-1 px-4 py-1 rounded font-acme font-bold bg-orange-500 bg-opacity-10 text-orange-500 active:scale-90 transition-all' onClick={() => setOpenModal(true)}>
+                <button className='flex items-center gap-1 px-4 py-1 rounded font-acme font-bold bg-primary bg-opacity-10 text-primary active:scale-90 transition-all' onClick={() => setOpenModal(true)}>
                   <FiPlus className='text-xl md:text-base'/> 
                   <span className='hidden md:block'>Add Item</span>
                 </button>
 
                 <div className="hidden md:flex rounded bg-gray-100 p-1 ml-auto">
-                  <label htmlFor="list" className={`p-1.5 cursor-pointer rounded text-md ${layout == 'list' ? 'bg-white shadow text-orange-500' : 'text-grey'}`}>
+                  <label htmlFor="list" className={`p-1.5 cursor-pointer rounded text-md ${layout == 'list' ? 'bg-white shadow text-primary' : 'text-grey'}`}>
                     <input type="radio" name="layout" id="list" value={layout} className='hidden' onChange={() => setLayout('list')} />
                     <IoList/>
                   </label>
 
-                  <label htmlFor="grid" className={`p-1.5 cursor-pointer rounded text-md ${layout == 'grid' ? 'bg-white shadow text-orange-500' : 'text-grey'}`}>
+                  <label htmlFor="grid" className={`p-1.5 cursor-pointer rounded text-md ${layout == 'grid' ? 'bg-white shadow text-primary' : 'text-grey'}`}>
                     <input type="radio" name="layout" id="grid" value={layout} className='hidden' onChange={() => setLayout('grid')} />
                     <IoGridOutline />
                   </label>
@@ -484,7 +484,7 @@ export default function Home() {
                                   Edit
                                 </a>
 
-                                <a role="button" className="font-medium text-orange-500 bg-orange-500 bg-opacity-10 px-3 py-0.5 rounded hover:underline dark:text-orange-500" onClick={() => onDeleteMenu(menu)}>
+                                <a role="button" className="font-medium text-primary bg-primary bg-opacity-10 px-3 py-0.5 rounded hover:underline dark:text-primary" onClick={() => onDeleteMenu(menu)}>
                                     Delete
                                 </a>
                               </div>
@@ -509,7 +509,7 @@ export default function Home() {
                           speed={1}
                       />
                   </div>
-                  <p className="text-orange-300 font-acme text-center text-lg">Wait for a minute... <br/> <span className="text-base"> or check you internet connection and reload the page again.</span></p>
+                  <p className="text-primary-light font-acme text-center text-lg">Wait for a minute... <br/> <span className="text-base"> or check you internet connection and reload the page again.</span></p>
               </div>
             )}
 
@@ -546,7 +546,7 @@ export default function Home() {
                         </div>
                         <AutoComplete items={categoryList} displayKey='' onSelect={async (e) => setCategory(typeof e == 'object' ? e.category : e.toString())} defaultValue={category}></AutoComplete>
                         
-                        <button type='button' className='my-2 text-orange-400 text-xs font-adlm p-0 h-fit' onClick={()=>setShowAddNew('Category')}>Add Category</button>
+                        <button type='button' className='my-2 text-primary text-xs font-adlm p-0 h-fit' onClick={()=>setShowAddNew('Category')}>Add Category</button>
                       </div>
 
                       <div className="w-full my-4 p-0.5">
@@ -555,7 +555,7 @@ export default function Home() {
                         </div>
                         <AutoComplete items={varientList} displayKey='' onSelect={async (e) => setType(typeof e == 'object' ? e.type : e.toString())} defaultValue={type}></AutoComplete>
                         
-                        <button type='button' className='my-2 text-orange-400 text-xs font-adlm p-0 h-fit' onClick={()=>setShowAddNew('Varient')}>Add Varient</button>
+                        <button type='button' className='my-2 text-primary text-xs font-adlm p-0 h-fit' onClick={()=>setShowAddNew('Varient')}>Add Varient</button>
                       </div>
 
                       <div>
@@ -565,7 +565,7 @@ export default function Home() {
 
 
                           <div className="flex gap-4">
-                            <label className={`cursor-pointer flex items-center justify-start gap-2 px-3 py-1.5 text-sm font-acme rounded w-fit border-[1px] ${'veg' == varient ? `border-orange-500 bg-orange-500 bg-opacity-15 ` : `border-gray-400 text-gray-400 bg-white`}` }>
+                            <label className={`cursor-pointer flex items-center justify-start gap-2 px-3 py-1.5 text-sm font-acme rounded w-fit border-[1px] ${'veg' == varient ? `border-primary bg-primary bg-opacity-15 ` : `border-gray-400 text-gray-400 bg-white`}` }>
                               <span className='border-[1px] border-green-500 rounded'>
                                 <VscCircleFilled className='text-green-500 text-lg' />
                               </span>
@@ -573,13 +573,13 @@ export default function Home() {
                               <input type="radio" name="type" id="" value={varient} className='hidden' onChange={()=> setVarient('veg')} />
                             </label>
 
-                            <label className={`cursor-pointer flex items-center justify-start gap-2 px-3 py-1 text-sm font-acme rounded w-fit border-[1px] ${'nonveg' == varient ? `border-orange-500 bg-orange-500 bg-opacity-15` : `border-gray-400 text-gray-400 bg-white`}` }>
+                            <label className={`cursor-pointer flex items-center justify-start gap-2 px-3 py-1 text-sm font-acme rounded w-fit border-[1px] ${'nonveg' == varient ? `border-primary bg-primary bg-opacity-15` : `border-gray-400 text-gray-400 bg-white`}` }>
                               <BsCaretUpSquare className='text-lg text-red-500' />
                               {toTitleCase('nonveg')}
                               <input type="radio" name="type" id="" value={varient} className='hidden' onChange={()=> setVarient('nonveg')} />
                             </label>
 
-                            <label className={`cursor-pointer flex items-center justify-start gap-2 px-3 py-1.5 text-sm font-acme rounded w-fit border-[1px] ${'egg' == varient ? `border-orange-500 bg-orange-500 bg-opacity-15` : `border-gray-400 text-gray-400 bg-white`}` }>
+                            <label className={`cursor-pointer flex items-center justify-start gap-2 px-3 py-1.5 text-sm font-acme rounded w-fit border-[1px] ${'egg' == varient ? `border-primary bg-primary bg-opacity-15` : `border-gray-400 text-gray-400 bg-white`}` }>
                               <BsCaretUpSquare className='text-lg text-amber-700' />
                               {toTitleCase('egg')}
                               <input type="radio" name="type" id="" value={varient} className='hidden' onChange={()=> setVarient('egg')} />
@@ -600,7 +600,7 @@ export default function Home() {
                             <Label htmlFor="name">Image</Label>
                           </div>
                           {img ? (
-                            <div className='w-32 h-32 border-[1px] border-orange-500 rounded relative group'>
+                            <div className='w-32 h-32 border-[1px] border-primary rounded relative group'>
                                 <img src={img} width='100%' className='h-full' alt='Image' />
                                 <div className="absolute opacity-0 group-hover:opacity-100 top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-40">
                                   <Label className='px-2 py-1.5 absolute cursor-pointer border-[1px] border-white rounded text-sm flex items-center gap-2 text-white'>
@@ -610,7 +610,7 @@ export default function Home() {
                                 </div>
                             </div>
                           ) : (
-                            <div className='cursor-pointer rounded border-[1px] border-orange-500 bg-orange-500 bg-opacity-10 w-32 h-32 flex items-center justify-center relative text-3xl text-orange-500 font-bold'>
+                            <div className='cursor-pointer rounded border-[1px] border-primary bg-primary bg-opacity-10 w-32 h-32 flex items-center justify-center relative text-3xl text-primary font-bold'>
                                 <IoCloudUploadOutline />
                                 <Label className='w-full h-full absolute cursor-pointer'>
                                   <FileInput id="default-file-upload" className="hidden" onChange={handleFileChange} accept="image/*" />
@@ -624,7 +624,7 @@ export default function Home() {
 
                 <div className="w-full sticky bottom-0 bg-white border-t-[1px] pt-4 flex justify-end gap-4">
                   <button type='button' className='flex items-center gap-1.5  text-red-500 py-2 px-5 text-base rounded font-acme active:scale-90 transition-all' onClick={onCloseModal}> Discard </button>
-                  <button type='submit' className='flex items-center gap-1.5 text-white bg-orange-500 py-2 px-5 text-base rounded font-acme active:scale-90 transition-all' onClick={onAddMenu} disabled={!name || !price || !varient || !category}><IoSave/> Save Changes </button>
+                  <button type='submit' className='flex items-center gap-1.5 text-white bg-primary py-2 px-5 text-base rounded font-acme active:scale-90 transition-all' onClick={onAddMenu} disabled={!name || !price || !varient || !category}><IoSave/> Save Changes </button>
                 </div>
             </div>
           </form>
@@ -640,7 +640,7 @@ export default function Home() {
                 Are you sure you want to delete this Menu?
               </h3>
               <div className="flex justify-center gap-4">
-                <button className='bg-orange-600 text-white font-acme px-4 rounded hover:bg-orange-700 h-10 hover:shadow' onClick={onConfirm}>
+                <button className='bg-primary-dark text-white font-acme px-4 rounded hover:bg-primary-dark h-10 hover:shadow' onClick={onConfirm}>
                   {"Yes, I'm sure"}
                 </button>
                 <button className='bg-white border-[1px] border-gray-200 text-grey font-acme px-4 rounded hover:bg-gray-50 h-10 hover:shadow' onClick={() => setOpenConfirmModal(false)}>
@@ -672,7 +672,7 @@ export default function Home() {
               </div>
 
               <div className="flex gap-3 w-full justify-end">
-                <button className='bg-orange-500 text-white rounded active:scale-90 transition-all px-3 py-1 font-acme disabled:opacity-30' onClick={handleAddNew} disabled={!addNew}>Add</button>
+                <button className='bg-primary text-white rounded active:scale-90 transition-all px-3 py-1 font-acme disabled:opacity-30' onClick={handleAddNew} disabled={!addNew}>Add</button>
                 <button className='bg-white text-cyan-500 rounded active:scale-90 transition-all px-3 py-1 font-acme' onClick={handleAddNewClose}>Cancel</button>
               </div>
 

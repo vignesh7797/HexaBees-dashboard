@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 import { useEffect, useState } from "react";
 import { IoSearch, IoGridOutline, IoList, IoClose, IoImageOutline } from "react-icons/io5";
 import { BiRupee } from "react-icons/bi";
@@ -219,16 +219,16 @@ export default function Home() {
                                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none text-grey">
                                     <IoSearch />
                                 </div>
-                                <input type="text" id="search" className="bg-transparent border border-slate-200 text-grey text-sm rounded-lg focus:ring-orange-500 focus:border-amber-300 block w-full ps-10 p-2.5  dark:bg-grey dark:border-grey dark:placeholder-grey dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-400" placeholder="Search Items..." autoFocus required onChange={(e) => setSearch(e.target.value)} />
+                                <input type="text" id="search" className="bg-transparent border border-slate-200 text-grey text-sm rounded-lg focus:ring-primary focus:border-amber-300 block w-full ps-10 p-2.5  dark:bg-grey dark:border-grey dark:placeholder-grey dark:text-white dark:focus:ring-primary dark:focus:border-primary" placeholder="Search Items..." autoFocus required onChange={(e) => setSearch(e.target.value)} />
                             </div>
     
                             <div className="hidden md:flex rounded bg-gray-100 p-1 ml-auto">
-                                <label htmlFor="list" className={`p-1.5 cursor-pointer rounded text-md ${layout == 'list' ? 'bg-white shadow text-orange-500' : 'text-grey'}`}>
+                                <label htmlFor="list" className={`p-1.5 cursor-pointer rounded text-md ${layout == 'list' ? 'bg-white shadow text-primary' : 'text-grey'}`}>
                                     <input type="radio" name="layout" id="list" value={layout} className='hidden' onChange={() => setLayout('list')} />
                                     <IoList/>
                                 </label>
     
-                                <label htmlFor="grid" className={`p-1.5 cursor-pointer rounded text-md ${layout == 'grid' ? 'bg-white shadow text-orange-500' : 'text-grey'}`}>
+                                <label htmlFor="grid" className={`p-1.5 cursor-pointer rounded text-md ${layout == 'grid' ? 'bg-white shadow text-primary' : 'text-grey'}`}>
                                     <input type="radio" name="layout" id="grid" value={layout} className='hidden' onChange={() => setLayout('grid')} />
                                     <IoGridOutline />
                                 </label>
@@ -238,7 +238,7 @@ export default function Home() {
                         <div className="flex gap-2 h-[93%] md:h-[92%] w-full no-print">
                             <div className="hidden md:block bg-white px-1 shadow rounded h-full overflow-auto min-w-[85px]">
                                 {categoryList && categoryList.map(cate => (
-                                    <button key={cate} className={`p-2 my-1 flex flex-col justify-center items-center border border-gray-300 w-[80px] h-auto text-sm font-adlm  ${selectedCategory == cate ? 'text-orange-500 border-orange-500' : 'grayscale opacity-70'}`} onClick={() => setSelectedCategory(selectedCategory == cate ? '' : cate)}>
+                                    <button key={cate} className={`p-2 my-1 flex flex-col justify-center items-center border border-gray-300 w-[80px] h-auto text-sm font-adlm  ${selectedCategory == cate ? 'text-primary border-primary' : 'grayscale opacity-70'}`} onClick={() => setSelectedCategory(selectedCategory == cate ? '' : cate)}>
                                         <Image src={`/icons/${cate}.svg`} width={40} height={40} alt={cate} />
                                         <p className="text-wrap">{cate}</p>
                                     </button>
@@ -273,14 +273,14 @@ export default function Home() {
                                                             </p>
         
                                                             {!menu.isAdded ? (
-                                                                <button className="btn-primary-lite font-adlm py-3 text-sm w-[100px] h-8 hover:bg-orange-500 hover:text-white" onClick={() => onAdd(menu)}>Add</button>
+                                                                <button className="btn-primary-lite font-adlm py-3 text-sm w-[100px] h-8 hover:bg-primary hover:text-white" onClick={() => onAdd(menu)}>Add</button>
                                                             ) : (
                                                                 <div className="flex items-center w-fit">
-                                                                    <button className="font-adlm text-sm w-8 h-8 p-2 aspect-square bg-gray-200 hover:bg-orange-500 hover:text-white" onClick={() => onDecrease(menu)}>
+                                                                    <button className="font-adlm text-sm w-8 h-8 p-2 aspect-square bg-gray-200 hover:bg-primary hover:text-white" onClick={() => onDecrease(menu)}>
                                                                         <FaMinus />
                                                                     </button>
                                                                     <p className="text-primary px-3">{menu.quantity}</p>
-                                                                    <button className="font-adlm text-sm w-8 h-8 p-2 aspect-square bg-gray-200 hover:bg-orange-500 hover:text-white" onClick={() => onIncrease(menu)}>
+                                                                    <button className="font-adlm text-sm w-8 h-8 p-2 aspect-square bg-gray-200 hover:bg-primary hover:text-white" onClick={() => onIncrease(menu)}>
                                                                         <FaPlus />
                                                                     </button>
                                                                 </div>
@@ -318,14 +318,14 @@ export default function Home() {
                                                     </Table.Cell>
                                                     <Table.Cell>
                                                         {!menu.isAdded ? (
-                                                            <button className="btn-primary-lite font-adlm py-3 text-sm w-[100px] h-8 hover:bg-orange-500 hover:text-white" onClick={() => onAdd(menu)}>Add</button>
+                                                            <button className="btn-primary-lite font-adlm py-3 text-sm w-[100px] h-8 hover:bg-primary hover:text-white" onClick={() => onAdd(menu)}>Add</button>
                                                         ) : (
                                                             <div className="flex items-center w-fit">
-                                                                <button className="font-adlm text-sm w-8 h-8 p-2 aspect-square bg-gray-200 hover:bg-orange-500 hover:text-white" onClick={() => onDecrease(menu)}>
+                                                                <button className="font-adlm text-sm w-8 h-8 p-2 aspect-square bg-gray-200 hover:bg-primary hover:text-white" onClick={() => onDecrease(menu)}>
                                                                     <FaMinus />
                                                                 </button>
                                                                 <p className="text-primary px-3">{menu.quantity}</p>
-                                                                <button className="font-adlm text-sm w-8 h-8 p-2 aspect-square bg-gray-200 hover:bg-orange-500 hover:text-white" onClick={() => onIncrease(menu)}>
+                                                                <button className="font-adlm text-sm w-8 h-8 p-2 aspect-square bg-gray-200 hover:bg-primary hover:text-white" onClick={() => onIncrease(menu)}>
                                                                     <FaPlus />
                                                                 </button>
                                                             </div>
@@ -341,8 +341,8 @@ export default function Home() {
                                 {menuList.filter(menu => menu.isAdded).length > 0 && (
                                     <div className="md:hidden w-40 h-14 mx-auto fixed bottom-8 left-0 right-0 z-10">
 
-                                        <div className="cursor-pointer w-full h-12 bg-orange-500 rounded-full shadow-xl border-2 border-orange-400 flex items-center justify-between p-2" onClick={()=>setCartModal(true)}>
-                                            <div className="text-white bg-orange-600/50 rounded-full w-9 h-9 flex justify-center items-center">
+                                        <div className="cursor-pointer w-full h-12 bg-primary rounded-full shadow-xl border-2 border-primary flex items-center justify-between p-2" onClick={()=>setCartModal(true)}>
+                                            <div className="text-white bg-primary-dark/50 rounded-full w-9 h-9 flex justify-center items-center">
                                                 <MdAddShoppingCart />
                                             </div>
                                             <div>
@@ -382,7 +382,7 @@ export default function Home() {
                                     </button>
                                 </div>
                                 <div className="space-y-6">
-                                    <h3 className="text-2xl font-adlm text-orange-500 flex items-center gap-2">
+                                    <h3 className="text-2xl font-adlm text-primary flex items-center gap-2">
                                         <span> <MdAddShoppingCart /></span>
                                         Cart
                                     </h3>
@@ -417,7 +417,7 @@ export default function Home() {
                                                     </p>
                                                     
                                                     <div className="flex items-center mt-2">
-                                                        <span className="flex items-center text-orange-500 font-adlm">
+                                                        <span className="flex items-center text-primary font-adlm">
                                                             <BiRupee /> {item.price}
                                                         </span>
                                                     </div>
@@ -428,7 +428,7 @@ export default function Home() {
                                                         onClick={() => onDecrease(item)}
                                                         className="w-8 h-8 p-1 rounded-full bg-gray-100 flex items-center justify-center"
                                                     >
-                                                        <FaMinus className="text-orange-500 text-xs" />
+                                                        <FaMinus className="text-primary text-xs" />
                                                     </button>
                                                     
                                                     <span className="mx-3 font-adlm w-6 text-center">
@@ -437,7 +437,7 @@ export default function Home() {
                                                     
                                                     <button 
                                                         onClick={() => onIncrease(item)}
-                                                        className="w-8 h-8 p-1 rounded-full bg-orange-500 flex items-center justify-center"
+                                                        className="w-8 h-8 p-1 rounded-full bg-primary flex items-center justify-center"
                                                     >
                                                         <FaPlus className="text-white text-xs" />
                                                     </button>
@@ -466,7 +466,7 @@ export default function Home() {
                                                         min={0}
                                                         max={100}
                                                         onChange={(e) => setDiscount(Number(e.target.value))}
-                                                        className="w-16 bg-gray-50 border border-gray-200 rounded text-sm p-1 focus:ring-orange-500 focus:border-orange-500"
+                                                        className="w-16 bg-gray-50 border border-gray-200 rounded text-sm p-1 focus:ring-primary focus:border-primary"
                                                     />
                                                     <span className="ml-1">%</span>
                                                 </div>
@@ -475,7 +475,7 @@ export default function Home() {
                                             <div className="border-t pt-3 mt-3">
                                                 <div className="flex justify-between font-adlm">
                                                     <span className="text-gray-800 text-lg">Total</span>
-                                                    <span className="text-orange-500 text-xl flex items-center">
+                                                    <span className="text-primary text-xl flex items-center">
                                                         <BiRupee className="text-xl" /> {total}
                                                     </span>
                                                 </div>
@@ -508,14 +508,14 @@ export default function Home() {
                                 speed={1}
                             />
                         </div>
-                        <p className="text-orange-400 font-acme text-center text-lg">Wait for a minute... <br/> <span className="text-base"> or check you internet connection and reload the page again.</span></p>
+                        <p className="text-primary font-acme text-center text-lg">Wait for a minute... <br/> <span className="text-base"> or check you internet connection and reload the page again.</span></p>
                     </div>
                 )}
                
 
                 <div className="bg-white shadow rounded w-[30%] h-full overflow-auto hidden md:flex flex-col relative">
                     
-                    <div className="h-[8%] bg-orange-500 p-4 bg-opacity-15 text-orange-500 font-adlm flex justify-between items-center sticky top-0 z-10">
+                    <div className="h-[8%] bg-primary p-4 bg-opacity-15 text-primary font-adlm flex justify-between items-center sticky top-0 z-10">
                         <p className="text-xl">Cart List</p>
                         <p className="text-3xl"><BiSolidCart /></p>
                     </div>
@@ -528,11 +528,11 @@ export default function Home() {
                                         <Table.Cell className="pl-0 pr-1 py-3" colSpan={2}>{cart.name}</Table.Cell>
                                         <Table.Cell className="pl-0 pr-2 py-3">
                                             <div className="flex items-center w-fit">
-                                                <button className="font-adlm text-sm w-8 h-8 p-2 aspect-square bg-gray-200 hover:bg-orange-500 hover:text-white rounded-full" onClick={() => onDecrease(cart)}>
+                                                <button className="font-adlm text-sm w-8 h-8 p-2 aspect-square bg-gray-200 hover:bg-primary hover:text-white rounded-full" onClick={() => onDecrease(cart)}>
                                                     <FaMinus />
                                                 </button>
                                                 <p className="text-primary px-3">{cart.quantity}</p>
-                                                <button className="font-adlm text-sm w-8 h-8 p-2 aspect-square bg-gray-200 hover:bg-orange-500 hover:text-white rounded-full" onClick={() => onIncrease(cart)}>
+                                                <button className="font-adlm text-sm w-8 h-8 p-2 aspect-square bg-gray-200 hover:bg-primary hover:text-white rounded-full" onClick={() => onIncrease(cart)}>
                                                     <FaPlus />
                                                 </button>
                                             </div>
@@ -561,7 +561,7 @@ export default function Home() {
                                 <Table.Row>
                                     <Table.Cell className="font-adlm p-2">Discount</Table.Cell>
                                     <Table.Cell className="p-2 w-32">
-                                        <span className="font-adlm">%</span> <input type="number" defaultValue={discount} min={0} max={100} name="discount" onChange={(e) => setDiscount(Number(e.target.value))} className="bg-transparent rounded border-slate-200 text-grey font-adlm h-8 text-sm focus:ring-orange-500  focus:border-orange-500" />
+                                        <span className="font-adlm">%</span> <input type="number" defaultValue={discount} min={0} max={100} name="discount" onChange={(e) => setDiscount(Number(e.target.value))} className="bg-transparent rounded border-slate-200 text-grey font-adlm h-8 text-sm focus:ring-primary  focus:border-primary" />
                                     </Table.Cell>
                                 </Table.Row>
                                 <Table.Row>
@@ -586,7 +586,7 @@ export default function Home() {
 
                     {loading && (
                         <div className="absolute bg-white/30 bg-opacity-25 w-full h-full z-10 flex justify-center items-center backdrop-blur-sm">
-                            <p className="text-orange-800 font-acme">Wait for a while...</p>
+                            <p className="text-secondary-dark font-acme">Wait for a while...</p>
                         </div>
                     )}
 

@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 import { Card, Dropdown, DropdownItem } from "flowbite-react";
 import LineChart from "../components/lineChart";
 import { useEffect, useState } from "react";
@@ -249,7 +249,7 @@ export default function Home() {
             <Card className="w-full my-4">
                 <div className="flex flex-wrap justify-center md:justify-end items-center gap-4">
 
-                    <p className="font-adlm hidden md:flex gap-0.5 items-center text-orange-700">
+                    <p className="font-adlm hidden md:flex gap-0.5 items-center text-secondary">
                         <span className="text-base md:text-2xl"><BiRupee /></span>
                         <span className="text-base md:text-2xl">{total} </span>
                         {interval == 'range' && (
@@ -262,7 +262,7 @@ export default function Home() {
 
                 {isLoading ? (
                     <div className="flex items-center justify-center h-[250px]">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#ff5a1f]"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#6B7B4E]"></div>
                     </div>
                 ) : revenueData.x.length == 0 ? (
                     <div className="flex items-center justify-center h-[250px]">
@@ -279,7 +279,7 @@ export default function Home() {
                 {revenueData.x.length}
 
 
-                <p className="font-adlm flex md:hidden gap-0.5 items-center justify-center text-orange-700 text-center">
+                <p className="font-adlm flex md:hidden gap-0.5 items-center justify-center text-secondary text-center">
                     <span className="text-lg md:text-2xl"><BiRupee /></span>
                     <span className="text-lg md:text-2xl">{total} </span>
                     {interval == 'range' && (
@@ -316,12 +316,12 @@ export default function Home() {
                     {selectedMenu && (
                         <div className="flex flex-col items-center">
                             <p className="font-adlm flex gap-0.5 items-center ">
-                                <span className="text-sm md:text-base text-orange-400">{menuTotal}</span>
+                                <span className="text-sm md:text-base text-primary">{menuTotal}</span>
                                 <span className="text-zinc-600">&nbsp;x&nbsp;</span>
-                                <span className="text-sm md:text-base text-orange-400">{selectedMenu.price}</span>
+                                <span className="text-sm md:text-base text-primary">{selectedMenu.price}</span>
                                 <span className="text-zinc-600">=</span>
-                                <span className="text-base md:text-xl text-orange-700"><BiRupee /></span>
-                                <span className="text-base md:text-2xl text-orange-700">{menuTotal * selectedMenu.price}</span>
+                                <span className="text-base md:text-xl text-secondary"><BiRupee /></span>
+                                <span className="text-base md:text-2xl text-secondary">{menuTotal * selectedMenu.price}</span>
                             </p>
                         </div>
                     )}
@@ -331,7 +331,7 @@ export default function Home() {
                 <div className='h-[250px] w-full relative'>
                     {isLoading ? (
                         <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#ff5a1f]"></div>
+                            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#6B7B4E]"></div>
                         </div>
                     ) : noDataMessage ? (
                         <div className="absolute inset-0 flex items-center justify-center">

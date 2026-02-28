@@ -24,7 +24,7 @@ const Header: FC = () =>{
     return (
         <div className='no-print h-16 shadow w-full bg-white flex justify-between items-center p-3 z-[49]'>
            <div className="w-fit md:hidden">
-            <Button size="sm" color="light" className="border-0 focus:ring-0 text-orange-500" onClick={() => setIsOpen(true)}>
+            <Button size="sm" color="light" className="border-0 focus:ring-0 text-primary" onClick={() => setIsOpen(true)}>
                 <HiMenu className="h-6 w-6" />
             </Button>
            </div>
@@ -57,7 +57,7 @@ const Header: FC = () =>{
 
                                 {sideMenus.map(menu =>{
                                     return (
-                                        <Sidebar.Item key={menu.label} href={menu.link} icon={menu.icon} className={`hover:bg-orange-500 hover:bg-opacity-15 rounded font-acme font-semibold text-lg  ${path == menu.link ? 'bg-orange-500 bg-opacity-15 border-s-4 border-orange-500 text-orange-500' :'text-grey'}`}>
+                                        <Sidebar.Item key={menu.label} href={menu.link} icon={menu.icon} className={`hover:bg-primary hover:bg-opacity-15 rounded font-acme font-semibold text-lg  ${path == menu.link ? 'bg-primary bg-opacity-15 border-s-4 border-primary text-primary' :'text-grey'}`}>
                                              {menu.label}
                                         </Sidebar.Item>
                                     )

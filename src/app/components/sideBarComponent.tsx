@@ -37,7 +37,7 @@ const SideBar: FC = () => {
                 {sideMenus.map((menu) =>{
                     const Icon = menu.icon;
                     return(
-                         <li key={menu.label}    className={`relative ps-4 hover:bg-orange-500 hover:bg-opacity-15 rounded group ${pathname == menu.link ? "bg-orange-500 bg-opacity-15 border-s-4 border-orange-500 text-orange-500"  : "bg-white text-grey"}`}>                                
+                         <li key={menu.label}    className={`relative ps-4 hover:bg-primary hover:bg-opacity-15 rounded group ${pathname == menu.link ? "bg-primary bg-opacity-15 border-s-4 border-primary text-primary"  : "bg-white text-grey"}`}>                                
                             <Link href={menu.link} className="">
                                 <p className={`flex items-center gap-4 ${toggle ? 'text-2xl' : 'text-lg'} font-semibold font-acme tracking-wider h-12 transition-all duration-500`}>
                                     <span><Icon /></span>
@@ -46,7 +46,7 @@ const SideBar: FC = () => {
                             </Link>
 
                             {toggle && (
-                                <div className="px-4 py-1.5 bg-white text-orange-500 shadow-md rounded absolute left-[110%] top-[15%] invisible group-hover:visible z-50">
+                                <div className="px-4 py-1.5 bg-white text-primary shadow-md rounded absolute left-[110%] top-[15%] invisible group-hover:visible z-50">
                                     {menu.label}
                                 </div>
                             )}
